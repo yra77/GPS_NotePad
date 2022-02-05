@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core" 
+             xmlns:prism1="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
+             ios:Page.UseSafeArea="True"
+             x:Class="GPS_NotePad.Views.Tabbed_Page1"
+             xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+             Title="Tab1">
+    <ContentPage.Content>
+        <Grid>
+        <StackLayout Padding="10">
+
+            <!--<maps:Map IsShowingUser="true"/>-->
+            <ContentView VerticalOptions="FillAndExpand" Margin="0,40,0,20" Content="{Binding Map}"/>
+        </StackLayout>
+            <!--Marker info modal-->
+          <StackLayout IsVisible="{Binding MarkerInfoVisible}" Margin="10,0,10,0" VerticalOptions="EndAndExpand" Background="Red">
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding CloseMarkerInfo}"/>
+                </StackLayout.GestureRecognizers>
+                <StackLayout Orientation="Horizontal">
+                       <Image Source="{Binding MarkerImage}" Scale="0.6"/>
+                    <StackLayout Orientation="Vertical" VerticalOptions="Center">
+                        <Label Text="{Binding MarkerLabel}" FontSize="25" TextColor="White"/>
+                        <Label Text="{Binding MarkerAddress}" FontSize="25" TextColor="White"/>
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>
+            <!--End Marker info modal-->
+            <StackLayout VerticalOptions="Start">
+                <SearchBar Placeholder="Search" PlaceholderColor="Gray" HorizontalOptions="CenterAndExpand"/>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

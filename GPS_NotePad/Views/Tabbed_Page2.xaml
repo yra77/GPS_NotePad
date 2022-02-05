@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core" 
+             xmlns:prism1="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
+             ios:Page.UseSafeArea="True"
+             x:Class="GPS_NotePad.Views.Tabbed_Page2"
+             Title="Tab2">
+    <ContentPage.Content>
+        <Grid>
+            <StackLayout VerticalOptions="Start">
+                <SearchBar Placeholder="Search" PlaceholderColor="Gray" HorizontalOptions="CenterAndExpand"/>
+            </StackLayout>
+            <StackLayout Margin="0,50,0,0">
+                <ListView x:Name="listView" HasUnevenRows="True" SeparatorColor="Transparent" ItemsSource="{Binding ListMarkers}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+
+                            <ViewCell x:Name="Item">
+                                <Frame BackgroundColor="#272927" Padding="0" CornerRadius="15" BorderColor="White" Margin="9">
+                                    <StackLayout Orientation="Horizontal" VerticalOptions="Center">
+                                        <Frame Padding="-35" Margin="8" CornerRadius="35">
+                                            <Image Source="{Binding ImagePath}" WidthRequest="110" HeightRequest="115" Scale="0.5" />
+                                        </Frame>
+                                        <StackLayout Orientation="Horizontal" VerticalOptions="Center">
+                                            <Label VerticalOptions="Center" HorizontalOptions="Start" 
+                                                       TextColor="White" Text="{Binding Label}" FontSize="14" />
+                                            <Label VerticalOptions="Center" HorizontalOptions="CenterAndExpand" 
+                                                       TextColor="Wheat" Text="{Binding Address}" FontSize="14"/>
+                                        </StackLayout>
+                                    </StackLayout>
+                                </Frame>
+                            </ViewCell>
+                            
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+            <Button x:Name="fixed" Command="{Binding AddNewMarker}" Text="+" BackgroundColor="#272927" WidthRequest="50" HeightRequest="50" 
+                    BorderRadius="100" Margin="0,0,20,20"
+                    BorderColor="#FF4081" BorderWidth="2" TextColor="#FF4081" VerticalOptions="End" HorizontalOptions="End"/>
+            <!--Add marker Modal-->
+            <StackLayout BackgroundColor="Transparent" VerticalOptions="Fill">
+                
+                <Frame Margin="10,50,10,50" CornerRadius="10" VerticalOptions="FillAndExpand" BackgroundColor="LightGray">
+                    <StackLayout>
+                        
+                    <Button Text="X" VerticalOptions="Start" HorizontalOptions="End" WidthRequest="40" HeightRequest="40" 
+                                   BorderRadius="100" BorderColor="Red" BorderWidth="2" TextColor="Red"/>
+                        
+                        <StackLayout VerticalOptions="Center">
+                            <ContentView Content="{Binding Map2}" VerticalOptions="EndAndExpand"/>
+                        </StackLayout>
+                        <Button Text="Ok" HorizontalOptions="End" CornerRadius="10" HeightRequest="40" WidthRequest="60" 
+                                VerticalOptions="EndAndExpand" Background="Gray"/>
+                    </StackLayout>
+                </Frame>
+            </StackLayout>
+            <!--End marker add modal-->
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

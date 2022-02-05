@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core" 
+             xmlns:prism1="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
+             ios:Page.UseSafeArea="True"
+            xmlns:local="clr-namespace:GPS_NotePad.Views"
+             x:Class="GPS_NotePad.Views.TabbedPageMy"
+            NavigationPage.HasNavigationBar="False"
+            BarBackgroundColor="Black"
+             SelectedTabColor="Green" 
+            UnselectedTabColor="White">
+  <!--Pages can be added as references or inline-->
+    <TabbedPage.Children>
+        <local:Tabbed_Page1/>
+        <local:Tabbed_Page2/>
+    </TabbedPage.Children>
+    <!--<ContentPage Title="Tab1"/>
+    <ContentPage Title="Tab2"/>-->
+</TabbedPage>
