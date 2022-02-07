@@ -10,7 +10,9 @@ using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Xamarin.Essentials;
+using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 
 namespace GPS_NotePad.ViewModels
@@ -36,6 +38,10 @@ namespace GPS_NotePad.ViewModels
 
         public TabbedPage2ViewModel(INavigationService _navigationService, IMediaService _mediaService, ITo_RepositoryService _toRepository)
         {
+            SearchView = new SearchBar { CancelButtonColor = Color.Red, Placeholder = "Search", PlaceholderColor = Color.Gray };
+            SearchView.TextChanged += OnTextChanged;
+            SearchView.Unfocused += SearchUnfocus;
+            SearchView.SearchButtonPressed += SearchBtnPressed;
 
             toRepository = _toRepository;
             mediaService = _mediaService;
@@ -73,7 +79,23 @@ namespace GPS_NotePad.ViewModels
 
         public List<MyPin> ListMarkers { get => listMarkers; set => SetProperty(ref listMarkers, value); }
         public MyMap Map2 { get; private set; }
-        public string Search { get => search; set { SetProperty(ref search, value); } }
+        public SearchBar SearchView { get; private set; }
+        public string Search { get => search; 
+                               set { 
+                                     SetProperty(ref search, value);
+                if (search.Length > 0)
+                {
+                    string temp = value;
+                    if (!verifyInput.NameVerify(ref temp))//Verify 
+                    {
+                        Search = temp;
+                        UserDialogs.Instance.Alert("A-Z, a-z symbols only", "Error", "Ok");
+                    }
+                    else
+                        Search_List();
+                }
+            } 
+        }
         public bool IsActive { get { return _isActive; } set { SetProperty(ref _isActive, value, IsActiveTab); } }
         public bool ModalVisible { get => modalVisible; set { SetProperty(ref modalVisible, value); } }
         public string Label { get => markerLabel; 
@@ -110,16 +132,19 @@ namespace GPS_NotePad.ViewModels
         {
             ModalVisible = true;
         }
+
         private async void CameraClick()
         {
             string camera = await mediaService.OpenCamera();
             ImagePath = camera;
         }
+
         private async void GaleryClick()
         {
             string galery = await mediaService.OpenGalery();
             ImagePath = galery;
         }
+
         private async void SaveAddClick()
         {
             if (Label != null && Address != null && position.Latitude > 0)
@@ -156,6 +181,7 @@ namespace GPS_NotePad.ViewModels
             markerInfo.Latitude = position.Latitude;
             markerInfo.Longitude = position.Longitude;
         }
+
         private void ItemClick(MyPin item)
         {
             NavigationParameters navParameters = new NavigationParameters
@@ -166,20 +192,28 @@ namespace GPS_NotePad.ViewModels
             // await navigationService.NavigateAsync("/TabbedPageMy?selectedTab=Tabbed_Page1");
           
         }
+
         private void CloseModalClick()
         {
             ModalVisible = false;
         }
+
         private void IsActiveTab()
         {
             email = TabbedPage1ViewModel.Email;
+            Label = "";
+            Address = "";
+            ImagePath = "";
+            position = new Position(0,0);
             ListPin();
         }
+
         private void Maps_Click(object sender, MapClickedEventArgs e)
         {
             position = new Position(e.Position.Latitude, e.Position.Longitude);
             Move(e.Position.Latitude, e.Position.Longitude, 10);
         }
+
         private async void Move(double latitude = 0, double longitude = 0, double distance = 1400)
         {
             if (latitude == 0)
@@ -190,7 +224,8 @@ namespace GPS_NotePad.ViewModels
             Map2.MoveToRegion(MapSpan.FromCenterAndRadius(new
                Position(latitude, longitude),
                Distance.FromMiles(distance)));
-        }     
+        }  
+        
         void RefreshPins()
         {
             ListMarkers = new List<MyPin>(Map2.My_Pins);
@@ -202,6 +237,7 @@ namespace GPS_NotePad.ViewModels
             Map2.My_Pins = ToMyPins(arr);
             RefreshPins();
         }
+
         List<MyPin> ToMyPins(List<MarkerInfo> arr)
         {
             List<MyPin> temp = new List<MyPin>(50);
@@ -212,6 +248,106 @@ namespace GPS_NotePad.ViewModels
             }
             return temp;
         }
+
+
+        #region Search
+
+        private void OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            Search = SearchView.Text;
+            if (SearchView.Text.Length == 0)
+                SearchList_Clear();
+        }
+        private void SearchBtnPressed(object sender, EventArgs e)
+        {
+            if (ListMarkers != null && ListMarkers.Count > 0)
+                ItemClick(ListMarkers[0]);
+            SearchList_Clear();
+        }
+        private void SearchUnfocus(object sender, FocusEventArgs e)
+        {
+            SearchList_Clear();
+        }
+        async void SearchList_Clear()
+        {
+            await Task.Delay(100);
+            ListMarkers.Clear();
+            RefreshPins();
+            SearchView.Text = "";
+            Search = "";
+        }
+        void Search_List()
+        {
+            if (Search == null || Search.Length < 1)
+            {
+                ListMarkers.Clear();
+                RefreshPins();
+                return;
+            }
+
+            string temp = Search.ToLower();
+            List<MyPin> buf = new List<MyPin>();
+            int m = Search.Length < 2 ? 0 : Search.Length - 1;
+
+            for (int i = 0; i < ListMarkers.Count; i++)
+            {
+                string s = ListMarkers[i].Label.ToLower();
+                string ss = ListMarkers[i].Address.ToLower();
+
+                for (int j = m; j < temp.Length; j++)
+                {
+                    //if (s == null || temp.Length > s.Length)
+                    //{
+                    //    buf.Clear();
+                    //    ListMarkers = new List<MyPin>();
+                    //    IsVisible_SearchList = false;
+                    //    break;
+                    //}
+                    if (s != null && temp.Length <= s.Length && s[j] == temp[j])
+                    {
+                        bool isThat = false;
+                        foreach (var item in buf)
+                        {
+                            if (item.Label == ListMarkers[i].Label)
+                            {
+                                isThat = true;
+                                break;
+                            }
+                        }
+                        if (!isThat)
+                            buf.Add(ListMarkers[i]);
+                    }
+                    if (ss != null && temp.Length <= ss.Length && ss[j] == temp[j])
+                    {
+                        bool isThat = false;
+                        foreach (var item in buf)
+                        {
+                            if (item.Address == ListMarkers[i].Address)
+                            {
+                                isThat = true;
+                                break;
+                            }
+                        }
+                        if (!isThat)
+                            buf.Add(ListMarkers[i]);
+                    }
+                }
+            }
+
+            if (buf.Count > 0)
+            {
+                ListMarkers.Clear();
+                ListMarkers = buf;
+            }
+            else
+            {
+                string S = Search.Remove(search.Length - 1, 1);
+                Console.WriteLine(S);
+                Search = S;
+            }
+        }
+
+        #endregion
 
         public void OnNavigatedFrom(INavigationParameters parameters)
         {

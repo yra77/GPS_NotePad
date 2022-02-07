@@ -35,12 +35,13 @@
             </StackLayout>
             <!--End Marker info modal-->
             
-            <StackLayout VerticalOptions="Start" Margin="10,0,10,0">
-                <!--<SearchBar CancelButtonColor="Red" Text="{Binding Search}" Placeholder="Search" PlaceholderColor="Gray" 
-                           HorizontalOptions="CenterAndExpand"/>-->
-                <ContentView Content="{Binding SearchView}"/>
-                <StackLayout Orientation="Vertical" VerticalOptions="Start">
-                    <ListView x:Name="listView" HasUnevenRows="True" SeparatorColor="Transparent" ItemsSource="{Binding ListMarkers}">
+            <!--Search-->
+            <StackLayout VerticalOptions="StartAndExpand" Margin="10,0,10,0">
+               
+                <ContentView Content="{Binding SearchView}" HorizontalOptions="CenterAndExpand"/>
+                <StackLayout Orientation="Vertical" VerticalOptions="StartAndExpand">
+                    <ListView x:Name="listView" IsVisible="{Binding IsVisible_SearchList}" HasUnevenRows="True" 
+                              SeparatorColor="Transparent" ItemsSource="{Binding ListMarkers}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
 
@@ -62,7 +63,11 @@
 
                             </DataTemplate>
                         </ListView.ItemTemplate>
-                        
+                        <ListView.Behaviors>
+                            <prism1:EventToCommandBehavior EventName="ItemTapped" 
+                                      Command="{Binding Click_SearchListItem}"
+                                      EventArgsParameterPath="Item" />
+                        </ListView.Behaviors>
                     </ListView>
                 </StackLayout>
             </StackLayout>

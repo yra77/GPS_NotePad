@@ -12,7 +12,7 @@
     <ContentPage.Content>
         <Grid>
             <StackLayout VerticalOptions="Start">
-                <SearchBar Text="{Binding Search}" Placeholder="Search" PlaceholderColor="Gray" HorizontalOptions="CenterAndExpand"/>
+                <ContentView Content="{Binding SearchView}" HorizontalOptions="CenterAndExpand"/>
             </StackLayout>
             <StackLayout Margin="0,50,0,0">
                 
