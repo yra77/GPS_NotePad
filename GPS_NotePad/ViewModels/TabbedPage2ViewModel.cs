@@ -131,6 +131,10 @@ namespace GPS_NotePad.ViewModels
         private void AddNewMakerClick()
         {
             ModalVisible = true;
+            Label = "";
+            Address = "";
+            ImagePath = "";
+            Move();
         }
 
         private async void CameraClick()
@@ -182,13 +186,13 @@ namespace GPS_NotePad.ViewModels
             markerInfo.Longitude = position.Longitude;
         }
 
-        private void ItemClick(MyPin item)
+        private async void ItemClick(MyPin item)
         {
             NavigationParameters navParameters = new NavigationParameters
             {
               { "item", item }
             };
-            navigationService.NavigateAsync("/TabbedPageMy?selectedTab=Tabbed_Page1", navParameters, animated: true);
+           await navigationService.NavigateAsync("/TabbedPageMy?selectedTab=Tabbed_Page1", navParameters, animated: true);
             // await navigationService.NavigateAsync("/TabbedPageMy?selectedTab=Tabbed_Page1");
           
         }
@@ -255,14 +259,17 @@ namespace GPS_NotePad.ViewModels
         private void OnTextChanged(object sender, TextChangedEventArgs e)
         {
             Search = SearchView.Text;
-            if (SearchView.Text.Length == 0)
+            if (ListMarkers == null || SearchView.Text.Length == 0)
                 SearchList_Clear();
         }
-        private void SearchBtnPressed(object sender, EventArgs e)
+        private async void SearchBtnPressed(object sender, EventArgs e)
         {
             if (ListMarkers != null && ListMarkers.Count > 0)
+            {
+                var a = ListMarkers[0];
+                await Task.Delay(100);//не убирать
                 ItemClick(ListMarkers[0]);
-            SearchList_Clear();
+            }
         }
         private void SearchUnfocus(object sender, FocusEventArgs e)
         {
@@ -270,7 +277,7 @@ namespace GPS_NotePad.ViewModels
         }
         async void SearchList_Clear()
         {
-            await Task.Delay(100);
+            await Task.Delay(100);//не убирать
             ListMarkers.Clear();
             RefreshPins();
             SearchView.Text = "";
@@ -296,13 +303,7 @@ namespace GPS_NotePad.ViewModels
 
                 for (int j = m; j < temp.Length; j++)
                 {
-                    //if (s == null || temp.Length > s.Length)
-                    //{
-                    //    buf.Clear();
-                    //    ListMarkers = new List<MyPin>();
-                    //    IsVisible_SearchList = false;
-                    //    break;
-                    //}
+
                     if (s != null && temp.Length <= s.Length && s[j] == temp[j])
                     {
                         bool isThat = false;
@@ -341,9 +342,9 @@ namespace GPS_NotePad.ViewModels
             }
             else
             {
-                string S = Search.Remove(search.Length - 1, 1);
-                Console.WriteLine(S);
-                Search = S;
+                string a = Search.Remove(search.Length - 1, 1);
+                Search = a;
+                SearchView.Text = a;
             }
         }
 

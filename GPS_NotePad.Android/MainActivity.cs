@@ -17,7 +17,7 @@ using GPS_NotePad.ViewModels.Services;
 namespace GPS_NotePad.Droid
 {
     [Activity(ScreenOrientation = ScreenOrientation.Portrait, Label = "GPS NotePad", Icon = "@mipmap/icon", Theme = "@style/MainTheme", 
-        MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | 
+        ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | 
         ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize )]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {

@@ -33,21 +33,24 @@ namespace GPS_NotePad.Droid.Services
             var originalHeight = originalImage.Height;
             var originalWidth = originalImage.Width;
 
-            if (originalHeight > originalWidth)
-            {
-                newHeight = height;
-                float ratio = originalHeight / height;
-                newWidth = originalWidth / ratio;
-            }
-            else
-            {
-                newWidth = width;
-                float ratio = originalWidth / width;
-                newHeight = originalHeight / ratio;
-            }
+            //if (originalHeight > originalWidth)
+            //{
+            //    newHeight = height;
+            //    float ratio = originalHeight / height;
+            //    newWidth = originalWidth / ratio;
+            //}
+            //else
+            //{
+            //    newWidth = width;
+            //    float ratio = originalWidth / width;
+            //    newHeight = originalHeight / ratio;
+            //}
 
-            Bitmap resizedImage = Bitmap.CreateScaledBitmap(originalImage, (int)newWidth, (int)newHeight, false);
+            Bitmap resizedImg = Bitmap.CreateScaledBitmap(originalImage, (int)width, (int)height, false);//(int)newWidth, (int)newHeight, false);
 
+            Bitmap resizedImage = Rotate(resizedImg);
+
+            resizedImg.Recycle();
             originalImage.Recycle();
 
             using (MemoryStream ms = new MemoryStream())
@@ -70,6 +73,16 @@ namespace GPS_NotePad.Droid.Services
             stream.Close();
 
             return path;
+        }
+        Bitmap Rotate(Bitmap bitmap)
+        {
+            Matrix matrix = new Matrix();
+            if (bitmap.Width > bitmap.Height)
+            {
+                matrix.SetRotate(90);
+            }
+
+            return Bitmap.CreateBitmap(bitmap, 0, 0, bitmap.Width, bitmap.Height, matrix, true);
         }
     }
 }
