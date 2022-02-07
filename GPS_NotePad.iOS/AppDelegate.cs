@@ -5,6 +5,7 @@ using System.Linq;
 using Foundation;
 using GPS_NotePad.iOS.Services;
 using GPS_NotePad.Models.Services;
+using GPS_NotePad.ViewModels.Services;
 using Prism;
 using Prism.Ioc;
 using UIKit;
@@ -37,6 +38,7 @@ namespace GPS_NotePad.iOS
         void IPlatformInitializer.RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.Register<ISQLiteAsyncConnectionProvider, SQLiteAsyncConnectionProvider>();
+            containerRegistry.Register<IResizeImageService, ResizeImageService>();
         }
     }
 

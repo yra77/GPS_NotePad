@@ -30,13 +30,14 @@ namespace GPS_NotePad
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
             containerRegistry.RegisterForNavigation<TabbedPageMy, TabbedPageMyViewModel>();
-            containerRegistry.RegisterForNavigation<Tabbed_Page1, TabbedPageMyViewModel>();
-            containerRegistry.RegisterForNavigation<Tabbed_Page2, TabbedPageMyViewModel>();
+            containerRegistry.RegisterForNavigation<Tabbed_Page1, TabbedPage1ViewModel>();
+            containerRegistry.RegisterForNavigation<Tabbed_Page2, TabbedPage2ViewModel>();
 
             //Services
             containerRegistry.RegisterSingleton<ITo_RepositoryService, To_RepositoryService>();
             containerRegistry.RegisterSingleton<IRepository, Repository.Repository>();
             containerRegistry.RegisterSingleton<IAuthGoogleService, AuthGoogleService>();
+            containerRegistry.RegisterSingleton<IMediaService, MediaService>();
         }
 
     }

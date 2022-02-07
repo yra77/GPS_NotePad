@@ -18,6 +18,7 @@ using GPS_NotePad.ViewModels.Helpers;
 using Acr.UserDialogs;
 using GPS_NotePad.Models;
 using GPS_NotePad.ViewModels.Services;
+using System.Threading.Tasks;
 
 namespace GPS_NotePad.ViewModels
 {
@@ -39,7 +40,7 @@ namespace GPS_NotePad.ViewModels
 
         public MainPageViewModel(ITo_RepositoryService _repository, INavigationService _navigationService, IAuthGoogleService _authGoogleService)
         {
-
+           
             Name = "";
             PasswordConfirm = "";
             Email = "";
@@ -55,7 +56,7 @@ namespace GPS_NotePad.ViewModels
             verifyInput = new VerifyInput_Helper();
             toRepository = _repository;
             authGoogleService = _authGoogleService;
-
+            
         }
 
         public DelegateCommand OkBtn { get; private set; }
@@ -130,7 +131,17 @@ namespace GPS_NotePad.ViewModels
 
         private async void Ok_Click()
         {
-            if(verifyInput.IsValidEmail(Email))
+            //check internet connection
+            var current = Connectivity.NetworkAccess;
+            if (current != NetworkAccess.Internet)
+            {
+                UserDialogs.Instance.Alert("No connection to the internet", "Error", "Ok");
+                await Task.Delay(10000);
+                System.Diagnostics.Process.GetCurrentProcess().Kill();
+            }
+
+
+            if (verifyInput.IsValidEmail(Email))
             if(!EntryIsVisible)
             {
                     if (verifyInput.PasswordVerify(Password))
@@ -140,10 +151,15 @@ namespace GPS_NotePad.ViewModels
                         if (res.Any())
                         {
                             if (res.First().password == Password)
-                            {                               
+                            {
+                                NavigationParameters navParameters = new NavigationParameters
+                                {
+                                    { "email", Email }
+                                };
+                                await navigationService.NavigateAsync("/TabbedPageMy", navParameters, animated: true);
+
                                 Email = "";
                                 Password = "";
-                                await navigationService.NavigateAsync("/TabbedPageMy");
                             }
                             else
                             {

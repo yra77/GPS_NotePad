@@ -10,7 +10,7 @@
              x:Class="GPS_NotePad.Views.TabbedPageMy"
             NavigationPage.HasNavigationBar="False"
             BarBackgroundColor="Black"
-             SelectedTabColor="Green" 
+             SelectedTabColor="Green"
             UnselectedTabColor="White">
   <!--Pages can be added as references or inline-->
     <TabbedPage.Children>

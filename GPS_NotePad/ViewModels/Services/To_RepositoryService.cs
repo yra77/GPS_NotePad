@@ -13,7 +13,7 @@ namespace GPS_NotePad.ViewModels.Services
         Task<List<T>> GetData<T>(string table, string email) where T : class, new();
         // Task<int> Update(AddProfile profile);
         Task<bool> Insert(Loginin profile);
-        // Task<bool> Insert(string login, string nickName, string name, string description, string imageUri);
+        Task<bool> Insert(MarkerInfo profile);
         Task<int> Delete<T>(int id) where T : class, new();
     }
     class To_RepositoryService : ITo_RepositoryService
@@ -24,6 +24,7 @@ namespace GPS_NotePad.ViewModels.Services
         {
             repository = _repository;
             repository.CreateTable<Loginin>();
+            repository.CreateTable<MarkerInfo>();
         }
         public async Task<int> Delete<T>(int id) where T : class, new()
         {
@@ -40,10 +41,15 @@ namespace GPS_NotePad.ViewModels.Services
             var res = await repository.GetData<Loginin>("Loginin", profile.email);
             if (!res.Any())
             {
-                return await repository.Insert(profile);
+                return await repository.Insert<Loginin>(profile);
             }
             else
                 return false;
         }
+        public async Task<bool> Insert(MarkerInfo profile)
+        {
+            return await repository.Insert<MarkerInfo>(profile);
+        }
+
     }
 }

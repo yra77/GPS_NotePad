@@ -1,26 +1,31 @@
-﻿using SQLite;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
+using SQLite;
 using Xamarin.Forms.Maps;
 
 namespace GPS_NotePad.Models
 {
     [Table("MarkerInfo")]
-    class MarkerInfo
+    public class MarkerInfo
     {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
 
         [NotNull]
-        [Unique]
         [MaxLength(40)]
         public string email { get; set; }
+        [NotNull]
         [MaxLength(40)]
         public string Label { get; set; }
+        [NotNull]
         [MaxLength(70)]
         public string Address { get; set; }
-        public Position Position { get; set; }
+        [NotNull]
+        [MaxLength (40)]
+        public double Latitude { get; set; }
+        [NotNull]
+        [MaxLength(40)]
+        public double Longitude { get; set; }
+        [NotNull]
         [MaxLength(200)]
         public string ImagePath { get; set; }
 

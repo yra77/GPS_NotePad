@@ -3,16 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms.Maps;
-using static GPS_NotePad.ViewModels.TabbedPageMyViewModel;
+using GPS_NotePad.ViewModels;
 
 namespace GPS_NotePad.ViewModels.Helpers
 {
-    public interface IPin { }
-    class MyPin : Pin,IPin
+    class MyPin : Pin
     {
         public int Ids { get; set; }
         public string ImagePath { get; set; }
-        public static TabbedPageMyViewModel TabbedPageMyViewModel { get; internal set; }
+        public static TabbedPage1ViewModel TabbedPageMyViewModel { get; internal set; }
         public MyPin()
         {
             MarkerClicked += (object sender, PinClickedEventArgs e) => 

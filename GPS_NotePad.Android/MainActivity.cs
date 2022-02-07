@@ -12,6 +12,7 @@ using Acr.UserDialogs;
 using GPS_NotePad.Models.Services;
 using GPS_NotePad.Droid.Services;
 using Android;
+using GPS_NotePad.ViewModels.Services;
 
 namespace GPS_NotePad.Droid
 {
@@ -71,6 +72,7 @@ namespace GPS_NotePad.Droid
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.Register<ISQLiteAsyncConnectionProvider, SQLiteAsyncConnectionProvider>();
+            containerRegistry.Register<IResizeImageService, ResizeImageService>();
         }
 
     }
