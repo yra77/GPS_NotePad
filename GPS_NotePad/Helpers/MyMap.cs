@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms.Maps;
 
-namespace GPS_NotePad.ViewModels.Helpers
+namespace GPS_NotePad.Helpers
 {
     class MyMap:Map
     {

@@ -5,7 +5,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using GPS_NotePad.ViewModels.Services;
+using GPS_NotePad.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;

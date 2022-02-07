@@ -1,6 +1,5 @@
 ﻿
 
-
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Auth;
@@ -14,10 +13,10 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 
-using GPS_NotePad.ViewModels.Helpers;
+using GPS_NotePad.Helpers;
 using Acr.UserDialogs;
 using GPS_NotePad.Models;
-using GPS_NotePad.ViewModels.Services;
+using GPS_NotePad.Services;
 using System.Threading.Tasks;
 
 namespace GPS_NotePad.ViewModels

@@ -1,5 +1,5 @@
 ﻿
-using GPS_NotePad.ViewModels.Helpers;
+using GPS_NotePad.Helpers;
 
 using Android.App;
 using Android.Content;

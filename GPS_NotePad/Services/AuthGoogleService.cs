@@ -1,6 +1,6 @@
 ﻿using Acr.UserDialogs;
-using GPS_NotePad.ViewModels.Constants;
-using GPS_NotePad.ViewModels.Helpers;
+using GPS_NotePad.Constants;
+using GPS_NotePad.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Text;
 using Xamarin.Auth;
 using Xamarin.Forms;
 
-namespace GPS_NotePad.ViewModels.Services
+namespace GPS_NotePad.Services
 {
     public interface IAuthGoogleService
     {

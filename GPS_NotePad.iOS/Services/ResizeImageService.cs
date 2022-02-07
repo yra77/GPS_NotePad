@@ -8,7 +8,7 @@ using System.Drawing;
 using UIKit;
 using CoreGraphics;
 using Xamarin.Essentials;
-using GPS_NotePad.ViewModels.Services;
+using GPS_NotePad.Services;
 
 namespace GPS_NotePad.iOS.Services
 {

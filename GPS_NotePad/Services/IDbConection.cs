@@ -1,7 +1,7 @@
 ﻿
 using SQLite;
 
-namespace GPS_NotePad.Models.Services
+namespace GPS_NotePad.Services
 {
     public interface ISQLiteAsyncConnectionProvider
     {

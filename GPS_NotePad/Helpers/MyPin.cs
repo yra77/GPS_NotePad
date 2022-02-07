@@ -1,11 +1,8 @@
-﻿using Acr.UserDialogs;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
 using Xamarin.Forms.Maps;
 using GPS_NotePad.ViewModels;
 
-namespace GPS_NotePad.ViewModels.Helpers
+namespace GPS_NotePad.Helpers
 {
     class MyPin : Pin
     {

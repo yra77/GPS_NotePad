@@ -12,7 +12,7 @@ using Prism.Unity;
 using System;
 using GPS_NotePad.Views;
 using GPS_NotePad.Repository;
-using GPS_NotePad.ViewModels.Services;
+using GPS_NotePad.Services;
 
 namespace GPS_NotePad
 {

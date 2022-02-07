@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace GPS_NotePad.ViewModels.Helpers
+namespace GPS_NotePad.Helpers
 {
     public interface IVerifyInputLogPas_Helper
     {

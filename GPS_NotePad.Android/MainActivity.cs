@@ -9,10 +9,10 @@ using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
 using Acr.UserDialogs;
-using GPS_NotePad.Models.Services;
+using GPS_NotePad.Services;
 using GPS_NotePad.Droid.Services;
 using Android;
-using GPS_NotePad.ViewModels.Services;
+
 
 namespace GPS_NotePad.Droid
 {

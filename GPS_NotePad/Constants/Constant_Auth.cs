@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GPS_NotePad.ViewModels.Constants
+namespace GPS_NotePad.Constants
 {
     public class Constant_Auth
     {

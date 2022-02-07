@@ -1,7 +1,7 @@
 ﻿
 using Xamarin.Auth;
 
-namespace GPS_NotePad.ViewModels.Helpers
+namespace GPS_NotePad.Helpers
 {
     public class AuthenticationState_Helper
     {

@@ -1,4 +1,5 @@
-﻿using GPS_NotePad.Models;
+﻿
+using GPS_NotePad.Models;
 using GPS_NotePad.Repository;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GPS_NotePad.ViewModels.Services
+namespace GPS_NotePad.Services
 {
     public interface ITo_RepositoryService
     {

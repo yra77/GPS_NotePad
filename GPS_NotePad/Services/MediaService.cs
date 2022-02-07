@@ -1,9 +1,10 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GPS_NotePad.ViewModels.Services
+namespace GPS_NotePad.Services
 {
     public interface IMediaService
     {

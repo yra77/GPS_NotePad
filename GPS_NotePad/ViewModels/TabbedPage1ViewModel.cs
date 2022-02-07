@@ -2,8 +2,8 @@
 
 using Acr.UserDialogs;
 using GPS_NotePad.Models;
-using GPS_NotePad.ViewModels.Helpers;
-using GPS_NotePad.ViewModels.Services;
+using GPS_NotePad.Helpers;
+using GPS_NotePad.Services;
 using Prism;
 using Prism.Commands;
 using Prism.Mvvm;

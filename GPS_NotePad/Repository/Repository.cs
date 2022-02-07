@@ -1,7 +1,7 @@
 ﻿
 
 using Acr.UserDialogs;
-using GPS_NotePad.Models.Services;
+using GPS_NotePad.Services;
 using SQLite;
 using System;
 using System.Collections.Generic;

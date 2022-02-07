@@ -1,5 +1,5 @@
 ﻿
-using GPS_NotePad.Models.Services;
+using GPS_NotePad.Services;
 using SQLite;
 using System.IO;
 

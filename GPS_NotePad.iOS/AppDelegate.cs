@@ -4,8 +4,7 @@ using System.Linq;
 
 using Foundation;
 using GPS_NotePad.iOS.Services;
-using GPS_NotePad.Models.Services;
-using GPS_NotePad.ViewModels.Services;
+using GPS_NotePad.Services;
 using Prism;
 using Prism.Ioc;
 using UIKit;
