@@ -5,21 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
-using Xamarin.Forms.Maps;
 using Xamarin.Forms.Xaml;
 
 namespace GPS_NotePad.Views
 {
-    public partial class Tabbed_Page1 : ContentPage
+    public partial class PinListView : ContentPage
     {
-        public Tabbed_Page1()
+        public PinListView()
         {
             InitializeComponent();
-            //var map = new Map();
-            //map.IsShowingUser = true;
-
-            //var rootPage = this;
-            //rootPage.Content = map;
         }
     }
 }

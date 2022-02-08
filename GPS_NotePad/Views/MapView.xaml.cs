@@ -5,13 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
+using Xamarin.Forms.Maps;
 using Xamarin.Forms.Xaml;
 
 namespace GPS_NotePad.Views
 {
-    public partial class Tabbed_Page2 : ContentPage
+    public partial class MapView : ContentPage
     {
-        public Tabbed_Page2()
+        public MapView()
         {
             InitializeComponent();
         }

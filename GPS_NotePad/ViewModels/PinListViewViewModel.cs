@@ -17,7 +17,7 @@ using Xamarin.Forms.Maps;
 
 namespace GPS_NotePad.ViewModels
 {
-    class TabbedPage2ViewModel : BindableBase, INavigatedAware, IActiveAware
+    class PinListViewViewModel : BindableBase, INavigatedAware, IActiveAware
     {
 
         private readonly ITo_RepositoryService toRepository;
@@ -36,7 +36,7 @@ namespace GPS_NotePad.ViewModels
         private bool modalVisible;
         private string search;
 
-        public TabbedPage2ViewModel(INavigationService _navigationService, IMediaService _mediaService, ITo_RepositoryService _toRepository)
+        public PinListViewViewModel(INavigationService _navigationService, IMediaService _mediaService, ITo_RepositoryService _toRepository)
         {
             SearchView = new SearchBar { CancelButtonColor = Color.Red, Placeholder = "Search", PlaceholderColor = Color.Gray };
             SearchView.TextChanged += OnTextChanged;
@@ -204,7 +204,7 @@ namespace GPS_NotePad.ViewModels
 
         private void IsActiveTab()
         {
-            email = TabbedPage1ViewModel.Email;
+            email = MapViewModel.Email;
             Label = "";
             Address = "";
             ImagePath = "";

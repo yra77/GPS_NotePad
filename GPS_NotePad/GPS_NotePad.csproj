@@ -20,4 +20,13 @@
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
     <PackageReference Include="Xamarin.Forms.Maps" Version="5.0.0.2012" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\MapView.xaml.cs">
+      <DependentUpon>MapView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\PinListView.xaml.cs">
+      <DependentUpon>PinListView.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>

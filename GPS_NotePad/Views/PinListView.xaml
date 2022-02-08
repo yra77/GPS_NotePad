@@ -6,7 +6,7 @@
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core" 
              xmlns:prism1="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
              ios:Page.UseSafeArea="True"
-             x:Class="GPS_NotePad.Views.Tabbed_Page2"
+             x:Class="GPS_NotePad.Views.PinListView"
              Title="Markers">
     
     <ContentPage.Content>

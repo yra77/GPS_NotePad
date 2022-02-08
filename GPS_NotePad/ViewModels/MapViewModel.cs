@@ -8,7 +8,6 @@ using Prism;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
-using Prism.Navigation.TabbedPages;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,10 +15,11 @@ using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
+using System.Collections.ObjectModel;
 
 namespace GPS_NotePad.ViewModels
 {
-    class TabbedPage1ViewModel : BindableBase, INavigatedAware, IActiveAware
+    class MapViewModel : BindableBase, INavigatedAware, IActiveAware
     {
 
         private readonly ITo_RepositoryService toRepository;
@@ -36,11 +36,14 @@ namespace GPS_NotePad.ViewModels
         private bool isVisible_SearchList;
         private static string email;
 
+        ObservableCollection<MyPin> listPin;
+
         public event EventHandler IsActiveChanged;
 
 
-        public TabbedPage1ViewModel(INavigationService _navigationService, ITo_RepositoryService _toRepository)
+        public MapViewModel(INavigationService _navigationService, ITo_RepositoryService _toRepository)
         {
+
             SearchView = new SearchBar { CancelButtonColor = Color.Red, Placeholder = "Search", PlaceholderColor = Color.Gray };
             SearchView.TextChanged += OnTextChanged;
             SearchView.Unfocused += SearchUnfocus;
@@ -51,29 +54,45 @@ namespace GPS_NotePad.ViewModels
             navigationService = _navigationService;
 
             MyPin.TabbedPageMyViewModel = this;
-            
+
+
+          
+
             Map = new MyMap();
-            Map.IsShowingUser = true;
-            Map.MapClicked += Maps_Click;
+            //Map.IsShowingUser = true;
+           // Map.MapClicked += Maps_Click;
 
             Map.My_Pins = new List<MyPin>(30);
            
             MarkerInfoVisible = false;
             IsVisible_SearchList = false;
 
+            ListPin = new ObservableCollection<MyPin>();
+            
             CloseMarkerInfo = new DelegateCommand(Close_MarkerInfo);
             Click_SearchListItem = new DelegateCommand<MyPin>(SearchListItem_Click);
-
+            ClickToItem = new DelegateCommand<MyPin>(ItemClick);
             LoadListMarkers();
+           // ListPin = Map.My_Pins;
         }
 
-        
+        private void ItemClick(MyPin obj)
+        {
+            Console.WriteLine("Gggggggggggggggggggggg" + obj.Address);
+        }
 
+        MyPin myPinItem;
+        public MyPin MyPinItem { get => myPinItem; set { SetProperty(ref myPinItem, value); } }
+
+        public ObservableCollection<MyPin> ListPin { get => listPin; set => SetProperty(ref listPin, value); }
+
+
+        public DelegateCommand<MyPin> ClickToItem { get; set; }
         public DelegateCommand CloseMarkerInfo { get; }
         public DelegateCommand<MyPin> Click_SearchListItem { get; }
 
         public static string Email { get => email; set => email = value; }
-
+        public MyMap Map1 { get; private set; }
         public MyMap Map { get; private set; }
         public SearchBar SearchView { get; private set; }
         public List<MyPin> ListMarkers { get => listMarkers; set => SetProperty(ref listMarkers, value); }
@@ -99,6 +118,7 @@ namespace GPS_NotePad.ViewModels
             } 
         }
 
+        public int Ids { get; set; }
 
         private void IsActiveTab()
         {
@@ -114,10 +134,12 @@ namespace GPS_NotePad.ViewModels
         public void MarkerClicked(Position pos, int id, string ImagePath, string Label, string Address)
         {
             MarkerInfoVisible = true;
-            Move(pos.Latitude, pos.Longitude, 50);
-            MarkerImage = ImagePath;// Map.My_Pins[id].ImagePath;
-            MarkerLabel = Label;// Map.My_Pins[id].Label;
-            MarkerAddress = Address;//Map.My_Pins[id].Address;
+            // Move(pos.Latitude, pos.Longitude, 50);
+            MarkerImage = ImagePath;// ListPin[id].ImagePath;
+            MarkerLabel = Label;
+            MarkerAddress = Address;
+
+            MyPinItem = new MyPin { Address = Address, Position = pos, Label = Label, ImagePath = ImagePath, Ids = 0 };
         }
 
         private async void Move(double latitude = 0, double longitude = 0, double distance = 1400)
@@ -136,37 +158,20 @@ namespace GPS_NotePad.ViewModels
         private void Maps_Click(object sender, MapClickedEventArgs e)
         {
             Move(e.Position.Latitude, e.Position.Longitude, 10);
-           // AddPin(e.Position.Latitude, e.Position.Longitude);
         }
-
-        //private void AddPin(double latitude, double longitude)
-        //{
-        //    Map.My_Pins.Add(new MyPin
-        //    {
-        //        Ids = Map.My_Pins.Count,
-        //        ImagePath = "paris.jpg",
-        //        Label = "gggggg",
-        //        Address = "rrrr nnn",
-        //        Position = new Position(latitude, longitude)
-        //    });
-
-        //    RefreshPins();
-        //}
-
-        
-       
 
         private async void LoadListMarkers()
         {
             var arr = await toRepository.GetData<MarkerInfo>("MarkerInfo", Email);
-           ToMyPins(arr);
-            RefreshPins();
+             ToMyPins(arr);
+           // RefreshPins();
         }
+
         void ToMyPins(List<MarkerInfo> arr)
         {
             foreach (var item in arr)
             {
-                Map.My_Pins.Add(new MyPin
+                ListPin.Add(new MyPin
                 {
                     Ids = item.Id,
                     Address = item.Address,
@@ -177,6 +182,7 @@ namespace GPS_NotePad.ViewModels
             }
             
         }
+
         void RefreshPins()
         {
             foreach (var item in Map.My_Pins)
@@ -184,7 +190,6 @@ namespace GPS_NotePad.ViewModels
                 Map.Pins.Add(item);
             }
         }
-
 
 
         #region  SearchBar
@@ -232,12 +237,6 @@ namespace GPS_NotePad.ViewModels
                 ListMarkers = new List<MyPin>(Map.My_Pins);
                 IsVisible_SearchList = true;
             }
-            //if (Search.Length < 1)
-            //{
-            //    ListMarkers = new List<MyPin>();
-            //    IsVisible_SearchList = false;
-            //    return;
-            //}
 
             List<MyPin> buf = new List<MyPin>();
             string temp = search.ToLower();

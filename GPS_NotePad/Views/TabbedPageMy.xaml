@@ -14,8 +14,8 @@
             UnselectedTabColor="White">
   <!--Pages can be added as references or inline-->
     <TabbedPage.Children>
-        <local:Tabbed_Page1/>
-        <local:Tabbed_Page2/>
+        <local:MapView/>
+        <local:PinListView/>
     </TabbedPage.Children>
     <!--<ContentPage Title="Tab1"/>
     <ContentPage Title="Tab2"/>-->

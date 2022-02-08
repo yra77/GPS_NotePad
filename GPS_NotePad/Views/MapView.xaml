@@ -6,15 +6,22 @@
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core" 
              xmlns:prism1="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
              ios:Page.UseSafeArea="True"
-             x:Class="GPS_NotePad.Views.Tabbed_Page1"
-             xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+             x:Class="GPS_NotePad.Views.MapView"
+             xmlns:maps="clr-namespace:GPS_NotePad.Helpers"
              Title="Map">
-    
+    <!--xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"-->
     <ContentPage.Content>
         <Grid>
             <StackLayout Padding="10">
-                <!--<maps:Map IsShowingUser="true"/>-->
-                <ContentView VerticalOptions="FillAndExpand" Margin="0,40,0,20" Content="{Binding Map}"/>
+                <!--ItemList="{Binding ListPin}"-->
+                <maps:MyMap IsShowingUser="true" ItemsSource="{Binding ListPin}" SelectedItem="{Binding MyPinItem}">
+                    <maps:MyMap.ItemTemplate>
+                        <DataTemplate>
+                            <maps:MyPin Position="{Binding Position}" ImagePath="{Binding ImagePath}" 
+                                        Address="{Binding Address}" Label="{Binding Label}" />
+                        </DataTemplate>
+                    </maps:MyMap.ItemTemplate>
+                </maps:MyMap>
             </StackLayout>
             
             <!--Marker info modal-->
