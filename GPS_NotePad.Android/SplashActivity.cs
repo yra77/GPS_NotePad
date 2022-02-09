@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace GPS_NotePad.Droid
 {
     [Activity(ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait, 
-        Label = "GPS NotePad", MainLauncher = true, Theme = "@style/MyTheme.Splash", Icon = "@mipmap/icon", NoHistory = true)]
+        Label = "GPS NotePad", MainLauncher = true, Theme = "@style/MyTheme.Splash", Icon = "@drawable/logotip", NoHistory = true)]
     public class SplashActivity : Activity
     {
         protected override void OnCreate(Bundle savedInstanceState)

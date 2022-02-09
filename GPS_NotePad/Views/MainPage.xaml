@@ -8,16 +8,17 @@
              xmlns:effects="clr-namespace:GPS_NotePad.Effects"
              x:Class="GPS_NotePad.Views.MainPage"
              ios:Page.UseSafeArea="True" 
-             NavigationPage.HasNavigationBar="False">
+             NavigationPage.HasNavigationBar="False" 
+             BackgroundImageSource="fon.jpg">
 
     <Grid>
-        <Label Text="GPS notepad" Margin="0,50,0,0" HorizontalOptions="Center" FontSize="25" FontAttributes="Italic" TextColor="LawnGreen"/>
+        <Label Text="GPS notepad" Margin="0,50,0,0" HorizontalOptions="Center" FontSize="25" FontAttributes="Italic" TextColor="Coral"/>
         <Frame BackgroundColor="AliceBlue" HorizontalOptions="Fill" VerticalOptions="CenterAndExpand" 
-               Padding="0" Margin="15,40,15,0" HasShadow="True" BorderColor="LightGray">
-        <StackLayout >
+               Padding="0" Margin="15,30,15,0" HasShadow="True" BorderColor="LightGray">
+            <StackLayout >
                 <StackLayout BackgroundColor="AliceBlue">
-                    
-                <StackLayout Margin="10,25,10,0">
+
+                    <StackLayout Margin="10,25,10,0">
                         <Frame IsVisible="{Binding IsVisibleEntry}" Padding="10, 0, 10, 0" BorderColor="Gray" CornerRadius="30">
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -25,7 +26,7 @@
                                     <ColumnDefinition Width="50"/>
                                 </Grid.ColumnDefinitions>
                                 <Entry Keyboard="Text" Text="{Binding Name}" Placeholder="Name" PlaceholderColor="LightGray" 
-                               FontSize="16">
+                                         FontSize="16">
                                     <Entry.Effects>
                                         <effects:EntryColorUnderline_Effect/>
                                     </Entry.Effects>
@@ -56,7 +57,7 @@
                                     <ColumnDefinition Width="50"/>
                                 </Grid.ColumnDefinitions>
                                 <Entry Keyboard="Text" IsPassword="{Binding IsVisiblePassword}" Text="{Binding Password}" Placeholder="Password" 
-                               PlaceholderColor="LightGray" FontSize="16">
+                                           PlaceholderColor="LightGray" FontSize="16">
                                     <Entry.Effects>
                                         <effects:EntryColorUnderline_Effect/>
                                     </Entry.Effects>
@@ -73,7 +74,7 @@
                                     <ColumnDefinition Width="50"/>
                                 </Grid.ColumnDefinitions>
                                 <Entry Text="{Binding PasswordConfirm}" Placeholder="Password confirm" PlaceholderColor="LightGray" 
-                               Keyboard="Text" IsPassword="{Binding IsVisiblePasConfirm}" FontSize="16">
+                                         Keyboard="Text" IsPassword="{Binding IsVisiblePasConfirm}" FontSize="16">
                                     <Entry.Effects>
                                         <effects:EntryColorUnderline_Effect/>
                                     </Entry.Effects>
@@ -82,21 +83,22 @@
                                              Command="{Binding Btn_IsVisiblePasConfirm}" WidthRequest="50" Aspect="AspectFit"/>
                             </Grid>
                         </Frame>
+
+
+                        <Button IsEnabled="False" Command="{Binding OkBtn}" BackgroundColor="{Binding Color_OkBtn}" Text="Ok" HeightRequest="40"
+                                VerticalOptions="End" HorizontalOptions="Center" CornerRadius="25" Margin="0,30,0,0"/>
                         
-                    
-                        <Button IsEnabled="False" Command="{Binding OkBtn}" Text="Ok" VerticalOptions="End" Margin="40,40,40,0"/>
-                        <Button Command="{Binding GoogleRegBtn}" Text="Google" FontSize="14" TextColor="Gray"
-                                FontAttributes="Bold" HorizontalOptions="CenterAndExpand" 
-                                BackgroundColor="LightGreen" CornerRadius="25" VerticalOptions="EndAndExpand" Margin="20,0,20,0"/>
+                        <Button Command="{Binding GoogleRegBtn}" ImageSource="google.png" HorizontalOptions="CenterAndExpand" Scale="1.2"
+                                BackgroundColor="Transparent" CornerRadius="50" VerticalOptions="EndAndExpand" Margin="0,10,0,0"/>
                     </StackLayout>
-                    
+
                 </StackLayout>
-            
-            <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand" Margin="0,50,0,0">
-                <Button Command="{Binding LogininBtn}" Text="Loginin" HorizontalOptions="FillAndExpand"></Button>
-                    <Button Command="{Binding RegistrBtn}" Text="Registr" HorizontalOptions="FillAndExpand"></Button>
+
+                <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand" Margin="0,30,0,0">
+                    <Button Command="{Binding LogininBtn}" Text="Loginin" HorizontalOptions="FillAndExpand"/>
+                    <Button Command="{Binding RegistrBtn}" Text="Registr" HorizontalOptions="FillAndExpand"/>
+                </StackLayout>
             </StackLayout>
-        </StackLayout>
         </Frame>
     </Grid>
 

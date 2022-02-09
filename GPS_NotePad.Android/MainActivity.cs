@@ -2,8 +2,6 @@
 using Prism;
 using Prism.Ioc;
 
-using System;
-
 using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
@@ -20,7 +18,7 @@ using GPS_NotePad.Droid.Effects;
 
 namespace GPS_NotePad.Droid
 {
-    [Activity(ScreenOrientation = ScreenOrientation.Portrait, Label = "GPS NotePad", Icon = "@mipmap/icon", Theme = "@style/MainTheme", 
+    [Activity(ScreenOrientation = ScreenOrientation.Portrait, Label = "GPS NotePad", Icon = "@drawable/logotip", Theme = "@style/MainTheme", 
         ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | 
         ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize )]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
