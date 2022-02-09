@@ -86,7 +86,7 @@
 
 
                         <Button IsEnabled="False" Command="{Binding OkBtn}" BackgroundColor="{Binding Color_OkBtn}" Text="Ok" HeightRequest="40"
-                                VerticalOptions="End" HorizontalOptions="Center" CornerRadius="25" Margin="0,30,0,0"/>
+                                VerticalOptions="End" HorizontalOptions="Center" WidthRequest="150" CornerRadius="25" Margin="0,30,0,0"/>
                         
                         <Button Command="{Binding GoogleRegBtn}" ImageSource="google.png" HorizontalOptions="CenterAndExpand" Scale="1.2"
                                 BackgroundColor="Transparent" CornerRadius="50" VerticalOptions="EndAndExpand" Margin="0,10,0,0"/>

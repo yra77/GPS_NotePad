@@ -20,7 +20,8 @@ using System.Threading.Tasks;
 namespace GPS_NotePad.ViewModels
 {
     //486491599259-9qkacj16rv2j7rkpoe1upa1ou0gg65nk.apps.googleusercontent.com
-    //AIzaSyDcSVIjErUsWelFNRTTqKJimfh9lDj7JJ0   -  maps google
+    //AIzaSyDcSVIjErUsWelFNRTTqKJimfh9lDj7JJ0   -  maps google android
+    //AIzaSyDzt_zSeQ_rK0TR2ClYHraBm7Yrg83JhDU - ios
     class MainPageViewModel : BindableBase, INavigatedAware
     {
 

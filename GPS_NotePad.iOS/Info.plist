@@ -64,5 +64,16 @@
 	</array>
   <key>NSLocationWhenInUseUsageDescription</key>
   <string>Fill in a reason why your app needs access to location.</string>
+<key>NSLocationAlwaysUsageDescription</key>
+<string>Can we use your location at all times?</string>
+<key>NSLocationWhenInUseUsageDescription</key>
+<string>Can we use your location when your application is being used?</string>
+<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+<string>Can we use your location at all times?</string>
+  <key>LSApplicationQueriesSchemes</key>
+  <array>
+    <string>googlechromes</string>
+    <string>comgooglemaps</string>
+  </array>
 </dict>
 </plist>
