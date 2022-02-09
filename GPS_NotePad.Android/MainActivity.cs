@@ -12,7 +12,11 @@ using Acr.UserDialogs;
 using GPS_NotePad.Services;
 using GPS_NotePad.Droid.Services;
 using Android;
+using Xamarin.Forms;
+using GPS_NotePad.Droid.Effects;
 
+[assembly: ResolutionGroupName("GPS_NotePad")]
+[assembly: ExportEffect(typeof(EntryUnderlineColor_Effect), "PlainEntryEffect")]
 
 namespace GPS_NotePad.Droid
 {

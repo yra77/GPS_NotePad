@@ -2,13 +2,18 @@
 
 using GPS_NotePad.iOS.Services;
 using GPS_NotePad.Services;
+using GPS_NotePad.iOS.Effects;
 
 using Prism;
 using Prism.Ioc;
 
+using Xamarin.Forms;
+
 using UIKit;
 using Foundation;
 
+[assembly: ResolutionGroupName("GPS_NotePad")]
+[assembly: ExportEffect(typeof(EntryUnderlineColor_Effect), "PlainEntryEffect")]
 
 namespace GPS_NotePad.iOS
 {

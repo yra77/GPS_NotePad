@@ -47,7 +47,7 @@
             <StackLayout VerticalOptions="StartAndExpand" Margin="10,0,10,0">
 
                 <SearchBar HorizontalOptions="CenterAndExpand" CancelButtonColor="Red" Placeholder="Search" PlaceholderColor="Gray"
-                                    Text="{Binding Search}" SearchCommand="{Binding SearchBtn_Pressed}">
+                           Keyboard="Text" Text="{Binding Search}" SearchCommand="{Binding SearchBtn_Pressed}">
                     <SearchBar.Behaviors>
                         <prism1:EventToCommandBehavior EventName="Unfocused"
                                           Command="{Binding UnfocusedCommand}"/>

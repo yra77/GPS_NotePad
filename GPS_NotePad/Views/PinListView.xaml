@@ -14,7 +14,7 @@
         <Grid>
             <StackLayout VerticalOptions="Start">
                 <SearchBar HorizontalOptions="CenterAndExpand" CancelButtonColor="Red" Placeholder="Search" PlaceholderColor="Gray"
-                                    Text="{Binding Search}" SearchCommand="{Binding SearchBtn_Pressed}">
+                           Keyboard="Text" Text="{Binding Search}" SearchCommand="{Binding SearchBtn_Pressed}">
                 <SearchBar.Behaviors>
                     <prism1:EventToCommandBehavior EventName="Unfocused"
                                           Command="{Binding UnfocusedCommand}"/>
@@ -60,7 +60,7 @@
                     BorderColor="#FF4081" BorderWidth="2" TextColor="#FF4081" VerticalOptions="End" HorizontalOptions="End"/>
             
             <!--Add marker Modal-->
-            <StackLayout IsVisible="{Binding ModalVisible}" BackgroundColor="Transparent" VerticalOptions="Fill">
+            <StackLayout IsVisible="{Binding IsModalVisible}" BackgroundColor="Transparent" VerticalOptions="Fill">
                 
                 <Frame Margin="10,50,10,50" CornerRadius="10" VerticalOptions="FillAndExpand" BackgroundColor="LightGray">
                     <StackLayout>
