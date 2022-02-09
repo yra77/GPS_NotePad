@@ -1,23 +1,21 @@
 ﻿
 
+
+using GPS_NotePad.Helpers;
+using Acr.UserDialogs;
+using GPS_NotePad.Models;
+using GPS_NotePad.Services;
+
 using Xamarin.Essentials;
-using Xamarin.Forms;
-using Xamarin.Auth;
 
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Linq;
-
-using GPS_NotePad.Helpers;
-using Acr.UserDialogs;
-using GPS_NotePad.Models;
-using GPS_NotePad.Services;
 using System.Threading.Tasks;
+
 
 namespace GPS_NotePad.ViewModels
 {
@@ -25,53 +23,55 @@ namespace GPS_NotePad.ViewModels
     //AIzaSyDcSVIjErUsWelFNRTTqKJimfh9lDj7JJ0   -  maps google
     class MainPageViewModel : BindableBase, INavigatedAware
     {
-        private readonly INavigationService navigationService;
-        private readonly IVerifyInputLogPas_Helper verifyInput;
-        private readonly ITo_RepositoryService toRepository;
-        private readonly IAuthGoogleService authGoogleService;
-        bool entryIsVisible;
-        bool _isEnabled;
-        string name;
-        string email;
-        string password;
-        string passwordConfirm;
+
+        private readonly INavigationService _navigationService;
+        private readonly IVerifyInputLogPas_Helper _verifyInput;
+        private readonly ITo_RepositoryService _toRepository;
+        private readonly IAuthGoogleService _authGoogleService;
+        private bool _isVisibleEntry;
+        private bool _isEnabled;
+        private string _name;
+        private string _email;
+        private string _password;
+        private string _passwordConfirm;
 
 
-        public MainPageViewModel(ITo_RepositoryService _repository, INavigationService _navigationService, IAuthGoogleService _authGoogleService)
+        public MainPageViewModel(ITo_RepositoryService repository, INavigationService navigationService, IAuthGoogleService authGoogleService)
         {
            
             Name = "";
             PasswordConfirm = "";
             Email = "";
             Password = "";
-            EntryIsVisible = false;
+            IsVisibleEntry = false;
             IsEnabled = false;
             LogininBtn = new DelegateCommand(LogininClick);
             RegistrBtn = new DelegateCommand(RegistrClick);
             GoogleRegBtn = new DelegateCommand(GoogleClick);
             OkBtn = new DelegateCommand(Ok_Click, IsOkEnable).ObservesProperty(() => IsEnabled);
 
-            navigationService = _navigationService;
-            verifyInput = new VerifyInput_Helper();
-            toRepository = _repository;
-            authGoogleService = _authGoogleService;
+            _navigationService = navigationService;
+            _verifyInput = new VerifyInput_Helper();
+            _toRepository = repository;
+            _authGoogleService = authGoogleService;
             
         }
 
+        #region Public propertys
         public DelegateCommand OkBtn { get; private set; }
         public DelegateCommand LogininBtn { get; }
         public DelegateCommand RegistrBtn { get; }
         public DelegateCommand GoogleRegBtn { get; }
 
 
-        public string Name { get { IsOkEnable(); return name; } 
+        public string Name { get { IsOkEnable(); return _name; } 
                              set 
                                  { 
-                                   SetProperty(ref name, value);
-                if (name.Length > 0)
+                                   SetProperty(ref _name, value);
+                if (_name.Length > 0)
                 {
                     string temp = value;
-                    if (!verifyInput.NameVerify(ref temp))//Verify name
+                    if (!_verifyInput.NameVerify(ref temp))//Verify name
                     {
                         Name = temp;
                         UserDialogs.Instance.Alert("Name must have from 2 to 16 symbols, A-Z, a-z", "Error", "Ok");
@@ -79,14 +79,13 @@ namespace GPS_NotePad.ViewModels
                 }
             }
          }
-
-        public string Email { get { IsOkEnable(); return email; } 
+        public string Email { get { IsOkEnable(); return _email; } 
                               set { 
-                                    SetProperty(ref email, value);
-                if (email.Length > 0)
+                                    SetProperty(ref _email, value);
+                if (_email.Length > 0)
                 {
                     string temp = value;
-                    if (!verifyInput.EmailVerify(ref temp))
+                    if (!_verifyInput.EmailVerify(ref temp))
                     {
                         Email = temp;
                         UserDialogs.Instance.Alert("Email error", "Error", "Ok");
@@ -94,14 +93,14 @@ namespace GPS_NotePad.ViewModels
                 }
             } 
         }
-        public string Password { get { IsOkEnable(); return password; } 
+        public string Password { get { IsOkEnable(); return _password; } 
                                  set 
                                      { 
-                                       SetProperty(ref password, value);
-                if (password.Length > 0)
+                                       SetProperty(ref _password, value);
+                if (_password.Length > 0)
                 {
                     string temp = value;
-                    if (!verifyInput.PasswordCheckin(ref temp))
+                    if (!_verifyInput.PasswordCheckin(ref temp))
                     {
                         Password = temp;
                         UserDialogs.Instance.Alert("Password must have from 8 to 16 symbols, A-Z, a-z, 1-9.Password must contain at least one capital letter, one lowercase letter and one number", "Error", "Ok");
@@ -109,14 +108,14 @@ namespace GPS_NotePad.ViewModels
                 }
             } 
         }
-        public string PasswordConfirm { get { IsOkEnable(); return passwordConfirm; }
+        public string PasswordConfirm { get { IsOkEnable(); return _passwordConfirm; }
                                         set 
                                             {  
-                                              SetProperty(ref passwordConfirm, value);
-                if (passwordConfirm.Length > 0)
+                                              SetProperty(ref _passwordConfirm, value);
+                if (_passwordConfirm.Length > 0)
                 {
                     string temp = value;
-                    if (!verifyInput.PasswordCheckin(ref temp))
+                    if (!_verifyInput.PasswordCheckin(ref temp))
                     {
                         PasswordConfirm = temp;
                         UserDialogs.Instance.Alert("Password must have from 8 to 16 symbols, A-Z, a-z, 1-9.Password must contain at least one capital letter, one lowercase letter and one number", "Error", "Ok");
@@ -125,9 +124,11 @@ namespace GPS_NotePad.ViewModels
             }
         }
         public bool IsEnabled { get { return _isEnabled; } set { SetProperty(ref _isEnabled, value); } }
-        public bool EntryIsVisible { get => entryIsVisible; set { SetProperty(ref entryIsVisible, value); } }
+        public bool IsVisibleEntry { get => _isVisibleEntry; set { SetProperty(ref _isVisibleEntry, value); } }
 
+        #endregion
 
+        #region Private method
         private async void Ok_Click()
         {
             //check internet connection
@@ -139,13 +140,12 @@ namespace GPS_NotePad.ViewModels
                 System.Diagnostics.Process.GetCurrentProcess().Kill();
             }
 
-
-            if (verifyInput.IsValidEmail(Email))
-            if(!EntryIsVisible)
+            if (_verifyInput.IsValidEmail(Email))
+            if(!IsVisibleEntry)
             {
-                    if (verifyInput.PasswordVerify(Password))
+                    if (_verifyInput.PasswordVerify(Password))
                     {
-                        var res = await toRepository.GetData<Loginin>("Loginin", email);
+                        var res = await _toRepository.GetData<Loginin>("Loginin", _email);
                         
                         if (res.Any())
                         {
@@ -155,7 +155,7 @@ namespace GPS_NotePad.ViewModels
                                 {
                                     { "email", Email }
                                 };
-                                await navigationService.NavigateAsync("/TabbedPageMy", navParameters, animated: true);
+                                await _navigationService.NavigateAsync("/TabbedPageMy", navParameters, animated: true);
 
                                 Email = "";
                                 Password = "";
@@ -163,25 +163,23 @@ namespace GPS_NotePad.ViewModels
                             else
                             {
                                 UserDialogs.Instance.Alert("Password do not exist", "Error", "Ok");
-                                Password = "";
                             }
                         }
                         else
                         {
                             UserDialogs.Instance.Alert("Email do not exist", "Error", "Ok");
-                            Password = "";
                             Email = "";
                         }
                     }
                     else
                     {
-                        UserDialogs.Instance.Alert("Password must have from 8 to 16 symbols, A - Z, a - z, 1 - 9.Password must contain at least one capital letter, one lowercase letter and one number", "Error", "Ok");
-                        Password = "";
+                        UserDialogs.Instance.Alert("Password must have from 8 to 16 symbols, A - Z, a - z, 1 - 9.Password must contain at least one capital letter, one lowercase letter and one number", "Error", "Ok");                       
                     }
-            }
+                    Password = "";
+                }
             else
             {
-                if (verifyInput.PasswordVerify(Password) && verifyInput.PasswordVerify(PasswordConfirm))
+                if (_verifyInput.PasswordVerify(Password) && _verifyInput.PasswordVerify(PasswordConfirm))
                 {
                     if (Password.Equals(PasswordConfirm))
                     {
@@ -191,7 +189,7 @@ namespace GPS_NotePad.ViewModels
                             log.password = Password;
                             log.DateCreated = DateTime.Now;
 
-                            if (await toRepository.Insert(log))
+                            if (await _toRepository.Insert(log))
                             {
                                 LogininClick();
                                 UserDialogs.Instance.Alert("OK", "", "Ok");
@@ -204,32 +202,29 @@ namespace GPS_NotePad.ViewModels
                     else
                     {
                         UserDialogs.Instance.Alert("Passwords must be equal", "Error", "Ok");
-                        Password = "";
-                        PasswordConfirm = "";
                     }
                 }
                 else
                 {
-                    UserDialogs.Instance.Alert("Password must have from 8 to 16 symbols, A-Z, a-z, 1-9.Password must contain at least one capital letter, one lowercase letter and one number", "Error", "Ok");
+                    UserDialogs.Instance.Alert("Password must have from 8 to 16 symbols, A-Z, a-z, 1-9.Password must contain at least one capital letter, one lowercase letter and one number", "Error", "Ok");                 
+                }
                     Password = "";
                     PasswordConfirm = "";
                 }
-            }
             else
             {
                 UserDialogs.Instance.Alert("Email is not valid", "Error", "Ok");
                 Email = "";
             }
-
         }
 
         private void GoogleClick()
         {
-            authGoogleService.StartAuth();
+            _authGoogleService.StartAuth();
         }
         private void RegistrClick()
         {
-            EntryIsVisible = true;
+            IsVisibleEntry = true;
             Name = "";
             PasswordConfirm = "";
             Email = "";
@@ -237,7 +232,7 @@ namespace GPS_NotePad.ViewModels
         }
         private void LogininClick()
         {
-            EntryIsVisible = false;
+            IsVisibleEntry = false;
             Name = "";
             PasswordConfirm = "";
             Email = "";
@@ -245,17 +240,19 @@ namespace GPS_NotePad.ViewModels
         }
         private bool IsOkEnable()
         {
-            if(!EntryIsVisible)
-                IsEnabled = ((email.Length > 6) && (password.Length > 8 && password.Length < 17)) ? IsEnabled = true : IsEnabled = false;
+            if(!IsVisibleEntry)
+                IsEnabled = ((_email.Length > 6) && (_password.Length > 8 && _password.Length < 17)) ? IsEnabled = true : IsEnabled = false;
             else
-                IsEnabled = ((passwordConfirm.Length > 8 && passwordConfirm.Length < 17) && (email.Length > 6) 
-                            && (password.Length > 8 && password.Length < 17) && passwordConfirm == password) ? 
+                IsEnabled = ((_passwordConfirm.Length > 8 && _passwordConfirm.Length < 17) && (_email.Length > 6) 
+                            && (_password.Length > 8 && _password.Length < 17) && _passwordConfirm == _password) ? 
                             IsEnabled = true : IsEnabled = false;
             
             return IsEnabled;
         }
 
+        #endregion
 
+        #region Interface InavigatedAword implementation
         public void OnNavigatedFrom(INavigationParameters parameters)
         {
           
@@ -264,5 +261,6 @@ namespace GPS_NotePad.ViewModels
         {
            
         }
+        #endregion
     }
 }

@@ -23,32 +23,29 @@ namespace GPS_NotePad.ViewModels
     class MapViewModel : BindableBase, INavigatedAware, IActiveAware
     {
 
-        private readonly ITo_RepositoryService toRepository;
-        private INavigationService navigationService;
-        private readonly IVerifyInputLogPas_Helper verifyInput;
-        Location currentLocation;
-        bool markerInfoVisible;
-        string markerImage;
-        string markerLabel;
-        string markerAddress;
+        private static string _email;
+        private readonly ITo_RepositoryService _toRepository;
+        private INavigationService _navigationService;
+        private readonly IVerifyInputLogPas_Helper _verifyInput;
+        private Location _currentLocation;
+        private bool _isMarkerInfoVisible;
+        private string _markerImage;
+        private string _markerLabel;
+        private string _markerAddress;
         private bool _isActive;
-        private string search;
-        private List<MyPin> listMarkers;
-        MyPin myPinItem;
-        private bool isVisible_SearchList;
-        private static string email;
-        Position mapClicPosition;
-        ObservableCollection<MyPin> listPin;
+        private string _search;
+        private List<MyPin> _listMarkers;
+        private MyPin _myPinItem;
+        private bool _isVisible_SearchList;
+        private Position _mapClicPosition;
+        private ObservableCollection<MyPin> _listPin;
 
-        public event EventHandler IsActiveChanged;
-
-
-        public MapViewModel(INavigationService _navigationService, ITo_RepositoryService _toRepository)
+        public MapViewModel(INavigationService navigationService, ITo_RepositoryService toRepository)
         {
 
-            verifyInput = new VerifyInput_Helper();
-            toRepository = _toRepository;
-            navigationService = _navigationService;
+            _verifyInput = new VerifyInput_Helper();
+            _toRepository = toRepository;
+            _navigationService = navigationService;
 
             MyPin.TabbedPageMyViewModel = this;
 
@@ -65,36 +62,38 @@ namespace GPS_NotePad.ViewModels
             LoadListMarkers();
         }
 
-       
+        public event EventHandler IsActiveChanged;
+
+        #region Public property
+        public static string Email { get => _email; set => _email = value; }
+
         public DelegateCommand UnfocusedCommand { get; }
         public DelegateCommand<MyPin> ClickToItem { get; set; }
         public DelegateCommand CloseMarkerInfo { get; }
         public DelegateCommand<MyPin> Click_SearchListItem { get; }
         public DelegateCommand SearchBtn_Pressed { get; }
 
-        public static string Email { get => email; set => email = value; }
-
-        public MyPin SelectedItem { get => myPinItem; set { SetProperty(ref myPinItem, value); } }
-        public ObservableCollection<MyPin> ListPin { get => listPin; set => SetProperty(ref listPin, value); }
+        public MyPin SelectedItem { get => _myPinItem; set { SetProperty(ref _myPinItem, value); } }
+        public ObservableCollection<MyPin> ListPin { get => _listPin; set => SetProperty(ref _listPin, value); }
         public Position MapClicPosition
         {
-            get { return mapClicPosition; }
-            set { SetProperty(ref mapClicPosition, value); MapClicked(); }
+            get { return _mapClicPosition; }
+            set { SetProperty(ref _mapClicPosition, value); MapClicked(); }
         }
         public int Ids { get; set; }
-        public List<MyPin> ListMarkers { get => listMarkers; set => SetProperty(ref listMarkers, value); }
-        public bool MarkerInfoVisible { get => markerInfoVisible; set { SetProperty(ref markerInfoVisible, value); } }
-        public string MarkerImage { get => markerImage; set { SetProperty(ref markerImage, value); } }
-        public string MarkerLabel { get => markerLabel; set { SetProperty(ref markerLabel, value); } }
-        public string MarkerAddress { get => markerAddress; set { SetProperty(ref markerAddress, value); } }
+        public List<MyPin> ListMarkers { get => _listMarkers; set => SetProperty(ref _listMarkers, value); }
+        public bool MarkerInfoVisible { get => _isMarkerInfoVisible; set { SetProperty(ref _isMarkerInfoVisible, value); } }
+        public string MarkerImage { get => _markerImage; set { SetProperty(ref _markerImage, value); } }
+        public string MarkerLabel { get => _markerLabel; set { SetProperty(ref _markerLabel, value); } }
+        public string MarkerAddress { get => _markerAddress; set { SetProperty(ref _markerAddress, value); } }
         public bool IsActive { get { return _isActive; } set { SetProperty(ref _isActive, value, IsActiveTab); } }
-        public bool IsVisible_SearchList { get { return isVisible_SearchList; } set { SetProperty(ref isVisible_SearchList, value, IsActiveTab); } }
-        public string Search { get => search; 
-                               set { SetProperty(ref search, value);
-                if (search.Length > 0)
+        public bool IsVisible_SearchList { get { return _isVisible_SearchList; } set { SetProperty(ref _isVisible_SearchList, value, IsActiveTab); } }
+        public string Search { get => _search; 
+                               set { SetProperty(ref _search, value);
+                if (_search.Length > 0)
                 {
                     string temp = value;
-                    if (!verifyInput.NameVerify(ref temp))//Verify
+                    if (!_verifyInput.NameVerify(ref temp))//Verify
                     {
                         Search = temp;
                         UserDialogs.Instance.Alert("A-Z, a-z symbols only", "Error", "Ok");
@@ -108,8 +107,9 @@ namespace GPS_NotePad.ViewModels
             } 
         }
 
+        #endregion
 
-
+        #region Private metod
         private void IsActiveTab()
         {
             // Console.WriteLine("Page1" + navigationService.GetNavigationUriPath());
@@ -128,7 +128,7 @@ namespace GPS_NotePad.ViewModels
         
         private async void LoadListMarkers()
         {
-            var arr = await toRepository.GetData<MarkerInfo>("MarkerInfo", Email);
+            var arr = await _toRepository.GetData<MarkerInfo>("MarkerInfo", Email);
              ToMyPins(arr);
         }
 
@@ -204,7 +204,7 @@ namespace GPS_NotePad.ViewModels
             }
 
             List<MyPin> buf = new List<MyPin>();
-            string temp = search.ToLower();
+            string temp = _search.ToLower();
 
             int m = Search.Length < 2 ? 0 : Search.Length - 1;
 
@@ -254,14 +254,14 @@ namespace GPS_NotePad.ViewModels
             }
             else
             {
-                string a = Search.Remove(search.Length - 1, 1);
+                string a = Search.Remove(_search.Length - 1, 1);
                 Search = a;
             }
 
         }
 
         #endregion
-
+#endregion
 
         public void MarkerClicked(Position pos, int id, string ImagePath, string Label, string Address)
         {
@@ -273,6 +273,7 @@ namespace GPS_NotePad.ViewModels
             SelectedItem = new MyPin { Address = Address, Position = pos, Label = Label, ImagePath = ImagePath, Ids = 0 };
         }
 
+        #region Interface InavigatedAword implementation
         public void OnNavigatedFrom(INavigationParameters parameters)
         {
            
@@ -290,11 +291,12 @@ namespace GPS_NotePad.ViewModels
                 var e = parameters.GetValue<string>("email");
                 Email = e; 
                 LoadListMarkers();
-                currentLocation = await Geolocation.GetLocationAsync();
-                SelectedItem = new MyPin { Address = " ", Position = new Position(currentLocation.Latitude, currentLocation.Longitude), 
+                _currentLocation = await Geolocation.GetLocationAsync();
+                SelectedItem = new MyPin { Address = " ", Position = new Position(_currentLocation.Latitude, _currentLocation.Longitude), 
                     Label = " ", ImagePath = " ", Ids = 0 };
                
             }
         }
+        #endregion
     }
 }

@@ -1,12 +1,16 @@
-﻿using Acr.UserDialogs;
+﻿
+
 using GPS_NotePad.Constants;
 using GPS_NotePad.Helpers;
+
+using Acr.UserDialogs;
+
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+
 using Xamarin.Auth;
 using Xamarin.Forms;
+
 
 namespace GPS_NotePad.Services
 {
@@ -16,16 +20,18 @@ namespace GPS_NotePad.Services
     }
     class AuthGoogleService : IAuthGoogleService
     {
-        Account account;
-        AccountStore store;
+        Account _account;
+        AccountStore _store;
+
         public AuthGoogleService()
         {
-            store = AccountStore.Create();
+            _store = AccountStore.Create();
         }
 
+
+        #region Public Method
         public void StartAuth()
         {
-
             string clientId = null;
             string redirectUri = null;
 
@@ -42,7 +48,7 @@ namespace GPS_NotePad.Services
                     break;
             }
 
-            account = store.FindAccountsForService(Constant_Auth.AppName).FirstOrDefault();
+            _account = _store.FindAccountsForService(Constant_Auth.AppName).FirstOrDefault();
 
             var authenticator = new OAuth2Authenticator(
                 clientId,
@@ -54,21 +60,23 @@ namespace GPS_NotePad.Services
                 null,
                 true);
 
-            authenticator.Completed += OnAuthCompleted;
+            authenticator.Completed += OnAuthCompletedAsync;
             authenticator.Error += OnAuthError;
 
             AuthenticationState_Helper.Authenticator = authenticator;
 
             var presenter = new Xamarin.Auth.Presenters.OAuthLoginPresenter();
             presenter.Login(authenticator);
-
         }
-        async void OnAuthCompleted(object sender, AuthenticatorCompletedEventArgs e)
+        #endregion
+
+        #region Private methods
+        async void OnAuthCompletedAsync(object sender, AuthenticatorCompletedEventArgs e)
         {
             var authenticator = sender as OAuth2Authenticator;
             if (authenticator != null)
             {
-                authenticator.Completed -= OnAuthCompleted;
+                authenticator.Completed -= OnAuthCompletedAsync;
                 authenticator.Error -= OnAuthError;
             }
 
@@ -102,12 +110,13 @@ namespace GPS_NotePad.Services
             var authenticator = sender as OAuth2Authenticator;
             if (authenticator != null)
             {
-                authenticator.Completed -= OnAuthCompleted;
+                authenticator.Completed -= OnAuthCompletedAsync;
                 authenticator.Error -= OnAuthError;
             }
 
             Console.WriteLine("Authentication error: " + e.Message);
         }
-    }
+        #endregion
 
+    }
 }

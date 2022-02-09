@@ -1,17 +1,13 @@
-﻿using Android.App;
-using Android.Content;
-using Android.Graphics;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
+﻿
+
 using GPS_NotePad.Services;
-using System;
-using System.Collections.Generic;
+
+using Android.Graphics;
+
 using System.IO;
-using System.Linq;
-using System.Text;
+
 using Xamarin.Essentials;
+
 
 namespace GPS_NotePad.Droid.Services
 {
@@ -21,8 +17,8 @@ namespace GPS_NotePad.Droid.Services
         {
             float height = 600;
             float width = 400;
-            float newHeight = 0;
-            float newWidth = 0;
+            //float newHeight = 0;
+           // float newWidth = 0;
 
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.InSampleSize = 10;

@@ -1,20 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿
 
-using Foundation;
 using GPS_NotePad.iOS.Services;
 using GPS_NotePad.Services;
+
 using Prism;
 using Prism.Ioc;
+
 using UIKit;
+using Foundation;
+
 
 namespace GPS_NotePad.iOS
 {
-    // The UIApplicationDelegate for the application. This class is responsible for launching the 
-    // User Interface of the application, as well as listening (and optionally responding) to 
-    // application events from iOS.
+
     [Register("AppDelegate")]
+
     public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
     {
         //

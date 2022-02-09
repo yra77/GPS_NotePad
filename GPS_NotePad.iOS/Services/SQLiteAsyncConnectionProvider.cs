@@ -1,8 +1,11 @@
 ﻿
 using GPS_NotePad.Services;
+
 using SQLite;
+
 using System;
 using System.IO;
+
 
 namespace GPS_NotePad.iOS.Services
 {

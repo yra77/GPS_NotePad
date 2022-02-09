@@ -1,11 +1,11 @@
 ﻿
 using GPS_NotePad.Models;
 using GPS_NotePad.Repository;
-using System;
+
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+
 
 namespace GPS_NotePad.Services
 {
@@ -17,40 +17,43 @@ namespace GPS_NotePad.Services
         Task<bool> Insert(MarkerInfo profile);
         Task<int> Delete<T>(int id) where T : class, new();
     }
+
     class To_RepositoryService : ITo_RepositoryService
     {
-        private readonly IRepository repository;
+        private readonly IRepository _repository;
 
-        public To_RepositoryService(IRepository _repository)
+        public To_RepositoryService(IRepository repository)
         {
-            repository = _repository;
-            repository.CreateTable<Loginin>();
-            repository.CreateTable<MarkerInfo>();
+            _repository = repository;
+            _repository.CreateTable<Loginin>();
+            _repository.CreateTable<MarkerInfo>();
         }
+
+#region Public method,  Intarface implementation
         public async Task<int> Delete<T>(int id) where T : class, new()
         {
-            return await repository.Delete<T>(id);
+            return await _repository.Delete<T>(id);
         }
 
         public async Task<List<T>> GetData<T>(string table, string email) where T : class, new()
         {
-            return await repository.GetData<T>(table, email);
+            return await _repository.GetData<T>(table, email);
         }
 
         public async Task<bool> Insert(Loginin profile)
         {
-            var res = await repository.GetData<Loginin>("Loginin", profile.email);
+            var res = await _repository.GetData<Loginin>("Loginin", profile.email);
             if (!res.Any())
             {
-                return await repository.Insert<Loginin>(profile);
+                return await _repository.Insert<Loginin>(profile);
             }
             else
                 return false;
         }
         public async Task<bool> Insert(MarkerInfo profile)
         {
-            return await repository.Insert<MarkerInfo>(profile);
+            return await _repository.Insert<MarkerInfo>(profile);
         }
-
+        #endregion
     }
 }

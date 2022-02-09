@@ -3,9 +3,7 @@
 using Acr.UserDialogs;
 using GPS_NotePad.Services;
 using SQLite;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace GPS_NotePad.Repository
@@ -18,31 +16,32 @@ namespace GPS_NotePad.Repository
         Task<int> Delete<T>(int id) where T : class, new();
         void CreateTable<T>() where T : class, new();
     }
+
     class Repository: IRepository
     {
-        private ISQLiteAsyncConnectionProvider ConnectionProvider;
-        private SQLiteAsyncConnection Connection;
+        private readonly ISQLiteAsyncConnectionProvider _connectionProvider;
+        private readonly SQLiteAsyncConnection _connection;
 
         public Repository(ISQLiteAsyncConnectionProvider connectionProvider)
         {
-            ConnectionProvider = connectionProvider;
-            Connection = ConnectionProvider.GetConnection();
+            _connectionProvider = connectionProvider;
+            _connection = _connectionProvider.GetConnection();
         }
 
 
         public async Task<int> Delete<T>(int id) where T : class, new()
         {
-            return await Connection.DeleteAsync<T>(id);
+            return await _connection.DeleteAsync<T>(id);
         }
 
         public async Task<List<T>> GetData<T>(string table, string email) where T : class, new()
         {
-            return await Connection.QueryAsync<T>("SELECT * FROM '" + table + "' WHERE email ='" + email + "'");
+            return await _connection.QueryAsync<T>("SELECT * FROM '" + table + "' WHERE email ='" + email + "'");
         }
 
         public async Task<bool> Insert<T>(T profile) where T : class, new()
         {
-           var u =  await Connection.InsertAsync(profile);
+           var u =  await _connection.InsertAsync(profile);
             if(u > 0)
             return true;
             return false;
@@ -50,12 +49,12 @@ namespace GPS_NotePad.Repository
 
         public async Task<int> Update<T>(T profile) where T : class, new()
         {
-            return await Connection.UpdateAsync(profile);
+            return await _connection.UpdateAsync(profile);
         }
 
         public void CreateTable<T>() where T : class, new()
         {
-                try { Connection.CreateTableAsync<T>(); }
+                try { _connection.CreateTableAsync<T>(); }
                 catch { UserDialogs.Instance.Alert("Restart the application", "Error", "Ok"); }
         }
     }

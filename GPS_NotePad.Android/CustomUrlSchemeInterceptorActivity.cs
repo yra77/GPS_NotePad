@@ -5,13 +5,9 @@ using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
+
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
 
 namespace GPS_NotePad.Droid
 {
@@ -28,7 +24,7 @@ namespace GPS_NotePad.Droid
             base.OnCreate(savedInstanceState);
 
             // Convert Android.Net.Url to Uri
-            var uri = new Uri(Intent.Data.ToString());
+            Uri uri = new Uri(Intent.Data.ToString());
 
             // Load redirectUrl page
             AuthenticationState_Helper.Authenticator.OnPageLoading(uri);

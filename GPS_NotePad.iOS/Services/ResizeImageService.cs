@@ -1,14 +1,10 @@
 ﻿
-using Foundation;
+
+using GPS_NotePad.Services;
+
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Drawing;
 using UIKit;
-using CoreGraphics;
-using Xamarin.Essentials;
-using GPS_NotePad.Services;
 
 namespace GPS_NotePad.iOS.Services
 {
@@ -19,11 +15,11 @@ namespace GPS_NotePad.iOS.Services
 
             UIImage originalImage = UIImage.FromFile(image);
 
-
             float height = 600;
             float width = 400;
             nfloat newHeight = 0;
             nfloat newWidth = 0;
+
 
             var originalHeight = originalImage.Size.Height;
             var originalWidth = originalImage.Size.Width;

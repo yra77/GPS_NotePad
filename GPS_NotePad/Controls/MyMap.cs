@@ -14,8 +14,7 @@ namespace GPS_NotePad.Controls
     class MyMap : Map
     {
 
-        Location currentLocation;
-
+        private Location _currentLocation;
 
         public MyMap()
         {
@@ -35,6 +34,7 @@ namespace GPS_NotePad.Controls
         public static BindableProperty MapClicPositionProperty = BindableProperty.Create("MapClicPosition", typeof(Position),
          typeof(MyMap), null, defaultBindingMode: BindingMode.TwoWay, propertyChanged: OnSelected);
 
+        #region Private metods
         private static void OnSelected(BindableObject bindable, object oldValue, object newValue)
         {
             var a = (MyMap)bindable; newValue = new Position(0,0);
@@ -49,7 +49,6 @@ namespace GPS_NotePad.Controls
             else
             b.Move(a.Position.Latitude, a.Position.Longitude, 50);
         }
-
 
         private void MyMap_Focused(object sender, EventArgs e)
         {
@@ -66,13 +65,12 @@ namespace GPS_NotePad.Controls
         {
             if (latitude == 0)
             {
-                currentLocation = await Geolocation.GetLocationAsync();
-                latitude = currentLocation.Latitude;
-                longitude = currentLocation.Longitude;
+                _currentLocation = await Geolocation.GetLocationAsync();
+                latitude = _currentLocation.Latitude;
+                longitude = _currentLocation.Longitude;
             }
             MoveToRegion(MapSpan.FromCenterAndRadius(new Position(latitude, longitude), Distance.FromMiles(distance)));
         }
-
-
+        #endregion
     }
 }

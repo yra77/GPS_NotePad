@@ -1,7 +1,5 @@
 ﻿
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace GPS_NotePad.Services
@@ -18,10 +16,13 @@ namespace GPS_NotePad.Services
     {
 
         private IResizeImageService _resizeImage;
+
         public MediaService(IResizeImageService resizeImage)
         {
             _resizeImage = resizeImage;
         }
+
+        #region Public method,  Interface ImediaService implamentation
         public async Task<string> OpenCamera()
         {
             var photo = await Xamarin.Essentials.MediaPicker.CapturePhotoAsync();
@@ -48,7 +49,8 @@ namespace GPS_NotePad.Services
 
         public void SaveToAppFolder(string fileName)
         {
-            throw new NotImplementedException();
+           
         }
+        #endregion
     }
 }
