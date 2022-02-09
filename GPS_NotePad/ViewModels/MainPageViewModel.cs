@@ -30,11 +30,14 @@ namespace GPS_NotePad.ViewModels
         private readonly IAuthGoogleService _authGoogleService;
         private bool _isVisibleEntry;
         private bool _isEnabled;
+        private bool _isVisiblePasConfirm;
+        private bool _isVisiblePassword;
         private string _name;
         private string _email;
         private string _password;
         private string _passwordConfirm;
-
+        private string _imagePasConfirm;
+        private string _imagePassword;
 
         public MainPageViewModel(ITo_RepositoryService repository, INavigationService navigationService, IAuthGoogleService authGoogleService)
         {
@@ -45,10 +48,18 @@ namespace GPS_NotePad.ViewModels
             Password = "";
             IsVisibleEntry = false;
             IsEnabled = false;
+
+            ImagePasConfirm = "eyeoff.png";
+            ImagePassword = "eyeoff.png";
+            IsVisiblePasConfirm = true;
+            IsVisiblePassword = true;
+
             LogininBtn = new DelegateCommand(LogininClick);
             RegistrBtn = new DelegateCommand(RegistrClick);
             GoogleRegBtn = new DelegateCommand(GoogleClick);
             OkBtn = new DelegateCommand(Ok_Click, IsOkEnable).ObservesProperty(() => IsEnabled);
+            Btn_IsVisiblePasConfirm = new DelegateCommand(Click_IsVisiblePasConfirm);
+            Btn_IsVisiblePassword = new DelegateCommand(Click_IsVisiblePassword);
 
             _navigationService = navigationService;
             _verifyInput = new VerifyInput_Helper();
@@ -57,13 +68,18 @@ namespace GPS_NotePad.ViewModels
             
         }
 
+
         #region Public propertys
         public DelegateCommand OkBtn { get; private set; }
         public DelegateCommand LogininBtn { get; }
         public DelegateCommand RegistrBtn { get; }
         public DelegateCommand GoogleRegBtn { get; }
+        public DelegateCommand Btn_IsVisiblePasConfirm { get; }
+        public DelegateCommand Btn_IsVisiblePassword { get; }
 
 
+        public string ImagePasConfirm { get => _imagePasConfirm; set => SetProperty(ref _imagePasConfirm, value); }
+        public string ImagePassword { get => _imagePassword; set => SetProperty(ref _imagePassword, value); }
         public string Name { get { IsOkEnable(); return _name; } 
                              set 
                                  { 
@@ -125,10 +141,40 @@ namespace GPS_NotePad.ViewModels
         }
         public bool IsEnabled { get { return _isEnabled; } set { SetProperty(ref _isEnabled, value); } }
         public bool IsVisibleEntry { get => _isVisibleEntry; set { SetProperty(ref _isVisibleEntry, value); } }
+        public bool IsVisiblePasConfirm { get => _isVisiblePasConfirm; set => SetProperty(ref _isVisiblePasConfirm, value); }
+        public bool IsVisiblePassword { get => _isVisiblePassword; set => SetProperty(ref _isVisiblePassword, value); }
 
         #endregion
 
         #region Private method
+
+        private void Click_IsVisiblePasConfirm()
+        {
+            if (IsVisiblePasConfirm)
+            {
+                IsVisiblePasConfirm = false;
+                ImagePasConfirm = "eye.png";
+            }
+            else
+            {
+                IsVisiblePasConfirm = true;
+                ImagePasConfirm = "eyeoff.png";
+            }
+        }
+        private void Click_IsVisiblePassword()
+        {
+            if (IsVisiblePassword)
+            {
+                IsVisiblePassword = false;
+                ImagePassword = "eye.png";
+            }
+            else
+            {
+                IsVisiblePassword = true;
+                ImagePassword = "eyeoff.png";
+            }
+        }
+
         private async void Ok_Click()
         {
             //check internet connection
