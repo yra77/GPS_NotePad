@@ -2,6 +2,7 @@
 using Acr.UserDialogs;
 using GPS_NotePad.Models;
 using GPS_NotePad.Helpers;
+using GPS_NotePad.Controls;
 using GPS_NotePad.Services;
 using Prism;
 using Prism.Commands;
@@ -25,6 +26,7 @@ namespace GPS_NotePad.ViewModels
         private INavigationService navigationService;
         private readonly IVerifyInputLogPas_Helper verifyInput;
         private List<MyPin> listMarkers;
+        private List<MyPin> listMarkersClone;
         MarkerInfo markerInfo;
         Location CurrentLocation;
         string markerImage;
@@ -35,22 +37,16 @@ namespace GPS_NotePad.ViewModels
         private bool _isActive;
         private bool modalVisible;
         private string search;
+        Position mapClicPosition;
+
 
         public PinListViewViewModel(INavigationService _navigationService, IMediaService _mediaService, ITo_RepositoryService _toRepository)
         {
-            SearchView = new SearchBar { CancelButtonColor = Color.Red, Placeholder = "Search", PlaceholderColor = Color.Gray };
-            SearchView.TextChanged += OnTextChanged;
-            SearchView.Unfocused += SearchUnfocus;
-            SearchView.SearchButtonPressed += SearchBtnPressed;
 
             toRepository = _toRepository;
             mediaService = _mediaService;
             navigationService = _navigationService;
-            Map2 = new MyMap();
-            Map2.My_Pins = new List<MyPin>(30);
 
-            Map2.IsShowingUser = true;
-            Map2.MapClicked += Maps_Click;
 
             CloseModal = new DelegateCommand(CloseModalClick);
             SaveAddBtn = new DelegateCommand(SaveAddClick);
@@ -58,28 +54,35 @@ namespace GPS_NotePad.ViewModels
             CameraBtn = new DelegateCommand(CameraClick);
             AddNewMarker = new DelegateCommand(AddNewMakerClick);
             ClickToItem = new DelegateCommand<MyPin>(ItemClick);
+            SearchBtn_Pressed = new DelegateCommand(SearchBtnPressed);
+            UnfocusedCommand = new DelegateCommand(SearchUnfocus);
 
             ModalVisible = false;
 
             markerInfo = new MarkerInfo();
             verifyInput = new VerifyInput_Helper();
 
-            Move();
         }
 
 
         public event EventHandler IsActiveChanged;
 
+        public DelegateCommand UnfocusedCommand { get; }
         public DelegateCommand<MyPin> ClickToItem { get; set; }
         public DelegateCommand AddNewMarker { get; }
         public DelegateCommand CloseModal { get; }
         public DelegateCommand SaveAddBtn { get; }
         public DelegateCommand GaleryBtn { get; }
         public DelegateCommand CameraBtn { get; }
+        public DelegateCommand SearchBtn_Pressed { get; }
+
 
         public List<MyPin> ListMarkers { get => listMarkers; set => SetProperty(ref listMarkers, value); }
-        public MyMap Map2 { get; private set; }
-        public SearchBar SearchView { get; private set; }
+        public Position MapClicPosition
+        {
+            get { return mapClicPosition; }
+            set { SetProperty(ref mapClicPosition, value); MapClicked(); }
+        }
         public string Search { get => search; 
                                set { 
                                      SetProperty(ref search, value);
@@ -92,7 +95,10 @@ namespace GPS_NotePad.ViewModels
                         UserDialogs.Instance.Alert("A-Z, a-z symbols only", "Error", "Ok");
                     }
                     else
+                    {
+                        OnTextChanged();
                         Search_List();
+                    }
                 }
             } 
         }
@@ -128,13 +134,16 @@ namespace GPS_NotePad.ViewModels
 
 
 
+        private void MapClicked()
+        {
+            position = new Position(MapClicPosition.Latitude, MapClicPosition.Longitude);
+        }
         private void AddNewMakerClick()
         {
             ModalVisible = true;
             Label = "";
             Address = "";
             ImagePath = "";
-            Move();
         }
 
         private async void CameraClick()
@@ -153,21 +162,22 @@ namespace GPS_NotePad.ViewModels
         {
             if (Label != null && Address != null && position.Latitude > 0)
             {
-                Map2.My_Pins.Add(new MyPin
+
+                listMarkers.Add(new MyPin
                 {
-                    Ids = Map2.My_Pins.Count,
-                    ImagePath = this.ImagePath == null?"paris.jpg":ImagePath,
+                    Ids = listMarkersClone.Count,
+                    ImagePath = this.ImagePath == null ? "paris.jpg" : ImagePath,
                     Label = this.Label,
                     Address = this.Address,
                     Position = new Position(position.Latitude, position.Longitude)
-                });
-
+                });              
+                
                 ToMarkerInfo();
 
                 if (await toRepository.Insert(markerInfo))
                 {
                     ModalVisible = false;
-                    RefreshPins();
+                    ListPin();
                 }
                 else
                     UserDialogs.Instance.Alert("Error saved data", "Error", "Ok");
@@ -212,34 +222,18 @@ namespace GPS_NotePad.ViewModels
             ListPin();
         }
 
-        private void Maps_Click(object sender, MapClickedEventArgs e)
-        {
-            position = new Position(e.Position.Latitude, e.Position.Longitude);
-            Move(e.Position.Latitude, e.Position.Longitude, 10);
-        }
-
-        private async void Move(double latitude = 0, double longitude = 0, double distance = 1400)
-        {
-            if (latitude == 0)
-            {
-                CurrentLocation = await Geolocation.GetLocationAsync();
-                latitude = CurrentLocation.Latitude; longitude = CurrentLocation.Longitude;
-            }
-            Map2.MoveToRegion(MapSpan.FromCenterAndRadius(new
-               Position(latitude, longitude),
-               Distance.FromMiles(distance)));
-        }  
-        
         void RefreshPins()
         {
-            ListMarkers = new List<MyPin>(Map2.My_Pins);
+            ListMarkers = new List<MyPin>(listMarkersClone);
         }
 
         async void ListPin()
         {
             var arr = await toRepository.GetData<MarkerInfo>("MarkerInfo", email);
-            Map2.My_Pins = ToMyPins(arr);
-            RefreshPins();
+
+            listMarkersClone = new List<MyPin>();
+            ListMarkers = ToMyPins(arr);
+            listMarkersClone = new List<MyPin>(ListMarkers);
         }
 
         List<MyPin> ToMyPins(List<MarkerInfo> arr)
@@ -250,19 +244,25 @@ namespace GPS_NotePad.ViewModels
                 temp.Add(new MyPin {Ids = item.Id, Address = item.Address, Label = item.Label, 
                                      Position = new Position(item.Latitude, item.Longitude), ImagePath = item.ImagePath });
             }
+
             return temp;
         }
 
 
-        #region Search
 
-        private void OnTextChanged(object sender, TextChangedEventArgs e)
+        #region Search
+        
+        private void SearchUnfocus()
         {
-            Search = SearchView.Text;
-            if (ListMarkers == null || SearchView.Text.Length == 0)
+            SearchList_Clear();
+        }
+
+        private void OnTextChanged()
+        {
+            if (ListMarkers == null || Search == null || Search.Length == 0)
                 SearchList_Clear();
         }
-        private async void SearchBtnPressed(object sender, EventArgs e)
+        private async void SearchBtnPressed()
         {
             if (ListMarkers != null && ListMarkers.Count > 0)
             {
@@ -271,18 +271,15 @@ namespace GPS_NotePad.ViewModels
                 ItemClick(ListMarkers[0]);
             }
         }
-        private void SearchUnfocus(object sender, FocusEventArgs e)
-        {
-            SearchList_Clear();
-        }
+       
         async void SearchList_Clear()
         {
             await Task.Delay(100);//не убирать
             ListMarkers.Clear();
             RefreshPins();
-            SearchView.Text = "";
             Search = "";
         }
+
         void Search_List()
         {
             if (Search == null || Search.Length < 1)
@@ -344,7 +341,6 @@ namespace GPS_NotePad.ViewModels
             {
                 string a = Search.Remove(search.Length - 1, 1);
                 Search = a;
-                SearchView.Text = a;
             }
         }
 

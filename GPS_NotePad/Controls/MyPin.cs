@@ -4,15 +4,14 @@ using GPS_NotePad.ViewModels;
 using Xamarin.Forms;
 using System;
 
-namespace GPS_NotePad.Helpers
+namespace GPS_NotePad.Controls
 {
     class MyPin : Pin
     {
-       
-        public int Ids { get; set; }
-        public string ImagePath { get=> (string)GetValue(ImagePathProperty); set=>SetValue(ImagePathProperty, value); }
 
         public static MapViewModel TabbedPageMyViewModel { get; internal set; }
+        public int Ids { get; set; }
+        public string ImagePath { get=> (string)GetValue(ImagePathProperty); set=>SetValue(ImagePathProperty, value); }
         public MyPin():base()
         {
             MarkerClicked += (object sender, PinClickedEventArgs e) =>

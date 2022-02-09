@@ -7,21 +7,22 @@
              xmlns:prism1="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
              ios:Page.UseSafeArea="True"
              x:Class="GPS_NotePad.Views.MapView"
-             xmlns:maps="clr-namespace:GPS_NotePad.Helpers"
+             xmlns:control="clr-namespace:GPS_NotePad.Controls"
              Title="Map">
     <!--xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"-->
     <ContentPage.Content>
         <Grid>
-            <StackLayout Padding="10">
-                <!--ItemList="{Binding ListPin}"-->
-                <maps:MyMap IsShowingUser="true" ItemsSource="{Binding ListPin}" SelectedItem="{Binding MyPinItem}">
-                    <maps:MyMap.ItemTemplate>
+            <StackLayout Padding="10" Margin="0,50,0,20">
+
+                <control:MyMap IsShowingUser="true" ItemsSource="{Binding ListPin}" 
+                            SelectedItem="{Binding SelectedItem}" MapClicPosition="{Binding MapClicPosition}">
+                    <control:MyMap.ItemTemplate>
                         <DataTemplate>
-                            <maps:MyPin Position="{Binding Position}" ImagePath="{Binding ImagePath}" 
-                                        Address="{Binding Address}" Label="{Binding Label}" />
+                            <control:MyPin Position="{Binding Position}" ImagePath="{Binding ImagePath}"
+                                        Address="{Binding Address}" Label="{Binding Label}"/>
                         </DataTemplate>
-                    </maps:MyMap.ItemTemplate>
-                </maps:MyMap>
+                    </control:MyMap.ItemTemplate>
+                </control:MyMap>
             </StackLayout>
             
             <!--Marker info modal-->
@@ -44,8 +45,14 @@
             
             <!--Search-->
             <StackLayout VerticalOptions="StartAndExpand" Margin="10,0,10,0">
-               
-                <ContentView Content="{Binding SearchView}" HorizontalOptions="CenterAndExpand"/>
+
+                <SearchBar HorizontalOptions="CenterAndExpand" CancelButtonColor="Red" Placeholder="Search" PlaceholderColor="Gray"
+                                    Text="{Binding Search}" SearchCommand="{Binding SearchBtn_Pressed}">
+                    <SearchBar.Behaviors>
+                        <prism1:EventToCommandBehavior EventName="Unfocused"
+                                          Command="{Binding UnfocusedCommand}"/>
+                    </SearchBar.Behaviors>
+                </SearchBar>
                 <StackLayout Orientation="Vertical" VerticalOptions="StartAndExpand">
                     <ListView x:Name="listView" IsVisible="{Binding IsVisible_SearchList}" HasUnevenRows="True" 
                               SeparatorColor="Transparent" ItemsSource="{Binding ListMarkers}">

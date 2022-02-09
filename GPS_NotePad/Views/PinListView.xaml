@@ -7,12 +7,19 @@
              xmlns:prism1="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
              ios:Page.UseSafeArea="True"
              x:Class="GPS_NotePad.Views.PinListView"
+             xmlns:controls="clr-namespace:GPS_NotePad.Controls"
              Title="Markers">
     
     <ContentPage.Content>
         <Grid>
             <StackLayout VerticalOptions="Start">
-                <ContentView Content="{Binding SearchView}" HorizontalOptions="CenterAndExpand"/>
+                <SearchBar HorizontalOptions="CenterAndExpand" CancelButtonColor="Red" Placeholder="Search" PlaceholderColor="Gray"
+                                    Text="{Binding Search}" SearchCommand="{Binding SearchBtn_Pressed}">
+                <SearchBar.Behaviors>
+                    <prism1:EventToCommandBehavior EventName="Unfocused"
+                                          Command="{Binding UnfocusedCommand}"/>
+                </SearchBar.Behaviors>
+                </SearchBar>
             </StackLayout>
             <StackLayout Margin="0,50,0,0">
                 
@@ -72,8 +79,12 @@
                                 <Button Command="{Binding GaleryBtn}" Text="Galery" FontSize="12" HorizontalOptions="Center"/>
                                 <Button Command="{Binding CameraBtn}" Text="Camera" FontSize="12" HorizontalOptions="End"/>
                             </StackLayout>
+                            
                             <Label Text="Specify a position on the map" TextColor="Green" HorizontalOptions="Center"/>
-                            <ContentView Content="{Binding Map2}" VerticalOptions="FillAndExpand" HeightRequest="200"/>
+                            
+                            <controls:MyMap IsShowingUser="true" VerticalOptions="FillAndExpand" HeightRequest="200"
+                                  SelectedItem="{Binding SelectedItem}" MapClicPosition="{Binding MapClicPosition}"/>
+                          
                         </StackLayout>
                     </StackLayout>
                 </Frame>
