@@ -18,32 +18,71 @@
                 <StackLayout BackgroundColor="AliceBlue">
                     
                 <StackLayout Margin="10,25,10,0">
-                        <Entry Keyboard="Text" Text="{Binding Name}" Placeholder="Name" PlaceholderColor="LightGray" 
-                               FontSize="16" IsVisible="{Binding IsVisibleEntry}">
-                            <Entry.Effects>
-                                <effects:EntryColorUnderline_Effect/>
-                            </Entry.Effects>
-                        </Entry>
-                    
-                        <Entry Keyboard="Email" Text="{Binding Email}" Placeholder="Email" PlaceholderColor="LightGray" FontSize="16">
-                            <Entry.Effects>
-                                <effects:EntryColorUnderline_Effect/>
-                            </Entry.Effects>
-                        </Entry>
+                        <Frame IsVisible="{Binding IsVisibleEntry}" Padding="10, 0, 10, 0" BorderColor="Gray" CornerRadius="30">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="50"/>
+                                </Grid.ColumnDefinitions>
+                                <Entry Keyboard="Text" Text="{Binding Name}" Placeholder="Name" PlaceholderColor="LightGray" 
+                               FontSize="16">
+                                    <Entry.Effects>
+                                        <effects:EntryColorUnderline_Effect/>
+                                    </Entry.Effects>
+                                </Entry>
+                                <Image Source="apple.png" Scale="0.5" Grid.Column="1" WidthRequest="50" Aspect="AspectFit"/>
+                            </Grid>
+                        </Frame>
 
-                        <Entry Keyboard="Text" IsPassword="true" Text="{Binding Password}" Placeholder="Password" 
+                        <Frame Padding="10, 0, 10, 0" BorderColor="Gray" CornerRadius="30">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="50"/>
+                                </Grid.ColumnDefinitions>
+                                <Entry Keyboard="Email" Text="{Binding Email}" Placeholder="Email" PlaceholderColor="LightGray" FontSize="16">
+                                    <Entry.Effects>
+                                        <effects:EntryColorUnderline_Effect/>
+                                    </Entry.Effects>
+                                </Entry>
+                                <Image Source="email.png" Scale="0.5" Grid.Column="1" WidthRequest="50" Aspect="AspectFit"/>
+                            </Grid>
+                        </Frame>
+
+                        <Frame Padding="10, 0, 10, 0" BorderColor="Gray" CornerRadius="30">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="50"/>
+                                </Grid.ColumnDefinitions>
+                                <Entry Keyboard="Text" IsPassword="true" Text="{Binding Password}" Placeholder="Password" 
                                PlaceholderColor="LightGray" FontSize="16">
-                            <Entry.Effects>
-                                <effects:EntryColorUnderline_Effect/>
-                            </Entry.Effects>
-                        </Entry>
-                    
-                        <Entry Text="{Binding PasswordConfirm}" Placeholder="Password confirm" PlaceholderColor="LightGray" 
-                               Keyboard="Text" IsPassword="true" FontSize="16" IsVisible="{Binding IsVisibleEntry}">
-                            <Entry.Effects>
-                                <effects:EntryColorUnderline_Effect/>
-                            </Entry.Effects>
-                        </Entry>
+                                    <Entry.Effects>
+                                        <effects:EntryColorUnderline_Effect/>
+                                    </Entry.Effects>
+                                </Entry>
+                                <ImageButton Source="password.png" BackgroundColor="Transparent" Scale="0.5" Grid.Column="1" 
+                                             WidthRequest="50" Aspect="AspectFit"/>
+                            </Grid>
+                        </Frame>
+
+                        <Frame IsVisible="{Binding IsVisibleEntry}" Padding="10, 0, 10, 0" BorderColor="Gray" CornerRadius="30">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="50"/>
+                                </Grid.ColumnDefinitions>
+                                <Entry Text="{Binding PasswordConfirm}" Placeholder="Password confirm" PlaceholderColor="LightGray" 
+                               Keyboard="Text" IsPassword="true" FontSize="16">
+                                    <Entry.Effects>
+                                        <effects:EntryColorUnderline_Effect/>
+                                    </Entry.Effects>
+                                </Entry>
+                                <ImageButton Source="password.png" BackgroundColor="Transparent" Scale="0.5" Grid.Column="1" 
+                                             WidthRequest="50" Aspect="AspectFit"/>
+                            </Grid>
+                        </Frame>
+                        
                     
                         <Button IsEnabled="False" Command="{Binding OkBtn}" Text="Ok" VerticalOptions="End" Margin="40,40,40,0"/>
                         <Button Command="{Binding GoogleRegBtn}" Text="Google" FontSize="14" TextColor="Gray"
