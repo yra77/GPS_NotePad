@@ -1,17 +1,24 @@
 ﻿
+
+
+using GPS_NotePad.Services;
+using GPS_NotePad.Droid.Services;
+using GPS_NotePad.Droid.Effects;
+
+using Acr.UserDialogs;
+
 using Prism;
 using Prism.Ioc;
+
+using Xamarin.Forms;
+using Xamarin.Forms.GoogleMaps.Android;
 
 using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
-using Acr.UserDialogs;
-using GPS_NotePad.Services;
-using GPS_NotePad.Droid.Services;
 using Android;
-using Xamarin.Forms;
-using GPS_NotePad.Droid.Effects;
+
 
 [assembly: ResolutionGroupName("GPS_NotePad")]
 [assembly: ExportEffect(typeof(EntryUnderlineColor_Effect), "PlainEntryEffect")]
@@ -32,17 +39,22 @@ namespace GPS_NotePad.Droid
          };
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            TabLayoutResource = Resource.Layout.Tabbar;
-            ToolbarResource = Resource.Layout.Toolbar;
+            //TabLayoutResource = Resource.Layout.Tabbar;
+            //ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(savedInstanceState);
             
             global::Xamarin.Auth.Presenters.XamarinAndroid.AuthenticationConfiguration.Init(this, savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
-            
+
+            var platformConfig = new PlatformConfig
+            {
+                BitmapDescriptorFactory = new Icon_GoogleMap_Service()
+            };
+            global::Xamarin.FormsGoogleMaps.Init(this, savedInstanceState, platformConfig);
+
             LoadApplication(new App(new AndroidPlatformInitializer()));
-            Xamarin.FormsMaps.Init(this, savedInstanceState);
             UserDialogs.Init(this);
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)

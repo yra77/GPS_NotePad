@@ -1,6 +1,6 @@
 ﻿
 using SQLite;
-using Xamarin.Forms.Maps;
+
 
 namespace GPS_NotePad.Models
 {

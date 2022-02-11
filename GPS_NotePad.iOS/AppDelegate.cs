@@ -33,7 +33,7 @@ namespace GPS_NotePad.iOS
         {
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App(new IOSPlatformInitializer()));
-            Xamarin.FormsMaps.Init(); 
+            Xamarin.FormsGoogleMaps.Init("AIzaSyDzt_zSeQ_rK0TR2ClYHraBm7Yrg83JhDU");
             return base.FinishedLaunching(app, options);
         }
     }
