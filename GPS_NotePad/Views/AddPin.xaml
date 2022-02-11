@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             ios:Page.UseSafeArea="True"
+             x:Class="GPS_NotePad.Views.AddPin"
+             xmlns:control="clr-namespace:GPS_NotePad.Controls"
+             Title="Add Pin">
+
+    <ContentPage.Content>
+        <StackLayout BackgroundColor="Transparent" VerticalOptions="Fill">
+            <StackLayout Padding="10" Orientation="Horizontal" VerticalOptions="Start" HorizontalOptions="Fill" BackgroundColor="Blue">
+                <ImageButton Command="{Binding BackBtn}"  BackgroundColor="Transparent" 
+                              Margin="10,0,0,0" Source="strelka.png" HorizontalOptions="StartAndExpand"/>
+                <Label Text="Add Pin" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" FontSize="20" TextColor="White"/>
+                <ImageButton Command="{Binding SaveAddBtn}" BackgroundColor="Transparent" Margin="0,0,10,0"
+                             Source="save.png" HorizontalOptions="EndAndExpand"/>
+            </StackLayout>
+
+            <StackLayout Margin="10,25,10,30" VerticalOptions="StartAndExpand">
+               
+                <StackLayout VerticalOptions="StartAndExpand" Orientation="Vertical">
+                    <Entry Text="{Binding Label}" FontSize="14" Placeholder="Input the City" PlaceholderColor="Gray"/>
+                    <Entry Text="{Binding Address}" FontSize="14" Placeholder="Input the Country" PlaceholderColor="Gray"/>
+                    <StackLayout Orientation="Horizontal" Margin="0,25,0,25" HorizontalOptions="CenterAndExpand">
+                        <Label Text="Input image from " TextColor="Red" FontAttributes="Bold" FontSize="14" 
+                                       VerticalOptions="CenterAndExpand"/>
+                        <Button Command="{Binding GaleryBtn}" Text="Galery" FontSize="12" HorizontalOptions="Center"/>
+                        <Button Command="{Binding CameraBtn}" Text="Camera" FontSize="12" HorizontalOptions="End"/>
+                    </StackLayout>
+
+                    <Label Text="Specify a position on the map" TextColor="Green" HorizontalOptions="Center"/>
+
+                    <Grid Margin="-10,0,-10,0">
+                        <control:MyGoogleMap MoveTo="{Binding MoveTo, Mode=TwoWay}" Grid.RowSpan="6"
+                                         MapClicPosition="{Binding MapClicPosition}"/>
+
+                        <ImageButton Command="{Binding MyLocationBtn}" Source="location.png" VerticalOptions="StartAndExpand" 
+                                 HorizontalOptions="EndAndExpand" Margin="0,15,20,0"/>
+                    </Grid>
+
+                </StackLayout>
+            </StackLayout>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

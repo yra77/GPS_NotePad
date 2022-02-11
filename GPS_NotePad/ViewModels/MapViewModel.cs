@@ -22,10 +22,10 @@ namespace GPS_NotePad.ViewModels
 {
     class MapViewModel : BindableBase, INavigatedAware, IActiveAware
     {
-        //	<meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyDcSVIjErUsWelFNRTTqKJimfh9lDj7JJ0" />
+
         private static string _email;
         private readonly ITo_RepositoryService _toRepository;
-        private INavigationService _navigationService;
+        private readonly INavigationService _navigationService;
         private readonly IVerifyInputLogPas_Helper _verifyInput;
         private Location _currentLocation;
         private bool _isMarkerInfoVisible;
@@ -67,6 +67,7 @@ namespace GPS_NotePad.ViewModels
 
 
         public event EventHandler IsActiveChanged;
+
 
         #region Public property
         public static string Email { get => _email; set => _email = value; }
@@ -171,8 +172,9 @@ namespace GPS_NotePad.ViewModels
                     ImagePath = item.ImagePath,
                     email = item.email
                 });
-    }
+            }
         }
+
         void Obser_ToList()
         {
             ListMarkers = new List<MarkerInfo>();
@@ -188,7 +190,6 @@ namespace GPS_NotePad.ViewModels
                 });
             }
         }
-
 
         #region  SearchBar
         
@@ -311,10 +312,7 @@ namespace GPS_NotePad.ViewModels
         }
 
         #region Interface InavigatedAword implementation
-        public void OnNavigatedFrom(INavigationParameters parameters)
-        {
-           
-        }
+        public void OnNavigatedFrom(INavigationParameters parameters) { }
 
         public async void OnNavigatedTo(INavigationParameters parameters)
         {
@@ -345,7 +343,6 @@ namespace GPS_NotePad.ViewModels
                     Label = " ",
                     ImagePath = " "
                 };
-
             }
         }
         #endregion

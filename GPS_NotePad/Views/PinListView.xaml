@@ -7,7 +7,6 @@
              xmlns:prism1="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
              ios:Page.UseSafeArea="True"
              x:Class="GPS_NotePad.Views.PinListView"
-             xmlns:control="clr-namespace:GPS_NotePad.Controls"
              Title="Markers">
     
     <ContentPage.Content>
@@ -32,7 +31,7 @@
                                     <Frame BackgroundColor="#272927" Padding="0" CornerRadius="15" BorderColor="White" Margin="9">
                                         <StackLayout Orientation="Horizontal" VerticalOptions="Center">
                                             <Frame Padding="-35" Margin="8" CornerRadius="35">
-                                                <Image Source="{Binding ImagePath}" WidthRequest="110" HeightRequest="115" Scale="0.5" />
+                                                <Image Source="{Binding ImagePath}" WidthRequest="100" HeightRequest="110" Scale="0.5" />
                                             </Frame>
                                             <StackLayout Orientation="Horizontal" VerticalOptions="Center">
                                                 <Label VerticalOptions="Center" HorizontalOptions="Start" 
@@ -58,45 +57,7 @@
             <Button x:Name="fixed" Command="{Binding AddNewMarker}" Text="+" BackgroundColor="#272927" WidthRequest="50" HeightRequest="50" 
                     BorderRadius="100" Margin="0,0,20,40"
                     BorderColor="#FF4081" BorderWidth="2" TextColor="#FF4081" VerticalOptions="End" HorizontalOptions="End"/>
-            
-            <!--Add marker Modal-->
-            <StackLayout IsVisible="{Binding IsModalVisible}" BackgroundColor="Transparent" VerticalOptions="Fill">
-                
-                <Frame Margin="10,50,10,50" CornerRadius="10" VerticalOptions="FillAndExpand" BackgroundColor="LightGray">
-                    <StackLayout>
-                        <StackLayout Orientation="Horizontal" HorizontalOptions="Fill">
-                            <Button Command="{Binding SaveAddBtn}" Text="Ok" HorizontalOptions="StartAndExpand" CornerRadius="10" 
-                                    HeightRequest="40" WidthRequest="60" VerticalOptions="EndAndExpand" BackgroundColor="Green"/>
-                            <Button Command="{Binding CloseModal}" Text="X" VerticalOptions="Start" HorizontalOptions="EndAndExpand" WidthRequest="40" 
-                                HeightRequest="40" BorderRadius="100" BorderColor="Red" BorderWidth="2" TextColor="Red"/>
-                        </StackLayout>
-                        <StackLayout VerticalOptions="EndAndExpand" Spacing="15" Orientation="Vertical">
-                            <Entry Text="{Binding Label}" FontSize="14" Placeholder="Input the City" PlaceholderColor="Gray"/>
-                            <Entry Text="{Binding Address}" FontSize="14" Placeholder="Input the Country" PlaceholderColor="Gray"/>
-                            <StackLayout Orientation="Horizontal">
-                                <Label Text="Input image from " TextColor="Red" FontAttributes="Bold" FontSize="14" 
-                                       VerticalOptions="CenterAndExpand"/>
-                                <Button Command="{Binding GaleryBtn}" Text="Galery" FontSize="12" HorizontalOptions="Center"/>
-                                <Button Command="{Binding CameraBtn}" Text="Camera" FontSize="12" HorizontalOptions="End"/>
-                            </StackLayout>
-                            
-                            <Label Text="Specify a position on the map" TextColor="Green" HorizontalOptions="Center"/>
 
-                            <Grid VerticalOptions="FillAndExpand" HeightRequest="200">
-                                <control:MyGoogleMap MoveTo="{Binding MoveTo, Mode=TwoWay}"
-                                         MapClicPosition="{Binding MapClicPosition}"/>
-
-                                <ImageButton Command="{Binding MyLocationBtn}" Source="location.png" VerticalOptions="StartAndExpand" 
-                                 HorizontalOptions="EndAndExpand" Margin="0,10,10,0"/>
-                            </Grid>
-
-                        </StackLayout>
-                    </StackLayout>
-                </Frame>
-                
-            </StackLayout>
-            <!--End marker add modal-->
-            
         </Grid>
     </ContentPage.Content>
 </ContentPage>

@@ -21,15 +21,14 @@ namespace GPS_NotePad.Controls
 
         public MyGoogleMap()
         {        
-           // InitialCameraUpdate = CameraUpdateFactory.NewPositionZoom(new Position(48.1390196, 11.5744422), 1d);//, Distance.FromKilometers(10.0).Kilometers);
             PinsSource = new ObservableCollection<Pin>();
             MyLocationEnabled = true;
            
             PinClicked += MyGoogleMap_PinClicked;
             MapClicked += MyGoogleMap_MapClicked;
             this.SizeChanged += MyGoogleMap_SizeChanged;
-           // Move();
         }
+        
 
         public static readonly BindableProperty PinsSourceProperty = BindableProperty.Create(propertyName: "PinsSource",
                                  returnType: typeof(ObservableCollection<Pin>),declaringType: typeof(MyGoogleMap),

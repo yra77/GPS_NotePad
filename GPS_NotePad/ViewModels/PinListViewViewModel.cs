@@ -20,44 +20,29 @@ namespace GPS_NotePad.ViewModels
     {
 
         private readonly ITo_RepositoryService _toRepository;
-        private readonly IMediaService _mediaService;
         private readonly INavigationService _navigationService;
         private readonly IVerifyInputLogPas_Helper _verifyInput;
         private List<MarkerInfo> _listMarkers;
         private List<MarkerInfo> _listMarkersClone;
-        private MarkerInfo _markerInfo;
-        private MarkerInfo _moveTo;
-        private Location _currentLocation;
         private string _markerImage;
         private string _markerLabel;
         private string _markerAddress;       
         private string _email;
         private string _search;
         private bool _isActive;
-        private bool _isModalVisible;
-        private Position _mapClicPosition;
         private Position _position;
 
-        public PinListViewViewModel(INavigationService navigationService, IMediaService mediaService, ITo_RepositoryService toRepository)
+        public PinListViewViewModel(INavigationService navigationService, ITo_RepositoryService toRepository)
         {
 
             _toRepository = toRepository;
-            _mediaService = mediaService;
             _navigationService = navigationService;
 
-            CloseModal = new DelegateCommand(CloseModalClick);
-            SaveAddBtn = new DelegateCommand(SaveAddClickAsync);
-            GaleryBtn = new DelegateCommand(GaleryClickAsync);
-            CameraBtn = new DelegateCommand(CameraClickAsync);
-            AddNewMarker = new DelegateCommand(AddNewMakerClick);
+            AddNewMarker = new DelegateCommand(AddNewMakerClickAsync);
             ClickToItem = new DelegateCommand<MarkerInfo>(ItemClickAsync);
             SearchBtn_Pressed = new DelegateCommand(SearchBtnPressed);
             UnfocusedCommand = new DelegateCommand(SearchUnfocus);
-            MyLocationBtn = new DelegateCommand(MyLocation_Click);
 
-            IsModalVisible = false;
-
-            _markerInfo = new MarkerInfo();
             _verifyInput = new VerifyInput_Helper();
         }
 
@@ -67,27 +52,14 @@ namespace GPS_NotePad.ViewModels
 
         #region Public property
 
-        public DelegateCommand MyLocationBtn { get; }
         public DelegateCommand UnfocusedCommand { get; }
         public DelegateCommand<MarkerInfo> ClickToItem { get; set; }
         public DelegateCommand AddNewMarker { get; }
-        public DelegateCommand CloseModal { get; }
-        public DelegateCommand SaveAddBtn { get; }
-        public DelegateCommand GaleryBtn { get; }
-        public DelegateCommand CameraBtn { get; }
         public DelegateCommand SearchBtn_Pressed { get; }
 
         public List<MarkerInfo> ListMarkers { get => _listMarkers; set => SetProperty(ref _listMarkers, value); }
-        public MarkerInfo MoveTo { get => _moveTo; set { SetProperty(ref _moveTo, value); } }
         public bool IsActive { get { return _isActive; } set { SetProperty(ref _isActive, value, IsActiveTabAsync); } }
-        public bool IsModalVisible { get => _isModalVisible; set { SetProperty(ref _isModalVisible, value); } }
         public string ImagePath { get => _markerImage; set { SetProperty(ref _markerImage, value); } }
-
-        public Position MapClicPosition
-        {
-            get { return _mapClicPosition; }
-            set { SetProperty(ref _mapClicPosition, value); MapClicked(); }
-        }
 
         public string Search { get => _search; 
                                set { 
@@ -143,74 +115,9 @@ namespace GPS_NotePad.ViewModels
 
         #region Private method
 
-        private void MyLocation_Click()
+        private async void AddNewMakerClickAsync()
         {
-            MoveTo = new MarkerInfo { Address = "ffffff", Latitude = 0, Longitude = 0, Label = " ", ImagePath = " " };
-        }
-
-        private void MapClicked()
-        {
-            _position = new Position(MapClicPosition.Latitude, MapClicPosition.Longitude);
-            MoveTo = new MarkerInfo { Address = "ffffff", Latitude = MapClicPosition.Latitude, 
-                                      Longitude = MapClicPosition.Longitude, Label = " ", ImagePath = " " };
-        }
-
-        private void AddNewMakerClick()
-        {
-            IsModalVisible = true;
-            Label = "";
-            Address = "";
-            ImagePath = "";
-        }
-
-        private async void CameraClickAsync()
-        {
-            string camera = await _mediaService.OpenCamera();
-            ImagePath = camera;
-        }
-
-        private async void GaleryClickAsync()
-        {
-            string galery = await _mediaService.OpenGalery();
-            ImagePath = galery;
-        }
-
-        private async void SaveAddClickAsync()
-        {
-            if (Label != null && Address != null && _position.Latitude > 0)
-            {
-
-                _listMarkers.Add(new MarkerInfo
-                {
-                    ImagePath = this.ImagePath == null ? "paris.jpg" : ImagePath,
-                    Label = this.Label,
-                    Address = this.Address,
-                    Latitude = _position.Latitude, 
-                    Longitude = _position.Longitude
-                });
-
-                ToMarkerInfo();
-
-                if (await _toRepository.Insert(_markerInfo))
-                {
-                    IsModalVisible = false;
-                    ListPinAsync();
-                }
-                else
-                    UserDialogs.Instance.Alert("Error saved data", "Error", "Ok");
-            }
-            else
-                UserDialogs.Instance.Alert("All fields must be filled", "Error", "Ok");
-        }
-
-        void ToMarkerInfo()
-        {
-            _markerInfo.email = _email;
-            _markerInfo.Address = Address;
-            _markerInfo.Label = Label;
-            _markerInfo.ImagePath = this.ImagePath == null ? "paris.jpg" : ImagePath;
-            _markerInfo.Latitude = _position.Latitude;
-            _markerInfo.Longitude = _position.Longitude;
+            await _navigationService.NavigateAsync("/AddPin");
         }
 
         private async void ItemClickAsync(MarkerInfo item)
@@ -219,22 +126,13 @@ namespace GPS_NotePad.ViewModels
             {
               { "item", item }
             };
-           await _navigationService.NavigateAsync("/TabbedPageMy?selectedTab=Tabbed_Page1", navParameters, animated: true);
+           await _navigationService.NavigateAsync("/TabbedPageMy?selectedTab=Tabbed_Page1", navParameters);
             // await navigationService.NavigateAsync("/TabbedPageMy?selectedTab=Tabbed_Page1");         
-        }
-
-        private void CloseModalClick()
-        {
-            IsModalVisible = false;
         }
 
         private async void IsActiveTabAsync()
         {
             _email = MapViewModel.Email;
-            Label = "";
-            Address = "";
-            ImagePath = "";
-            _position = new Position(0,0);
             await Task.Delay(150);
             ListPinAsync();
         }
@@ -247,9 +145,8 @@ namespace GPS_NotePad.ViewModels
         async void ListPinAsync()
         {
             var arr = await _toRepository.GetData<MarkerInfo>("MarkerInfo", _email);
-
-            _listMarkersClone = new List<MarkerInfo>();
-            ListMarkers = ToMyPins(arr);
+            
+            ListMarkers = new List<MarkerInfo>(ToMyPins(arr));
             _listMarkersClone = new List<MarkerInfo>(ListMarkers);
         }
 
@@ -369,7 +266,7 @@ namespace GPS_NotePad.ViewModels
         #region Interface InavigatedAword implementation
         public void OnNavigatedFrom(INavigationParameters parameters){ }
 
-        public void OnNavigatedTo(INavigationParameters parameters) { ListPinAsync(); }
+        public void OnNavigatedTo(INavigationParameters parameters) { }//ListPinAsync(); }
         #endregion
     }
 }

@@ -18502,16 +18502,22 @@ namespace GPS_NotePad.Droid
 			public const int roundedbgdark = 2131165362;
 			
 			// aapt resource value: 0x7F0700B3
-			public const int splash_xml = 2131165363;
+			public const int save = 2131165363;
 			
 			// aapt resource value: 0x7F0700B4
-			public const int test_custom_background = 2131165364;
+			public const int splash_xml = 2131165364;
 			
 			// aapt resource value: 0x7F0700B5
-			public const int tooltip_frame_dark = 2131165365;
+			public const int strelka = 2131165365;
 			
 			// aapt resource value: 0x7F0700B6
-			public const int tooltip_frame_light = 2131165366;
+			public const int test_custom_background = 2131165366;
+			
+			// aapt resource value: 0x7F0700B7
+			public const int tooltip_frame_dark = 2131165367;
+			
+			// aapt resource value: 0x7F0700B8
+			public const int tooltip_frame_light = 2131165368;
 			
 			static Drawable()
 			{

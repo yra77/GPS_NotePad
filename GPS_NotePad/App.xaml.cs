@@ -30,6 +30,7 @@ namespace GPS_NotePad
             containerRegistry.RegisterForNavigation<TabbedPageMy, TabbedPageMyViewModel>();
             containerRegistry.RegisterForNavigation<MapView, MapViewModel>();
             containerRegistry.RegisterForNavigation<PinListView, PinListViewViewModel>();
+            containerRegistry.RegisterForNavigation<AddPin, AddPinViewModel>();
 
             //Services
             containerRegistry.RegisterSingleton<ITo_RepositoryService, To_RepositoryService>();
