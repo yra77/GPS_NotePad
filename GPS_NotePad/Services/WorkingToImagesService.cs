@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GPS_NotePad.Services
 {
-    public interface IResizeImageService
+    public interface WorkingToImagesService
     {
         string ResizeImage(string image, string nameImg);
     }

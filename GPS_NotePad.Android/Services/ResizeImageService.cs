@@ -1,17 +1,14 @@
 ﻿
 
 using GPS_NotePad.Services;
-
 using Android.Graphics;
-
 using System.IO;
-
 using Xamarin.Essentials;
 
 
 namespace GPS_NotePad.Droid.Services
 {
-    class ResizeImageService : IResizeImageService
+    class ResizeImageService : WorkingToImagesService
     {
         public string ResizeImage(string imagePath, string nameImg)
         {

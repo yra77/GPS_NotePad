@@ -65,7 +65,7 @@ namespace GPS_NotePad.Helpers
             str = temp;
             return flag;
         }
-    public bool NameVerify(ref string str)
+        public bool NameVerify(ref string str)
         {
             bool flag = true;
             string temp = str;

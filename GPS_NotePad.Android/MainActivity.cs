@@ -86,7 +86,7 @@ namespace GPS_NotePad.Droid
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.Register<ISQLiteAsyncConnectionProvider, SQLiteAsyncConnectionProvider>();
-            containerRegistry.Register<IResizeImageService, ResizeImageService>();
+            containerRegistry.Register<WorkingToImagesService, ResizeImageService>();
         }
 
     }

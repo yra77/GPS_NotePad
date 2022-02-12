@@ -1,12 +1,14 @@
 ﻿
-
+using Acr.UserDialogs;
 using GPS_NotePad.Constants;
 using GPS_NotePad.Helpers;
-
-using Acr.UserDialogs;
+using GPS_NotePad.Models;
+using GPS_NotePad.Repository;
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 using Xamarin.Auth;
 using Xamarin.Forms;
@@ -14,23 +16,48 @@ using Xamarin.Forms;
 
 namespace GPS_NotePad.Services
 {
-    public interface IAuthGoogleService
-    {
-        void StartAuth();
-    }
-    class AuthGoogleService : IAuthGoogleService
-    {
-        Account _account;
-        AccountStore _store;
 
-        public AuthGoogleService()
+    public interface IAuthService
+    {
+        Task<List<T>> GetData<T>(string table, string email) where T : class, new();
+        Task<bool> Insert(Loginin profile);
+        void GoogleAuth();
+    }
+
+    class AuthService : IAuthService
+    {
+
+        private readonly IRepository _repository;
+        private Account _account;
+        private readonly AccountStore _store;
+
+        public AuthService(IRepository repository)
         {
+            _repository = repository;
+            _repository.CreateTable<Loginin>();
             _store = AccountStore.Create();
         }
 
 
-        #region Public Method
-        public void StartAuth()
+        #region Public method,  Intarface IAuthService implementation
+
+        public async Task<List<T>> GetData<T>(string table, string email) where T : class, new()
+        {
+            return await _repository.GetData<T>(table, email);
+        }
+
+        public async Task<bool> Insert(Loginin profile)
+        {
+            var res = await _repository.GetData<Loginin>("Loginin", profile.email);
+            if (!res.Any())
+            {
+                return await _repository.Insert<Loginin>(profile);
+            }
+            else
+                return false;
+        }
+
+        public void GoogleAuth()
         {
             string clientId = null;
             string redirectUri = null;
@@ -68,7 +95,9 @@ namespace GPS_NotePad.Services
             var presenter = new Xamarin.Auth.Presenters.OAuthLoginPresenter();
             presenter.Login(authenticator);
         }
+
         #endregion
+
 
         #region Private methods
         async void OnAuthCompletedAsync(object sender, AuthenticatorCompletedEventArgs e)
@@ -100,7 +129,7 @@ namespace GPS_NotePad.Services
 
                 //}
 
-               // await store.SaveAsync(account = e.Account, AppConstant.Constants.AppName);
+                // await store.SaveAsync(account = e.Account, AppConstant.Constants.AppName);
                 //await DisplayAlert("Email address", user.Email, "OK");
             }
         }
@@ -116,6 +145,7 @@ namespace GPS_NotePad.Services
 
             Console.WriteLine("Authentication error: " + e.Message);
         }
+
         #endregion
 
     }

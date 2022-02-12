@@ -1,9 +1,7 @@
 ﻿
-
 using Acr.UserDialogs;
 using GPS_NotePad.Models;
 using GPS_NotePad.Helpers;
-using GPS_NotePad.Controls;
 using GPS_NotePad.Services;
 using Prism;
 using Prism.Commands;
@@ -11,20 +9,21 @@ using Prism.Mvvm;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
-using Xamarin.Forms;
 using System.Collections.ObjectModel;
 using Xamarin.Forms.GoogleMaps;
+
 
 namespace GPS_NotePad.ViewModels
 {
     class MapViewModel : BindableBase, INavigatedAware, IActiveAware
     {
 
+        #region Private helpers
+
         private static string _email;
-        private readonly ITo_RepositoryService _toRepository;
+        private readonly IMarkerService _markerService;
         private readonly INavigationService _navigationService;
         private readonly IVerifyInputLogPas_Helper _verifyInput;
         private Location _currentLocation;
@@ -42,12 +41,13 @@ namespace GPS_NotePad.ViewModels
         private Position _mapClicPosition;
         private ObservableCollection<Pin> _listPin;
 
+        #endregion
 
-        public MapViewModel(INavigationService navigationService, ITo_RepositoryService toRepository)
+        public MapViewModel(INavigationService navigationService, IMarkerService markerService)
         {
 
             _verifyInput = new VerifyInput_Helper();
-            _toRepository = toRepository;
+            _markerService = markerService;
             _navigationService = navigationService;
 
             ListPin = new ObservableCollection<Pin>();
@@ -55,7 +55,7 @@ namespace GPS_NotePad.ViewModels
 
             MarkerInfoVisible = false;
             IsVisible_SearchList = false;
-            
+
             CloseMarkerInfo = new DelegateCommand(Close_MarkerInfo);
             Click_SearchListItem = new DelegateCommand<MarkerInfo>(SearchListItem_Click);
             SearchBtn_Pressed = new DelegateCommand(SearchBtnPressed);
@@ -70,6 +70,7 @@ namespace GPS_NotePad.ViewModels
 
 
         #region Public property
+
         public static string Email { get => _email; set => _email = value; }
 
         public DelegateCommand MyLocationBtn { get; }
@@ -78,18 +79,25 @@ namespace GPS_NotePad.ViewModels
         public DelegateCommand<MarkerInfo> Click_SearchListItem { get; }
         public DelegateCommand SearchBtn_Pressed { get; }
 
-        public MarkerInfo MarkerInfoClick { get => _markerInfoClick; 
-                                            set { SetProperty(ref _markerInfoClick, value);
+        public MarkerInfo MarkerInfoClick
+        {
+            get => _markerInfoClick;
+            set
+            {
+                SetProperty(ref _markerInfoClick, value);
                 MarkerClicked(new Position(MarkerInfoClick.Latitude, MarkerInfoClick.Longitude), MarkerInfoClick.ImagePath, MarkerInfoClick.Label, MarkerInfoClick.Address);
-            } 
+            }
         }
         public MarkerInfo MoveTo { get => _moveTo; set { SetProperty(ref _moveTo, value); } }
         public ObservableCollection<Pin> ListPin { get => _listPin; set => SetProperty(ref _listPin, value); }
         public Position MapClicPosition
         {
             get { return _mapClicPosition; }
-            set { SetProperty(ref _mapClicPosition, value); 
-                  MapClicked(); }
+            set
+            {
+                SetProperty(ref _mapClicPosition, value);
+                MapClicked();
+            }
         }
         public int Ids { get; set; }
         public List<MarkerInfo> ListMarkers { get => _listMarkers; set => SetProperty(ref _listMarkers, value); }
@@ -99,8 +107,12 @@ namespace GPS_NotePad.ViewModels
         public string MarkerAddress { get => _markerAddress; set { SetProperty(ref _markerAddress, value); } }
         public bool IsActive { get { return _isActive; } set { SetProperty(ref _isActive, value, IsActiveTabAsync); } }
         public bool IsVisible_SearchList { get { return _isVisible_SearchList; } set { SetProperty(ref _isVisible_SearchList, value, IsActiveTabAsync); } }
-        public string Search { get => _search; 
-                               set { SetProperty(ref _search, value);
+        public string Search
+        {
+            get => _search;
+            set
+            {
+                SetProperty(ref _search, value);
                 if (_search.Length > 0)
                 {
                     string temp = value;
@@ -116,7 +128,7 @@ namespace GPS_NotePad.ViewModels
                 }
                 else
                     OnTextChanged();
-            } 
+            }
         }
 
         #endregion
@@ -143,11 +155,11 @@ namespace GPS_NotePad.ViewModels
         {
             MarkerInfoVisible = false;
         }
-        
+
         private async void LoadListMarkersAsync()
         {
-            var arr = await _toRepository.GetData<MarkerInfo>("MarkerInfo", Email);
-             ToMyPins(arr);
+            var arr = await _markerService.GetData<MarkerInfo>("MarkerInfo", Email);
+            ToMyPins(arr);
         }
 
         void ToMyPins(List<MarkerInfo> arr)
@@ -163,11 +175,11 @@ namespace GPS_NotePad.ViewModels
                     Icon = BitmapDescriptorFactory.FromBundle("pin")
                 });
 
-                _listMarkersClone.Add(new MarkerInfo 
+                _listMarkersClone.Add(new MarkerInfo
                 {
                     Address = item.Address,
                     Label = item.Label,
-                    Latitude = item.Latitude, 
+                    Latitude = item.Latitude,
                     Longitude = item.Longitude,
                     ImagePath = item.ImagePath,
                     email = item.email
@@ -192,7 +204,7 @@ namespace GPS_NotePad.ViewModels
         }
 
         #region  SearchBar
-        
+
         private void SearchUnfocus()
         {
             SearchList_Clear();
@@ -202,7 +214,7 @@ namespace GPS_NotePad.ViewModels
         private void SearchBtnPressed()
         {
             if (ListMarkers != null && ListMarkers.Count > 0)
-                   SearchListItem_Click(ListMarkers[0]);
+                SearchListItem_Click(ListMarkers[0]);
             SearchList_Clear();
         }
         private void OnTextChanged()
@@ -294,7 +306,7 @@ namespace GPS_NotePad.ViewModels
         }
 
         #endregion
-#endregion
+        #endregion
 
         public void MarkerClicked(Position pos, string ImagePath, string Label, string Address)
         {
@@ -332,7 +344,7 @@ namespace GPS_NotePad.ViewModels
             if (parameters.ContainsKey("email"))
             {
                 var e = parameters.GetValue<string>("email");
-                Email = e; 
+                Email = e;
                 LoadListMarkersAsync();
                 _currentLocation = await Geolocation.GetLocationAsync();
                 MoveTo = new MarkerInfo

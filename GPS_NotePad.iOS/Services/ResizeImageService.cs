@@ -8,7 +8,7 @@ using UIKit;
 
 namespace GPS_NotePad.iOS.Services
 {
-    class ResizeImageService : IResizeImageService
+    class ResizeImageService : WorkingToImagesService
     {
         public string ResizeImage(string image, string nameImg)
         {

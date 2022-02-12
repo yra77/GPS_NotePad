@@ -12,14 +12,17 @@
              BackgroundImageSource="fon.jpg">
 
     <Grid>
-        <Label Text="GPS notepad" Margin="0,50,0,0" HorizontalOptions="Center" FontSize="25" FontAttributes="Italic" TextColor="Coral"/>
+       
         <Frame BackgroundColor="AliceBlue" HorizontalOptions="Fill" VerticalOptions="CenterAndExpand" 
-               Padding="0" Margin="15,30,15,0" HasShadow="True" BorderColor="LightGray">
+               Padding="0" Margin="15,0,15,0" HasShadow="True" BorderColor="LightGray">
             <StackLayout >
+                <Label Text="GPS notepad" HorizontalOptions="Center" FontSize="20" FontAttributes="Italic" TextColor="Coral"/>
+
                 <StackLayout BackgroundColor="AliceBlue">
 
                     <StackLayout Margin="10,25,10,0">
-                        <Frame IsVisible="{Binding IsVisibleEntry}" Padding="10, 0, 10, 0" BorderColor="Gray" CornerRadius="30">
+                        <Frame IsVisible="{Binding IsVisibleEntry}" HasShadow="False" Padding="10,0,10,0" 
+                               BorderColor="{Binding NameBorderColor}" CornerRadius="30">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
@@ -34,8 +37,11 @@
                                 <Image Source="apple.png" Scale="0.5" Grid.Column="1" WidthRequest="50" Aspect="AspectFit"/>
                             </Grid>
                         </Frame>
+                        <Label IsVisible="{Binding IsVisibleEntry}" Text="{Binding ErrorNameText}" FontSize="10" Margin="0,-5,0,0" 
+                               HorizontalOptions="Center" TextColor="{Binding NameBorderColor}"/>
 
-                        <Frame Padding="10, 0, 10, 0" BorderColor="Gray" CornerRadius="30">
+
+                        <Frame Padding="10,0,10,0" HasShadow="False" BorderColor="{Binding EmailBorderColor}" CornerRadius="30">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
@@ -49,8 +55,11 @@
                                 <Image Source="email.png" Scale="0.5" Grid.Column="1" WidthRequest="50" Aspect="AspectFit"/>
                             </Grid>
                         </Frame>
+                        <Label Text="{Binding ErrorEmailText}" FontSize="10" Margin="0,-5,0,0" HorizontalOptions="Center" 
+                               TextColor="{Binding EmailBorderColor}"/>
 
-                        <Frame Padding="10, 0, 10, 0" BorderColor="Gray" CornerRadius="30">
+
+                        <Frame Padding="10,0,10,0" HasShadow="False" BorderColor="{Binding PassBorderColor}" CornerRadius="30">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
@@ -66,8 +75,12 @@
                                              Command="{Binding Btn_IsVisiblePassword}" WidthRequest="50" Aspect="AspectFit"/>
                             </Grid>
                         </Frame>
+                        <Label Text="{Binding ErrorPassText}" FontSize="10" Margin="0,-5,0,0" HorizontalOptions="Center" 
+                               TextColor="{Binding PassBorderColor}"/>
 
-                        <Frame IsVisible="{Binding IsVisibleEntry}" Padding="10, 0, 10, 0" BorderColor="Gray" CornerRadius="30">
+
+                        <Frame IsVisible="{Binding IsVisibleEntry}" HasShadow="False" Padding="10,0,10,0" 
+                               BorderColor="{Binding PassConfBorderColor}" CornerRadius="30">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
@@ -83,18 +96,20 @@
                                              Command="{Binding Btn_IsVisiblePasConfirm}" WidthRequest="50" Aspect="AspectFit"/>
                             </Grid>
                         </Frame>
-
+                        <Label IsVisible="{Binding IsVisibleEntry}" Text="{Binding ErrorPassConfText}" FontSize="10" Margin="0,-5,0,0" 
+                               HorizontalOptions="Center" TextColor="{Binding PassConfBorderColor}"/>
+                        
 
                         <Button IsEnabled="False" Command="{Binding OkBtn}" BackgroundColor="{Binding Color_OkBtn}" Text="Ok" HeightRequest="40"
-                                VerticalOptions="End" HorizontalOptions="Center" WidthRequest="150" CornerRadius="25" Margin="0,30,0,0"/>
+                                VerticalOptions="End" HorizontalOptions="Center" WidthRequest="150" CornerRadius="25" Margin="0,20,0,0"/>
                         
                         <Button Command="{Binding GoogleRegBtn}" ImageSource="google.png" HorizontalOptions="CenterAndExpand" Scale="1.2"
-                                BackgroundColor="Transparent" CornerRadius="50" VerticalOptions="EndAndExpand" Margin="0,10,0,0"/>
+                                BackgroundColor="Transparent" CornerRadius="50" VerticalOptions="EndAndExpand" Margin="0,5,0,0"/>
                     </StackLayout>
 
                 </StackLayout>
 
-                <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand" Margin="0,30,0,0">
+                <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand" Margin="0,0,0,0">
                     <Button Command="{Binding LogininBtn}" Text="Loginin" HorizontalOptions="FillAndExpand"/>
                     <Button Command="{Binding RegistrBtn}" Text="Registr" HorizontalOptions="FillAndExpand"/>
                 </StackLayout>

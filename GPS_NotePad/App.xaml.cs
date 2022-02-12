@@ -33,9 +33,9 @@ namespace GPS_NotePad
             containerRegistry.RegisterForNavigation<AddPin, AddPinViewModel>();
 
             //Services
-            containerRegistry.RegisterSingleton<ITo_RepositoryService, To_RepositoryService>();
             containerRegistry.RegisterSingleton<IRepository, Repository.Repository>();
-            containerRegistry.RegisterSingleton<IAuthGoogleService, AuthGoogleService>();
+            containerRegistry.RegisterSingleton<IAuthService, AuthService>();
+            containerRegistry.RegisterSingleton<IMarkerService, MarkerService>();
             containerRegistry.RegisterSingleton<IMediaService, MediaService>();
         }
 

@@ -2,7 +2,6 @@
 using Acr.UserDialogs;
 using GPS_NotePad.Models;
 using GPS_NotePad.Helpers;
-using GPS_NotePad.Controls;
 using GPS_NotePad.Services;
 using Prism;
 using Prism.Commands;
@@ -11,18 +10,19 @@ using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Xamarin.Essentials;
-using Xamarin.Forms.GoogleMaps;
+
 
 namespace GPS_NotePad.ViewModels
 {
     class PinListViewViewModel : BindableBase, INavigatedAware, IActiveAware
     {
 
-        private readonly ITo_RepositoryService _toRepository;
+        #region Private helpers
+
+        private readonly IMarkerService _markerService;
         private readonly INavigationService _navigationService;
         private readonly IVerifyInputLogPas_Helper _verifyInput;
-        private List<MarkerInfo> _listMarkers;
+        private IList<MarkerInfo> _listMarkers;
         private List<MarkerInfo> _listMarkersClone;
         private string _markerImage;
         private string _markerLabel;
@@ -30,12 +30,13 @@ namespace GPS_NotePad.ViewModels
         private string _email;
         private string _search;
         private bool _isActive;
-        private Position _position;
 
-        public PinListViewViewModel(INavigationService navigationService, ITo_RepositoryService toRepository)
+        #endregion
+
+        public PinListViewViewModel(INavigationService navigationService, IMarkerService markerService)
         {
 
-            _toRepository = toRepository;
+            _markerService = markerService;
             _navigationService = navigationService;
 
             AddNewMarker = new DelegateCommand(AddNewMakerClickAsync);
@@ -57,7 +58,7 @@ namespace GPS_NotePad.ViewModels
         public DelegateCommand AddNewMarker { get; }
         public DelegateCommand SearchBtn_Pressed { get; }
 
-        public List<MarkerInfo> ListMarkers { get => _listMarkers; set => SetProperty(ref _listMarkers, value); }
+        public IList<MarkerInfo> ListMarkers { get => _listMarkers; set => SetProperty(ref _listMarkers, value); }
         public bool IsActive { get { return _isActive; } set { SetProperty(ref _isActive, value, IsActiveTabAsync); } }
         public string ImagePath { get => _markerImage; set { SetProperty(ref _markerImage, value); } }
 
@@ -144,7 +145,7 @@ namespace GPS_NotePad.ViewModels
 
         async void ListPinAsync()
         {
-            var arr = await _toRepository.GetData<MarkerInfo>("MarkerInfo", _email);
+            var arr = await _markerService.GetData<MarkerInfo>("MarkerInfo", _email);
             
             ListMarkers = new List<MarkerInfo>(ToMyPins(arr));
             _listMarkersClone = new List<MarkerInfo>(ListMarkers);

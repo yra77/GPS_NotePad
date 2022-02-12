@@ -2,15 +2,10 @@
 using Acr.UserDialogs;
 using GPS_NotePad.Models;
 using GPS_NotePad.Helpers;
-using GPS_NotePad.Controls;
 using GPS_NotePad.Services;
-using Prism;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms.GoogleMaps;
 
@@ -19,7 +14,9 @@ namespace GPS_NotePad.ViewModels
     class AddPinViewModel : BindableBase, INavigatedAware
     {
 
-        private readonly ITo_RepositoryService _toRepository;
+        #region Private helpers
+
+        private readonly IMarkerService _markerService;
         private readonly IMediaService _mediaService;
         private readonly INavigationService _navigationService;
         private readonly IVerifyInputLogPas_Helper _verifyInput;
@@ -33,11 +30,13 @@ namespace GPS_NotePad.ViewModels
         private string _markerAddress;
         private string _email;
 
-        public AddPinViewModel(INavigationService navigationService, IMediaService mediaService, ITo_RepositoryService toRepository)
+        #endregion
+
+        public AddPinViewModel(INavigationService navigationService, IMediaService mediaService, IMarkerService markerService)
         {
-            _toRepository = toRepository;
+            _markerService = markerService;
             _mediaService = mediaService;
-            _navigationService = navigationService; 
+            _navigationService = navigationService;
             _verifyInput = new VerifyInput_Helper();
 
             BackBtn = new DelegateCommand(BackClickAsync);
@@ -102,6 +101,7 @@ namespace GPS_NotePad.ViewModels
         #endregion
 
         #region Private metod
+
         private void MyLocation_Click()
         {
             MoveTo = new MarkerInfo { Address = "ffffff", Latitude = 0, Longitude = 0, Label = " ", ImagePath = " " };
@@ -147,7 +147,7 @@ namespace GPS_NotePad.ViewModels
                     Longitude = _position.Longitude
                 };
 
-                if (await _toRepository.Insert(_markerInfo))
+                if (await _markerService.Insert(_markerInfo))
                 {
                     BackClickAsync();
                 }
@@ -162,15 +162,13 @@ namespace GPS_NotePad.ViewModels
         {
             await _navigationService.NavigateAsync("/TabbedPageMy?selectedTab=Tabbed_Page2");
         }
+
         #endregion
 
 
         #region Interface InavigatedAword implementation
 
-        public void OnNavigatedFrom(INavigationParameters parameters)
-        {
-            
-        }
+        public void OnNavigatedFrom(INavigationParameters parameters) { }
 
         public async void OnNavigatedTo(INavigationParameters parameters)
         {
@@ -179,16 +177,16 @@ namespace GPS_NotePad.ViewModels
             Address = "";
             ImagePath = "";
             _position = new Position(0, 0);
-              
-                _currentLocation = await Geolocation.GetLocationAsync();
-                MoveTo = new MarkerInfo
-                {
-                    Address = " ",
-                    Latitude = _currentLocation.Latitude,
-                    Longitude = _currentLocation.Longitude,
-                    Label = " ",
-                    ImagePath = " "
-                };           
+
+            _currentLocation = await Geolocation.GetLocationAsync();
+            MoveTo = new MarkerInfo
+            {
+                Address = " ",
+                Latitude = _currentLocation.Latitude,
+                Longitude = _currentLocation.Longitude,
+                Label = " ",
+                ImagePath = " "
+            };
         }
 
         #endregion

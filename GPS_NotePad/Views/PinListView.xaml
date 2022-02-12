@@ -21,38 +21,33 @@
                 </SearchBar>
             </StackLayout>
             <StackLayout Margin="0,50,0,0">
-                
-                <ScrollView VerticalOptions="FillAndExpand" BackgroundColor="Transparent">
-                    <ListView x:Name="listView" HasUnevenRows="True" SeparatorColor="Transparent" ItemsSource="{Binding ListMarkers}">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
 
-                                <ViewCell x:Name="Item">
-                                    <Frame BackgroundColor="#272927" Padding="0" CornerRadius="15" BorderColor="White" Margin="9">
-                                        <StackLayout Orientation="Horizontal" VerticalOptions="Center">
-                                            <Frame Padding="-35" Margin="8" CornerRadius="35">
-                                                <Image Source="{Binding ImagePath}" WidthRequest="100" HeightRequest="110" Scale="0.5" />
-                                            </Frame>
-                                            <StackLayout Orientation="Horizontal" VerticalOptions="Center">
-                                                <Label VerticalOptions="Center" HorizontalOptions="Start" 
+                <ListView x:Name="listView" VerticalOptions="FillAndExpand" BackgroundColor="Transparent"
+                             CachingStrategy="RecycleElement" HasUnevenRows="True" SeparatorColor="White" ItemsSource="{Binding ListMarkers}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+
+                            <ViewCell x:Name="Item">
+                                    <Grid BackgroundColor="#272927" Margin="9,10,9,10">
+                                    <Frame Grid.Column="0" Padding="0" Margin="8" CornerRadius="50" ScaleX="0.5" ScaleY="0.7" HasShadow="False">
+                                            <Image Source="{Binding ImagePath}" Aspect="AspectFill" Scale="1" />
+                                        </Frame>
+                                    <Label Grid.Column="1" VerticalOptions="Center" Margin="20,0,0,0" 
                                                        TextColor="White" Text="{Binding Label}" FontSize="14" />
-                                                <Label VerticalOptions="Center" HorizontalOptions="CenterAndExpand" 
+                                    <Label Grid.Column="2" VerticalOptions="Center" 
                                                        TextColor="Wheat" Text="{Binding Address}" FontSize="14"/>
-                                            </StackLayout>
-                                        </StackLayout>
-                                    </Frame>
-                                </ViewCell>
+                                    </Grid>
+                            </ViewCell>
 
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                        <ListView.Behaviors>
-                            <prism1:EventToCommandBehavior EventName="ItemTapped" 
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    <ListView.Behaviors>
+                        <prism1:EventToCommandBehavior EventName="ItemTapped" 
                                       Command="{Binding ClickToItem}"
                                       EventArgsParameterPath="Item" />
-                        </ListView.Behaviors>
-                    </ListView>
-                </ScrollView>
-                
+                    </ListView.Behaviors>
+                </ListView>
+
             </StackLayout>
             <Button x:Name="fixed" Command="{Binding AddNewMarker}" Text="+" BackgroundColor="#272927" WidthRequest="50" HeightRequest="50" 
                     BorderRadius="100" Margin="0,0,20,40"
