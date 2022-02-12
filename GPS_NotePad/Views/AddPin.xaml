@@ -33,12 +33,15 @@
 
                     <Label Text="Specify a position on the map" TextColor="Green" HorizontalOptions="Center"/>
 
-                    <Grid Margin="-10,0,-10,0">
-                        <control:MyGoogleMap MoveTo="{Binding MoveTo, Mode=TwoWay}" Grid.RowSpan="6"
-                                         MapClicPosition="{Binding MapClicPosition}"/>
+                    <Grid Margin="-10,0,-10,0" VerticalOptions="Fill">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <control:MyGoogleMap MoveTo="{Binding MoveTo, Mode=TwoWay}"  
+                                  Grid.RowSpan="8"  VerticalOptions="FillAndExpand"  MapClicPosition="{Binding MapClicPosition}"/>
 
-                        <ImageButton Command="{Binding MyLocationBtn}" Source="location.png" VerticalOptions="StartAndExpand" 
-                                 HorizontalOptions="EndAndExpand" Margin="0,15,20,0"/>
+                        <Button Command="{Binding MyLocationBtn}" ImageSource="location.png" VerticalOptions="StartAndExpand" 
+                                BackgroundColor="Transparent" HorizontalOptions="EndAndExpand" Margin="0,15,0,0"/>
                     </Grid>
 
                 </StackLayout>

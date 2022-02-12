@@ -35,6 +35,7 @@ namespace GPS_NotePad
             //Services
             containerRegistry.RegisterSingleton<IRepository, Repository.Repository>();
             containerRegistry.RegisterSingleton<IAuthService, AuthService>();
+            containerRegistry.RegisterSingleton<IRegistrService, RegistrService>();
             containerRegistry.RegisterSingleton<IMarkerService, MarkerService>();
             containerRegistry.RegisterSingleton<IMediaService, MediaService>();
         }

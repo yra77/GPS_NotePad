@@ -160,7 +160,7 @@ namespace GPS_NotePad.ViewModels
 
         async void BackClickAsync()
         {
-            await _navigationService.NavigateAsync("/TabbedPageMy?selectedTab=Tabbed_Page2");
+            await _navigationService.NavigateAsync("/TabbedPageMy?selectedTab=PinListView");
         }
 
         #endregion

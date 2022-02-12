@@ -14,8 +14,8 @@ namespace GPS_NotePad.Droid.Services
         {
             float height = 600;
             float width = 400;
-            //float newHeight = 0;
-           // float newWidth = 0;
+            float newHeight = 0;
+            float newWidth = 0;
 
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.InSampleSize = 10;
@@ -26,20 +26,20 @@ namespace GPS_NotePad.Droid.Services
             var originalHeight = originalImage.Height;
             var originalWidth = originalImage.Width;
 
-            //if (originalHeight > originalWidth)
-            //{
-            //    newHeight = height;
-            //    float ratio = originalHeight / height;
-            //    newWidth = originalWidth / ratio;
-            //}
-            //else
-            //{
-            //    newWidth = width;
-            //    float ratio = originalWidth / width;
-            //    newHeight = originalHeight / ratio;
-            //}
+            if (originalHeight > originalWidth)
+            {
+                newHeight = height;
+                float ratio = originalHeight / height;
+                newWidth = originalWidth / ratio;
+            }
+            else
+            {
+                newWidth = width;
+                float ratio = originalWidth / width;
+                newHeight = originalHeight / ratio;
+            }
 
-            Bitmap resizedImg = Bitmap.CreateScaledBitmap(originalImage, (int)width, (int)height, false);//(int)newWidth, (int)newHeight, false);
+            Bitmap resizedImg = Bitmap.CreateScaledBitmap(originalImage, (int)newWidth, (int)newHeight, false);//(int)width, (int)height, false);//
 
             Bitmap resizedImage = Rotate(resizedImg);
 

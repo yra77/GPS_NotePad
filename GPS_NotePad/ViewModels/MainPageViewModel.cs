@@ -30,6 +30,7 @@ namespace GPS_NotePad.ViewModels
         private readonly INavigationService _navigationService;
         private readonly IVerifyInputLogPas_Helper _verifyInput;
         private readonly IAuthService _authService;
+        private readonly IRegistrService _registrService;
         private string _name;
         private string _email;
         private string _password;
@@ -55,7 +56,7 @@ namespace GPS_NotePad.ViewModels
 
         #endregion
 
-        public MainPageViewModel(IAuthService authService, INavigationService navigationService)
+        public MainPageViewModel(IAuthService authService, IRegistrService registrService, INavigationService navigationService)
         {
 
             Name = "";
@@ -82,6 +83,7 @@ namespace GPS_NotePad.ViewModels
             _navigationService = navigationService;
             _verifyInput = new VerifyInput_Helper();
             _authService = authService;
+            _registrService = registrService;
 
             EmailBorderColor = "Gray";
             PassBorderColor = "Gray";
@@ -114,29 +116,41 @@ namespace GPS_NotePad.ViewModels
         public string Name
         {
             get { IsOkEnable(); return _name; }
-            set { SetProperty(ref _name, value); 
-                if (_name.Length > 0) { CheckName(value); } }
+            set
+            {
+                SetProperty(ref _name, value);
+                if (_name.Length > 0) { CheckName(value); }
+            }
         }
 
         public string Email
         {
             get { IsOkEnable(); return _email; }
-            set { SetProperty(ref _email, value);
-                 if (_email.Length > 0) { CheckEmail(value); } }
+            set
+            {
+                SetProperty(ref _email, value);
+                if (_email.Length > 0) { CheckEmail(value); }
+            }
         }
 
         public string Password
         {
             get { IsOkEnable(); return _password; }
-            set { SetProperty(ref _password, value);
-                  if (_password.Length > 0) { CheckPassword(value); } }
+            set
+            {
+                SetProperty(ref _password, value);
+                if (_password.Length > 0) { CheckPassword(value); }
+            }
         }
 
         public string PasswordConfirm
         {
             get { IsOkEnable(); return _passwordConfirm; }
-            set { SetProperty(ref _passwordConfirm, value);
-                  if(_passwordConfirm.Length > 0) { CheckPassConfirm(value); } }
+            set
+            {
+                SetProperty(ref _passwordConfirm, value);
+                if (_passwordConfirm.Length > 0) { CheckPassConfirm(value); }
+            }
         }
 
         public bool IsEnabled { get { return _isEnabled; } set { SetProperty(ref _isEnabled, value); } }
@@ -251,84 +265,52 @@ namespace GPS_NotePad.ViewModels
 
         private async void Ok_Click()
         {
-            
-            var current = Connectivity.NetworkAccess;
-            if (current != NetworkAccess.Internet)//check internet connection
+
+            ICheckingDeviceProperty_Helper checkingDeviceProperty = new CheckingDeviceProperty_Helper();
+            await checkingDeviceProperty.CheckingDeviceProperty();
+
+
+            if (!IsVisibleEntry)
             {
-                UserDialogs.Instance.Alert("No connection to the internet", "Error", "Ok");
-                await Task.Delay(10000);
-                System.Diagnostics.Process.GetCurrentProcess().Kill();
-            }
-
-            if (_verifyInput.IsValidEmail(Email))
-                if (!IsVisibleEntry)
+                if (await _authService.Auth(Password, Email))
                 {
-                    if (_verifyInput.PasswordVerify(Password))
-                    {
-                        var res = await _authService.GetData<Loginin>("Loginin", _email);
-
-                        if (res.Any())
-                        {
-                            if (res.First().password == Password)
-                            {
-                                NavigationParameters navParameters = new NavigationParameters
+                    NavigationParameters navParameters = new NavigationParameters
                                 {
                                     { "email", Email }
                                 };
-                                await _navigationService.NavigateAsync("/TabbedPageMy", navParameters, animated: true);
+                    await _navigationService.NavigateAsync("/TabbedPageMy", navParameters, animated: true);
 
-                                Password = "";
-                            }
-                            else
-                            {
-                                UserDialogs.Instance.Alert("Password do not exist", "Error", "Ok");
-                            }
-                        }
-                        else
-                        {
-                            UserDialogs.Instance.Alert("Email do not exist", "Error", "Ok");
-                            Email = "";
-                        }
-                    }
-                    else
-                    {
-                        UserDialogs.Instance.Alert("Password must have from 8 to 16 symbols, A - Z, a - z, 1 - 9.Password must contain at least one capital letter, one lowercase letter and one number", "Error", "Ok");
-                    }
                     Password = "";
                 }
                 else
                 {
-                    if (Password.Equals(PasswordConfirm) && _verifyInput.PasswordVerify(Password) && _verifyInput.PasswordVerify(PasswordConfirm))
-                    {
-                            Loginin log = new Loginin();
-                            log.name = Name;
-                            log.email = Email;
-                            log.password = Password;
-                            log.DateCreated = DateTime.Now;
-
-                            if (await _authService.Insert(log))
-                            {
-                                LogininClick();
-                                EmailBorderColor = "Green";
-                                UserDialogs.Instance.Alert("OK! Are you registered.", "", "Ok");
-                            }
-                            else
-                            {
-                                UserDialogs.Instance.Alert("Email already exist", "Error", "Ok");
-                                Email = "";
-                            }
-                    }
-                    else
-                    {
-                        UserDialogs.Instance.Alert("Passwords must be equals and have from 8 to 16 symbols, must contain at least one capital letter, one lowercase letter and one digit", "Error", "Ok");
-                    }
                     Password = "";
-                    PasswordConfirm = "";
+                    Email = "";
+                    Input_ErrorColor();
                 }
+            }
             else
             {
-                UserDialogs.Instance.Alert("Email is not valid", "Error", "Ok");
-                Email = "";
+
+                Loginin log = new Loginin();
+                log.name = Name;
+                log.email = Email;
+                log.password = Password;
+                log.DateCreated = DateTime.Now;
+
+                if (await _registrService.Registr(log, PasswordConfirm))
+                {
+                    LogininClick();
+                    EmailBorderColor = "Green";
+                }
+                else
+                {
+                    UserDialogs.Instance.Alert("Email already exist", "Error", "Ok");
+                    Email = "";
+                }
+
+                Password = "";
+                PasswordConfirm = "";
             }
         }
 
@@ -370,10 +352,10 @@ namespace GPS_NotePad.ViewModels
         private bool IsOkEnable()//Enable disable "Ok" Button
         {
             if (!IsVisibleEntry)
-                IsEnabled = (PassBorderColor == "Green" && EmailBorderColor == "Green")? IsEnabled = true : IsEnabled = false;
+                IsEnabled = (PassBorderColor == "Green" && EmailBorderColor == "Green") ? IsEnabled = true : IsEnabled = false;
             else
-                IsEnabled = (PassBorderColor == "Green" && NameBorderColor == "Green" && EmailBorderColor == "Green" 
-                             && PassConfBorderColor == "Green")? IsEnabled = true : IsEnabled = false;
+                IsEnabled = (PassBorderColor == "Green" && NameBorderColor == "Green" && EmailBorderColor == "Green"
+                             && PassConfBorderColor == "Green") ? IsEnabled = true : IsEnabled = false;
 
             if (IsEnabled)
                 Color_OkBtn = "Green";

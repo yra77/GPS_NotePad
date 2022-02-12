@@ -19,8 +19,7 @@ namespace GPS_NotePad.Services
 
     public interface IAuthService
     {
-        Task<List<T>> GetData<T>(string table, string email) where T : class, new();
-        Task<bool> Insert(Loginin profile);
+        Task<bool> Auth(string password, string email);
         void GoogleAuth();
     }
 
@@ -30,76 +29,19 @@ namespace GPS_NotePad.Services
         private readonly IRepository _repository;
         private Account _account;
         private readonly AccountStore _store;
+        private readonly IVerifyInputLogPas_Helper _verifyInput;
 
         public AuthService(IRepository repository)
         {
+            _verifyInput = new VerifyInput_Helper();
             _repository = repository;
             _repository.CreateTable<Loginin>();
             _store = AccountStore.Create();
         }
 
 
-        #region Public method,  Intarface IAuthService implementation
-
-        public async Task<List<T>> GetData<T>(string table, string email) where T : class, new()
-        {
-            return await _repository.GetData<T>(table, email);
-        }
-
-        public async Task<bool> Insert(Loginin profile)
-        {
-            var res = await _repository.GetData<Loginin>("Loginin", profile.email);
-            if (!res.Any())
-            {
-                return await _repository.Insert<Loginin>(profile);
-            }
-            else
-                return false;
-        }
-
-        public void GoogleAuth()
-        {
-            string clientId = null;
-            string redirectUri = null;
-
-            switch (Device.RuntimePlatform)
-            {
-                case Device.iOS:
-                    clientId = Constant_Auth.iOSClientId;
-                    redirectUri = Constant_Auth.iOSRedirectUrl;
-                    break;
-
-                case Device.Android:
-                    clientId = Constant_Auth.AndroidClientId;
-                    redirectUri = Constant_Auth.AndroidRedirectUrl;
-                    break;
-            }
-
-            _account = _store.FindAccountsForService(Constant_Auth.AppName).FirstOrDefault();
-
-            var authenticator = new OAuth2Authenticator(
-                clientId,
-                null,
-                Constant_Auth.Scope,
-                new Uri(Constant_Auth.AuthorizeUrl),
-                new Uri(redirectUri),
-                new Uri(Constant_Auth.AccessTokenUrl),
-                null,
-                true);
-
-            authenticator.Completed += OnAuthCompletedAsync;
-            authenticator.Error += OnAuthError;
-
-            AuthenticationState_Helper.Authenticator = authenticator;
-
-            var presenter = new Xamarin.Auth.Presenters.OAuthLoginPresenter();
-            presenter.Login(authenticator);
-        }
-
-        #endregion
-
-
         #region Private methods
+
         async void OnAuthCompletedAsync(object sender, AuthenticatorCompletedEventArgs e)
         {
             var authenticator = sender as OAuth2Authenticator;
@@ -144,6 +86,88 @@ namespace GPS_NotePad.Services
             }
 
             Console.WriteLine("Authentication error: " + e.Message);
+        }
+
+        #endregion
+
+
+        #region Public method,  Intarface IAuthService implementation
+
+        public async Task<bool> Auth(string password, string email)
+        {
+            if (_verifyInput.IsValidEmail(email))
+            {
+                if (_verifyInput.PasswordVerify(password))
+                {
+                    var res = await _repository.GetData<Loginin>("Loginin", email);
+
+                    if (res.Any())
+                    {
+                        if (res.First().password == password)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            UserDialogs.Instance.Alert("Password do not exist", "Error", "Ok");
+                        }
+                    }
+                    else
+                    {
+                        UserDialogs.Instance.Alert("Email do not exist", "Error", "Ok");
+                    }
+                }
+                else
+                {
+                    UserDialogs.Instance.Alert("Password must have from 8 to 16 symbols, A - Z, a - z, 1 - 9." +
+                        "Password must contain at least one capital letter, one lowercase letter and one number", "Error", "Ok");
+                }
+            }
+            else
+            {
+                UserDialogs.Instance.Alert("Email is not valid", "Error", "Ok");
+            }
+
+            return false;
+        }
+
+        public void GoogleAuth()
+        {
+            string clientId = null;
+            string redirectUri = null;
+
+            switch (Device.RuntimePlatform)
+            {
+                case Device.iOS:
+                    clientId = Constant_Auth.iOSClientId;
+                    redirectUri = Constant_Auth.iOSRedirectUrl;
+                    break;
+
+                case Device.Android:
+                    clientId = Constant_Auth.AndroidClientId;
+                    redirectUri = Constant_Auth.AndroidRedirectUrl;
+                    break;
+            }
+
+            _account = _store.FindAccountsForService(Constant_Auth.AppName).FirstOrDefault();
+
+            var authenticator = new OAuth2Authenticator(
+                clientId,
+                null,
+                Constant_Auth.Scope,
+                new Uri(Constant_Auth.AuthorizeUrl),
+                new Uri(redirectUri),
+                new Uri(Constant_Auth.AccessTokenUrl),
+                null,
+                true);
+
+            authenticator.Completed += OnAuthCompletedAsync;
+            authenticator.Error += OnAuthError;
+
+            AuthenticationState_Helper.Authenticator = authenticator;
+
+            var presenter = new Xamarin.Auth.Presenters.OAuthLoginPresenter();
+            presenter.Login(authenticator);
         }
 
         #endregion
