@@ -6,7 +6,6 @@ using GPS_NotePad.Models;
 using GPS_NotePad.Repository;
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -109,23 +108,22 @@ namespace GPS_NotePad.Services
                         }
                         else
                         {
-                            UserDialogs.Instance.Alert("Password do not exist", "Error", "Ok");
+                            UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Password1, "Error", "Ok");
                         }
                     }
                     else
                     {
-                        UserDialogs.Instance.Alert("Email do not exist", "Error", "Ok");
+                        UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Email2, "Error", "Ok");
                     }
                 }
                 else
                 {
-                    UserDialogs.Instance.Alert("Password must have from 8 to 16 symbols, A - Z, a - z, 1 - 9." +
-                        "Password must contain at least one capital letter, one lowercase letter and one number", "Error", "Ok");
+                    UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Password2, "Error", "Ok");
                 }
             }
             else
             {
-                UserDialogs.Instance.Alert("Email is not valid", "Error", "Ok");
+                UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Email3, "Error", "Ok");
             }
 
             return false;

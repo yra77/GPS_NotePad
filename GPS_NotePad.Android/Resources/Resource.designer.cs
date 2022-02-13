@@ -16886,34 +16886,37 @@ namespace GPS_NotePad.Droid
 			public const int splash_background = 2131034322;
 			
 			// aapt resource value: 0x7F0500D3
-			public const int switch_thumb_disabled_material_dark = 2131034323;
+			public const int splash_background2 = 2131034323;
 			
 			// aapt resource value: 0x7F0500D4
-			public const int switch_thumb_disabled_material_light = 2131034324;
+			public const int switch_thumb_disabled_material_dark = 2131034324;
 			
 			// aapt resource value: 0x7F0500D5
-			public const int switch_thumb_material_dark = 2131034325;
+			public const int switch_thumb_disabled_material_light = 2131034325;
 			
 			// aapt resource value: 0x7F0500D6
-			public const int switch_thumb_material_light = 2131034326;
+			public const int switch_thumb_material_dark = 2131034326;
 			
 			// aapt resource value: 0x7F0500D7
-			public const int switch_thumb_normal_material_dark = 2131034327;
+			public const int switch_thumb_material_light = 2131034327;
 			
 			// aapt resource value: 0x7F0500D8
-			public const int switch_thumb_normal_material_light = 2131034328;
+			public const int switch_thumb_normal_material_dark = 2131034328;
 			
 			// aapt resource value: 0x7F0500D9
-			public const int test_mtrl_calendar_day = 2131034329;
+			public const int switch_thumb_normal_material_light = 2131034329;
 			
 			// aapt resource value: 0x7F0500DA
-			public const int test_mtrl_calendar_day_selected = 2131034330;
+			public const int test_mtrl_calendar_day = 2131034330;
 			
 			// aapt resource value: 0x7F0500DB
-			public const int tooltip_background_dark = 2131034331;
+			public const int test_mtrl_calendar_day_selected = 2131034331;
 			
 			// aapt resource value: 0x7F0500DC
-			public const int tooltip_background_light = 2131034332;
+			public const int tooltip_background_dark = 2131034332;
+			
+			// aapt resource value: 0x7F0500DD
+			public const int tooltip_background_light = 2131034333;
 			
 			static Color()
 			{
@@ -18358,43 +18361,43 @@ namespace GPS_NotePad.Droid
 			public const int eyeoff = 2131165314;
 			
 			// aapt resource value: 0x7F070083
-			public const int fon = 2131165315;
+			public const int google = 2131165315;
 			
 			// aapt resource value: 0x7F070084
-			public const int google = 2131165316;
+			public const int googleg_disabled_color_18 = 2131165316;
 			
 			// aapt resource value: 0x7F070085
-			public const int googleg_disabled_color_18 = 2131165317;
+			public const int googleg_standard_color_18 = 2131165317;
 			
 			// aapt resource value: 0x7F070086
-			public const int googleg_standard_color_18 = 2131165318;
+			public const int ic_arrow_back = 2131165318;
 			
 			// aapt resource value: 0x7F070087
-			public const int ic_arrow_back = 2131165319;
+			public const int ic_errorstatus = 2131165319;
 			
 			// aapt resource value: 0x7F070088
-			public const int ic_errorstatus = 2131165320;
+			public const int ic_mtrl_checked_circle = 2131165320;
 			
 			// aapt resource value: 0x7F070089
-			public const int ic_mtrl_checked_circle = 2131165321;
+			public const int ic_mtrl_chip_checked_black = 2131165321;
 			
 			// aapt resource value: 0x7F07008A
-			public const int ic_mtrl_chip_checked_black = 2131165322;
+			public const int ic_mtrl_chip_checked_circle = 2131165322;
 			
 			// aapt resource value: 0x7F07008B
-			public const int ic_mtrl_chip_checked_circle = 2131165323;
+			public const int ic_mtrl_chip_close_circle = 2131165323;
 			
 			// aapt resource value: 0x7F07008C
-			public const int ic_mtrl_chip_close_circle = 2131165324;
+			public const int ic_successstatus = 2131165324;
 			
 			// aapt resource value: 0x7F07008D
-			public const int ic_successstatus = 2131165325;
+			public const int location = 2131165325;
 			
 			// aapt resource value: 0x7F07008E
-			public const int location = 2131165326;
+			public const int logotip = 2131165326;
 			
 			// aapt resource value: 0x7F07008F
-			public const int logotip = 2131165327;
+			public const int mapIcon = 2131165327;
 			
 			// aapt resource value: 0x7F070090
 			public const int material_ic_calendar_black_24dp = 2131165328;
@@ -18496,28 +18499,31 @@ namespace GPS_NotePad.Droid
 			public const int pin = 2131165360;
 			
 			// aapt resource value: 0x7F0700B1
-			public const int roundedbg = 2131165361;
+			public const int pin_gray = 2131165361;
 			
 			// aapt resource value: 0x7F0700B2
-			public const int roundedbgdark = 2131165362;
+			public const int roundedbg = 2131165362;
 			
 			// aapt resource value: 0x7F0700B3
-			public const int save = 2131165363;
+			public const int roundedbgdark = 2131165363;
 			
 			// aapt resource value: 0x7F0700B4
-			public const int splash_xml = 2131165364;
+			public const int save = 2131165364;
 			
 			// aapt resource value: 0x7F0700B5
-			public const int strelka = 2131165365;
+			public const int splash_xml = 2131165365;
 			
 			// aapt resource value: 0x7F0700B6
-			public const int test_custom_background = 2131165366;
+			public const int strelka = 2131165366;
 			
 			// aapt resource value: 0x7F0700B7
-			public const int tooltip_frame_dark = 2131165367;
+			public const int test_custom_background = 2131165367;
 			
 			// aapt resource value: 0x7F0700B8
-			public const int tooltip_frame_light = 2131165368;
+			public const int tooltip_frame_dark = 2131165368;
+			
+			// aapt resource value: 0x7F0700B9
+			public const int tooltip_frame_light = 2131165369;
 			
 			static Drawable()
 			{

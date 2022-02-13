@@ -75,7 +75,7 @@ namespace GPS_NotePad.ViewModels
                     if (!_verifyInput.NameVerify(ref temp))//Verify label
                     {
                         Label = temp;
-                        UserDialogs.Instance.Alert("A-Z, a-z symbols only", "Error", "Ok");
+                        UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Search, "Error", "Ok");
                     }
                 }
             }
@@ -93,7 +93,7 @@ namespace GPS_NotePad.ViewModels
                     if (!_verifyInput.NameVerify(ref temp))//Verify Address
                     {
                         Address = temp;
-                        UserDialogs.Instance.Alert("A-Z, a-z symbols only", "Error", "Ok");
+                        UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Search, "Error", "Ok");
                     }
                 }
             }
@@ -140,7 +140,7 @@ namespace GPS_NotePad.ViewModels
                 _markerInfo = new MarkerInfo
                 {
                     email = _email,
-                    ImagePath = this.ImagePath == null ? "paris.jpg" : ImagePath,
+                    ImagePath = this.ImagePath == null ? Constants.Constant.DEFAULT_IMAGE : ImagePath,
                     Label = this.Label,
                     Address = this.Address,
                     Latitude = _position.Latitude,
@@ -152,10 +152,10 @@ namespace GPS_NotePad.ViewModels
                     BackClickAsync();
                 }
                 else
-                    UserDialogs.Instance.Alert("Error saved data", "Error", "Ok");
+                    UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_SavePin, "Error", "Ok");
             }
             else
-                UserDialogs.Instance.Alert("All fields must be filled", "Error", "Ok");
+                UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_All_Field, "Error", "Ok");
         }
 
         async void BackClickAsync()

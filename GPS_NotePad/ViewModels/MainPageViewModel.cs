@@ -15,7 +15,7 @@ using Prism.Navigation;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-
+using Xamarin.Forms;
 
 namespace GPS_NotePad.ViewModels
 {
@@ -66,12 +66,12 @@ namespace GPS_NotePad.ViewModels
             IsVisibleEntry = false;
             IsEnabled = false;
 
-            ImagePasConfirm = "eyeoff.png";
-            ImagePassword = "eyeoff.png";
+            ImagePasConfirm = Constants.Constant_Auth.EYE_OFF;
+            ImagePassword = Constants.Constant_Auth.EYE_OFF;
             IsVisiblePasConfirm = true;
             IsVisiblePassword = true;
 
-            Color_OkBtn = "LavenderBlush";
+            Color_OkBtn = Constants.Constant_Auth.OK_BTN_COLOR;
 
             LogininBtn = new DelegateCommand(LogininClick);
             RegistrBtn = new DelegateCommand(RegistrClick);
@@ -85,10 +85,10 @@ namespace GPS_NotePad.ViewModels
             _authService = authService;
             _registrService = registrService;
 
-            EmailBorderColor = "Gray";
-            PassBorderColor = "Gray";
-            PassConfBorderColor = "Gray";
-            NameBorderColor = "Gray";
+            EmailBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_GRAY;
+            PassBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_GRAY;
+            PassConfBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_GRAY;
+            NameBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_GRAY;
         }
 
 
@@ -164,24 +164,25 @@ namespace GPS_NotePad.ViewModels
 
         void CheckName(string temp)
         {
-            NameBorderColor = "Red";
-            ErrorNameText = "Must have 2-16 symbols, A-Z, a-z";
+            NameBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_RED;
+            ErrorNameText = Resources.Resx.Resource.ErrorText_Name;
+
             if (!_verifyInput.NameVerify(ref temp))
             {
                 Name = temp;
             }
             else if (Name.Length >= 2)
             {
-                ErrorNameText = "Ok! Must have 2-16 symbols, A-Z, a-z";
-                NameBorderColor = "Green";
+                ErrorNameText = "Ok! " + Resources.Resx.Resource.ErrorText_Name;
+                NameBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_GREEN;
                 IsOkEnable();
             }
         }
 
         void CheckEmail(string temp)
         {
-            EmailBorderColor = "Red";
-            ErrorEmailText = "Email. Must have - aaa@aa.aa";
+            EmailBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_RED;
+            ErrorEmailText = Resources.Resx.Resource.ErrorText_Email;
 
             if (!_verifyInput.EmailVerify(ref temp))
             {
@@ -192,7 +193,7 @@ namespace GPS_NotePad.ViewModels
                 if (_verifyInput.IsValidEmail(Email))
                 {
                     ErrorEmailText = "Ok!";
-                    EmailBorderColor = "Green";
+                    EmailBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_GREEN;
                     IsOkEnable();
                 }
             }
@@ -200,8 +201,8 @@ namespace GPS_NotePad.ViewModels
 
         void CheckPassConfirm(string temp)
         {
-            PassConfBorderColor = "Red";
-            ErrorPassConfText = " 8-16 symbols one capital letter, one lowercase letter, one digit";
+            PassConfBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_RED;
+            ErrorPassConfText = Resources.Resx.Resource.ErrorText_Password;
             if (!_verifyInput.PasswordCheckin(ref temp))
             {
                 PasswordConfirm = temp;
@@ -210,8 +211,8 @@ namespace GPS_NotePad.ViewModels
             {
                 if (_verifyInput.PasswordVerify(PasswordConfirm) && Password == PasswordConfirm)
                 {
-                    ErrorPassConfText = "Ok! Must have from 8 to 16 symbols";
-                    PassConfBorderColor = "Green";
+                    ErrorPassConfText = "Ok! " + Resources.Resx.Resource.ErrorText_Name;
+                    PassConfBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_GREEN;
                     IsOkEnable();
                 }
             }
@@ -219,8 +220,8 @@ namespace GPS_NotePad.ViewModels
 
         void CheckPassword(string temp)
         {
-            PassBorderColor = "Red";
-            ErrorPassText = " 8-16 symbols one capital letter, one lowercase letter, one digit";
+            PassBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_RED;
+            ErrorPassText = Resources.Resx.Resource.ErrorText_Password;
             if (!_verifyInput.PasswordCheckin(ref temp))
             {
                 Password = temp;
@@ -230,7 +231,7 @@ namespace GPS_NotePad.ViewModels
                 if (_verifyInput.PasswordVerify(Password) && (Password.Length > 7 && Password.Length < 17))
                 {
                     ErrorPassText = "Ok!";
-                    PassBorderColor = "Green";
+                    PassBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_GREEN;
                     IsOkEnable();
                 }
             }
@@ -241,12 +242,12 @@ namespace GPS_NotePad.ViewModels
             if (IsVisiblePasConfirm)
             {
                 IsVisiblePasConfirm = false;
-                ImagePasConfirm = "eye.png";
+                ImagePasConfirm = Constants.Constant_Auth.EYE;
             }
             else
             {
                 IsVisiblePasConfirm = true;
-                ImagePasConfirm = "eyeoff.png";
+                ImagePasConfirm = Constants.Constant_Auth.EYE_OFF;
             }
         }
         private void Click_IsVisiblePassword()
@@ -254,12 +255,12 @@ namespace GPS_NotePad.ViewModels
             if (IsVisiblePassword)
             {
                 IsVisiblePassword = false;
-                ImagePassword = "eye.png";
+                ImagePassword = Constants.Constant_Auth.EYE;
             }
             else
             {
                 IsVisiblePassword = true;
-                ImagePassword = "eyeoff.png";
+                ImagePassword = Constants.Constant_Auth.EYE_OFF;
             }
         }
 
@@ -301,11 +302,11 @@ namespace GPS_NotePad.ViewModels
                 if (await _registrService.Registr(log, PasswordConfirm))
                 {
                     LogininClick();
-                    EmailBorderColor = "Green";
+                    EmailBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_GREEN;
                 }
                 else
                 {
-                    UserDialogs.Instance.Alert("Email already exist", "Error", "Ok");
+                    UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Email1, "Error", "Ok");
                     Email = "";
                 }
 
@@ -320,10 +321,10 @@ namespace GPS_NotePad.ViewModels
         }
         private void Input_ErrorColor()
         {
-            EmailBorderColor = "Gray";
-            PassBorderColor = "Gray";
-            PassConfBorderColor = "Gray";
-            NameBorderColor = "Gray";
+            EmailBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_GRAY;
+            PassBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_GRAY;
+            PassConfBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_GRAY;
+            NameBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_GRAY;
             ErrorEmailText = "";
             ErrorPassText = "";
             ErrorNameText = "";
@@ -352,15 +353,18 @@ namespace GPS_NotePad.ViewModels
         private bool IsOkEnable()//Enable disable "Ok" Button
         {
             if (!IsVisibleEntry)
-                IsEnabled = (PassBorderColor == "Green" && EmailBorderColor == "Green") ? IsEnabled = true : IsEnabled = false;
+                IsEnabled = (PassBorderColor == Constants.Constant_Auth.ENTRY_BORDER_COLOR_GREEN 
+                    && EmailBorderColor == Constants.Constant_Auth.ENTRY_BORDER_COLOR_GREEN) ? IsEnabled = true : IsEnabled = false;
             else
-                IsEnabled = (PassBorderColor == "Green" && NameBorderColor == "Green" && EmailBorderColor == "Green"
-                             && PassConfBorderColor == "Green") ? IsEnabled = true : IsEnabled = false;
+                IsEnabled = (PassBorderColor == Constants.Constant_Auth.ENTRY_BORDER_COLOR_GREEN 
+                    && NameBorderColor == Constants.Constant_Auth.ENTRY_BORDER_COLOR_GREEN
+                    && EmailBorderColor == Constants.Constant_Auth.ENTRY_BORDER_COLOR_GREEN
+                    && PassConfBorderColor == Constants.Constant_Auth.ENTRY_BORDER_COLOR_GREEN) ? IsEnabled = true : IsEnabled = false;
 
             if (IsEnabled)
-                Color_OkBtn = "Green";
+                Color_OkBtn = Constants.Constant_Auth.OK_BTN_COLOR_GREEN;
             else
-                Color_OkBtn = "LavenderBlush";
+                Color_OkBtn = Constants.Constant_Auth.OK_BTN_COLOR;
 
             return IsEnabled;
         }

@@ -5,5 +5,60 @@
              x:Class="GPS_NotePad.App">
     <Application.Resources>
         
+        <!--Image name-->
+        <ImageSource x:Key="backStrelka">strelka.png</ImageSource>
+        <ImageSource x:Key="saveIcon">save.png</ImageSource>
+        <ImageSource x:Key="apple">apple</ImageSource>
+        <ImageSource x:Key="email">email.png</ImageSource>
+        <ImageSource x:Key="google">google.png</ImageSource>
+        <ImageSource x:Key="locationIcon">location.png</ImageSource>
+        <ImageSource x:Key="mapIcon">mapIcon.png</ImageSource>
+        <ImageSource x:Key="pinGray">pin_gray.png</ImageSource>
+        
+        <!--Color-->
+        <Color x:Key="LightGray">LightGray</Color>
+        <Color x:Key="AliceBlue">AliceBlue</Color>
+        <Color x:Key="White">White</Color>
+        <Color x:Key="Gray">Gray</Color>
+        <Color x:Key="NameAppColor">Black</Color>
+        <Color x:Key="Modal_MarkerInfo_Background">#1E242B</Color>
+        <Color x:Key="CancelButtonColor">Red</Color>
+        <Color x:Key="Bacground_ImageButton">Transparent</Color>
+
+        <Color x:Key="PageBackground">#33374E</Color>
+        
+        <!--Tabbed bar-->
+        <Color x:Key="BarBackground_TabbedBar">#33374E</Color>
+        <Color x:Key="SelectedTabColor">White</Color>
+        <Color x:Key="UnselectedTabColor">Black</Color>
+
+        <!--MainPage-->
+        <Color x:Key="BtnBackgroundFrame">#33374E</Color>
+        <Color x:Key="BackgroundButton">Transparent</Color>
+        
+        <!--List view-->
+        <Color x:Key="ItemListView_Background">#33374E</Color>
+        <Color x:Key="SeparatorColor">White</Color>
+        <Color x:Key="ItemListBorderColor">White</Color>
+        <Color x:Key="ItemTextColor1">White</Color>
+        <Color x:Key="ItemTextColor2">Wheat</Color>
+
+        <Color x:Key="PlaceholderColorGray">Gray</Color>
+        
+        <!--Button add pin-->
+        <Color x:Key="BackgroundColor">#7485FB</Color>
+        <Color x:Key="BorderColor">#7485FB</Color>
+        <Color x:Key="TextColor">White</Color>
+
+        <!--AddPin-->
+        <Color x:Key="BacgroundColorAddPinPage">Transparent</Color>
+        <Color x:Key="BorderColorAddPin">LightGray</Color>
+        <Color x:Key="BarColor">#33374E</Color>
+        <Color x:Key="TextColor1">White</Color>
+        <Color x:Key="TextColor2">LightGray</Color>
+        <Color x:Key="TextColor3">LightGray</Color>
+        
+        <!--Strings-->
+        <!--<x:String x:Key="eye">eye.png</x:String>-->
     </Application.Resources>
 </prism:PrismApplication>

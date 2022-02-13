@@ -119,7 +119,7 @@ namespace GPS_NotePad.ViewModels
                     if (!_verifyInput.NameVerify(ref temp))//Verify
                     {
                         Search = temp;
-                        UserDialogs.Instance.Alert("A-Z, a-z symbols only", "Error", "Ok");
+                        UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Search, "Error", "Ok");
                     }
                     else
                     {

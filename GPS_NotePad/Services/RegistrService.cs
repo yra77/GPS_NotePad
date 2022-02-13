@@ -3,11 +3,7 @@ using Acr.UserDialogs;
 using GPS_NotePad.Helpers;
 using GPS_NotePad.Models;
 using GPS_NotePad.Repository;
-
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 
@@ -48,28 +44,29 @@ namespace GPS_NotePad.Services
 
             if (_verifyInput.IsValidEmail(profile.email))
             {
-                if (profile.password.Equals(passConfirm) && _verifyInput.PasswordVerify(profile.password) && _verifyInput.PasswordVerify(passConfirm))
+                if (profile.password.Equals(passConfirm) && _verifyInput.PasswordVerify(profile.password) 
+                    && _verifyInput.PasswordVerify(passConfirm))
                 {
 
                     if (await Insert(profile))
                     {
-                        UserDialogs.Instance.Alert("OK! Are you registered.", "", "Ok");
+                        UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Ok_Reg, "", "Ok");
 
                         return true;
                     }
                     else
                     {
-                        UserDialogs.Instance.Alert("Email already exist", "Error", "Ok");
+                        UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Email1, "Error", "Ok");
                     }
                 }
                 else
                 {
-                    UserDialogs.Instance.Alert("Passwords must be equals and have from 8 to 16 symbols, must contain at least one capital letter, one lowercase letter and one digit", "Error", "Ok");
+                    UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Password2, "Error", "Ok");
                 }
             }
             else
             {
-                UserDialogs.Instance.Alert("Email is not valid", "Error", "Ok");
+                UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Email3, "Error", "Ok");
             }
 
             return false;

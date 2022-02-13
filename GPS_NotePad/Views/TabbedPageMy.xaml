@@ -9,14 +9,18 @@
             xmlns:local="clr-namespace:GPS_NotePad.Views"
              x:Class="GPS_NotePad.Views.TabbedPageMy"
             NavigationPage.HasNavigationBar="False"
-            BarBackgroundColor="Black"
-             SelectedTabColor="Green"
-            UnselectedTabColor="White">
-  <!--Pages can be added as references or inline-->
+            xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+            android:TabbedPage.ToolbarPlacement="Bottom" 
+            android:TabbedPage.BarSelectedItemColor="White"
+            BarBackgroundColor="{DynamicResource BarBackground_TabbedBar}"
+            SelectedTabColor="{DynamicResource SelectedTabColor}"
+            UnselectedTabColor="{DynamicResource UnselectedTabColor}"
+            Padding="0,1,0,0">
+    <!--android:TabbedPage.BarSelectedItemColor="White"-->
+
     <TabbedPage.Children>
         <local:MapView/>
         <local:PinListView/>
     </TabbedPage.Children>
-    <!--<ContentPage Title="Tab1"/>
-    <ContentPage Title="Tab2"/>-->
+  
 </TabbedPage>

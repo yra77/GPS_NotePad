@@ -21,7 +21,7 @@ namespace GPS_NotePad.Helpers
         {
             if (!CheckNetwork() || !await CheckGeoLocation())
             {
-                await Task.Delay(10000);
+                await Task.Delay(5000);
                 System.Diagnostics.Process.GetCurrentProcess().Kill();
             }
         }
@@ -31,7 +31,7 @@ namespace GPS_NotePad.Helpers
             var current = Connectivity.NetworkAccess;
             if (current != NetworkAccess.Internet)
             {
-                UserDialogs.Instance.Alert("Error! No connection to the internet", "Error", "Ok");
+                UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Device_Internet, "Error", "Ok");
                 return false;            
             }
             return true;
@@ -45,7 +45,7 @@ namespace GPS_NotePad.Helpers
             }
             catch (Exception ex)
             {
-             UserDialogs.Instance.Alert("Error! Geo location disable.", "Error", "Ok");
+             UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Device_GeoLocacia, "Error", "Ok");
                 return false;
             }
             return true;

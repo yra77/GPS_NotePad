@@ -71,7 +71,7 @@ namespace GPS_NotePad.ViewModels
                     if (!_verifyInput.NameVerify(ref temp))//Verify 
                     {
                         Search = temp;
-                        UserDialogs.Instance.Alert("A-Z, a-z symbols only", "Error", "Ok");
+                        UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Search, "Error", "Ok");
                     }
                     else
                     {
@@ -91,7 +91,7 @@ namespace GPS_NotePad.ViewModels
                     if (!_verifyInput.NameVerify(ref temp))//Verify label
                     {
                         Label = temp;
-                        UserDialogs.Instance.Alert("A-Z, a-z symbols only", "Error", "Ok");
+                        UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Search, "Error", "Ok");
                     }
                 }
             } 
@@ -104,7 +104,7 @@ namespace GPS_NotePad.ViewModels
                     if (!_verifyInput.NameVerify(ref temp))//Verify Address
                     {
                         Address = temp;
-                        UserDialogs.Instance.Alert("A-Z, a-z symbols only", "Error", "Ok");
+                        UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Search, "Error", "Ok");
                     }
                 }
             } 
@@ -127,8 +127,7 @@ namespace GPS_NotePad.ViewModels
             {
               { "item", item }
             };
-           await _navigationService.NavigateAsync("/TabbedPageMy?selectedTab=Tabbed_Page1", navParameters);
-            // await navigationService.NavigateAsync("/TabbedPageMy?selectedTab=Tabbed_Page1");         
+           await _navigationService.NavigateAsync("/TabbedPageMy?selectedTab=MapView", navParameters);        
         }
 
         private async void IsActiveTabAsync()

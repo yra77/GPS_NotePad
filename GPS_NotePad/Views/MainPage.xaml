@@ -6,113 +6,159 @@
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core" 
              xmlns:prism1="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
              xmlns:effects="clr-namespace:GPS_NotePad.Effects"
+             xmlns:resource="clr-namespace:GPS_NotePad.Resources.Resx"
              x:Class="GPS_NotePad.Views.MainPage"
              ios:Page.UseSafeArea="True" 
              NavigationPage.HasNavigationBar="False" 
-             BackgroundImageSource="fon.jpg">
+             BackgroundColor="{DynamicResource PageBackground}">
 
     <Grid>
-       
-        <Frame BackgroundColor="AliceBlue" HorizontalOptions="Fill" VerticalOptions="CenterAndExpand" 
-               Padding="0" Margin="15,0,15,0" HasShadow="True" BorderColor="LightGray">
-            <StackLayout >
-                <Label Text="GPS notepad" HorizontalOptions="Center" FontSize="20" FontAttributes="Italic" TextColor="Coral"/>
 
-                <StackLayout BackgroundColor="AliceBlue">
+        <Frame BackgroundColor="{DynamicResource ItemListView_Background}" HorizontalOptions="Fill" VerticalOptions="CenterAndExpand" 
+               Padding="0" Margin="15,0,15,0" HasShadow="True" BorderColor="{DynamicResource LightGray}">
+            <StackLayout>
+                
+                <Label Text="GPS notepad" HorizontalOptions="Center" FontSize="20" FontAttributes="Italic"
+                       TextColor="{DynamicResource NameAppColor}" FontFamily="Montserrat_Font"/>
+
+                <StackLayout BackgroundColor="Transparent">
 
                     <StackLayout Margin="10,25,10,0">
+                        
                         <Frame IsVisible="{Binding IsVisibleEntry}" HasShadow="False" Padding="10,0,10,0" 
-                               BorderColor="{Binding NameBorderColor}" CornerRadius="30">
+                               BackgroundColor="Transparent" BorderColor="{Binding NameBorderColor}" CornerRadius="30">
+                            
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="50"/>
                                 </Grid.ColumnDefinitions>
-                                <Entry Keyboard="Text" Text="{Binding Name}" Placeholder="Name" PlaceholderColor="LightGray" 
-                                         FontSize="16">
+
+                                <Entry Keyboard="Text" Text="{Binding Name}" Placeholder="{x:Static resource:Resource.PlaceholderName}" 
+                                       PlaceholderColor="{DynamicResource LightGray}" FontSize="16" FontFamily="Montserrat_Font">
                                     <Entry.Effects>
                                         <effects:EntryColorUnderline_Effect/>
                                     </Entry.Effects>
                                 </Entry>
-                                <Image Source="apple.png" Scale="0.5" Grid.Column="1" WidthRequest="50" Aspect="AspectFit"/>
+                                
+                                <Image Source="{DynamicResource apple}" Scale="0.5" Grid.Column="1" WidthRequest="50" Aspect="AspectFit"/>
+                                
                             </Grid>
+                            
                         </Frame>
-                        <Label IsVisible="{Binding IsVisibleEntry}" Text="{Binding ErrorNameText}" FontSize="10" Margin="0,-5,0,0" 
+                        <Label IsVisible="{Binding IsVisibleEntry}" Text="{Binding ErrorNameText}" FontSize="11" Margin="0,-5,0,0" 
                                HorizontalOptions="Center" TextColor="{Binding NameBorderColor}"/>
 
 
-                        <Frame Padding="10,0,10,0" HasShadow="False" BorderColor="{Binding EmailBorderColor}" CornerRadius="30">
+                        <Frame Padding="10,0,10,0" HasShadow="False" BorderColor="{Binding EmailBorderColor}" 
+                               BackgroundColor="Transparent" CornerRadius="30">
+                            
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="50"/>
                                 </Grid.ColumnDefinitions>
-                                <Entry Keyboard="Email" Text="{Binding Email}" Placeholder="Email" PlaceholderColor="LightGray" FontSize="16">
+
+                                <Entry Keyboard="Email" Text="{Binding Email}" Placeholder="{x:Static resource:Resource.PlaceholderEmail}" 
+                                       PlaceholderColor="{DynamicResource LightGray}" FontSize="16" FontFamily="Montserrat_Font">
                                     <Entry.Effects>
                                         <effects:EntryColorUnderline_Effect/>
                                     </Entry.Effects>
                                 </Entry>
-                                <Image Source="email.png" Scale="0.5" Grid.Column="1" WidthRequest="50" Aspect="AspectFit"/>
+                                
+                                <Image Source="{DynamicResource email}" Scale="0.5" Grid.Column="1" WidthRequest="50" Aspect="AspectFit"/>
+                           
                             </Grid>
+                            
                         </Frame>
-                        <Label Text="{Binding ErrorEmailText}" FontSize="10" Margin="0,-5,0,0" HorizontalOptions="Center" 
+                        
+                        <Label Text="{Binding ErrorEmailText}" FontSize="11" Margin="0,-5,0,0" HorizontalOptions="Center" 
                                TextColor="{Binding EmailBorderColor}"/>
 
 
-                        <Frame Padding="10,0,10,0" HasShadow="False" BorderColor="{Binding PassBorderColor}" CornerRadius="30">
+                        <Frame Padding="10,0,10,0" HasShadow="False" BorderColor="{Binding PassBorderColor}" 
+                               BackgroundColor="Transparent" CornerRadius="30">
+                            
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="50"/>
                                 </Grid.ColumnDefinitions>
-                                <Entry Keyboard="Text" IsPassword="{Binding IsVisiblePassword}" Text="{Binding Password}" Placeholder="Password" 
-                                           PlaceholderColor="LightGray" FontSize="16">
+                                
+                                <Entry Keyboard="Text" IsPassword="{Binding IsVisiblePassword}" Text="{Binding Password}" 
+                                       Placeholder="{x:Static resource:Resource.PlaceholderPassword}" FontFamily="Montserrat_Font"
+                                           PlaceholderColor="{DynamicResource LightGray}" FontSize="16">
                                     <Entry.Effects>
                                         <effects:EntryColorUnderline_Effect/>
                                     </Entry.Effects>
                                 </Entry>
+                                
                                 <ImageButton Source="{Binding ImagePassword}" BackgroundColor="Transparent" Scale="0.5" Grid.Column="1" 
                                              Command="{Binding Btn_IsVisiblePassword}" WidthRequest="50" Aspect="AspectFit"/>
                             </Grid>
                         </Frame>
-                        <Label Text="{Binding ErrorPassText}" FontSize="10" Margin="0,-5,0,0" HorizontalOptions="Center" 
+                        
+                        <Label Text="{Binding ErrorPassText}" FontSize="11" Margin="0,-5,0,0" HorizontalOptions="Center" 
                                TextColor="{Binding PassBorderColor}"/>
 
 
                         <Frame IsVisible="{Binding IsVisibleEntry}" HasShadow="False" Padding="10,0,10,0" 
-                               BorderColor="{Binding PassConfBorderColor}" CornerRadius="30">
+                               BorderColor="{Binding PassConfBorderColor}" BackgroundColor="Transparent" CornerRadius="30">
+                            
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="50"/>
                                 </Grid.ColumnDefinitions>
-                                <Entry Text="{Binding PasswordConfirm}" Placeholder="Password confirm" PlaceholderColor="LightGray" 
+
+                                <Entry Text="{Binding PasswordConfirm}" Placeholder="{x:Static resource:Resource.PlaceholderPassConfirm}" 
+                                       PlaceholderColor="{DynamicResource LightGray}" FontFamily="Montserrat_Font"
                                          Keyboard="Text" IsPassword="{Binding IsVisiblePasConfirm}" FontSize="16">
                                     <Entry.Effects>
                                         <effects:EntryColorUnderline_Effect/>
                                     </Entry.Effects>
                                 </Entry>
+                                
                                 <ImageButton Source="{Binding ImagePasConfirm}" BackgroundColor="Transparent" Scale="0.5" Grid.Column="1" 
                                              Command="{Binding Btn_IsVisiblePasConfirm}" WidthRequest="50" Aspect="AspectFit"/>
                             </Grid>
                         </Frame>
-                        <Label IsVisible="{Binding IsVisibleEntry}" Text="{Binding ErrorPassConfText}" FontSize="10" Margin="0,-5,0,0" 
+                        
+                        <Label IsVisible="{Binding IsVisibleEntry}" Text="{Binding ErrorPassConfText}" FontSize="11" Margin="0,-5,0,0" 
                                HorizontalOptions="Center" TextColor="{Binding PassConfBorderColor}"/>
                         
 
-                        <Button IsEnabled="False" Command="{Binding OkBtn}" BackgroundColor="{Binding Color_OkBtn}" Text="Ok" HeightRequest="40"
-                                VerticalOptions="End" HorizontalOptions="Center" WidthRequest="150" CornerRadius="25" Margin="0,20,0,0"/>
+                        <Button IsEnabled="False" Command="{Binding OkBtn}" BackgroundColor="{Binding Color_OkBtn}" Text="Ok" HeightRequest="45"
+                                FontFamily="Montserrat_Font" VerticalOptions="End" HorizontalOptions="Center" 
+                                WidthRequest="150" CornerRadius="25" Margin="0,20,0,0"/>
+
+                        <Button Command="{Binding GoogleRegBtn}" ImageSource="{DynamicResource google}" 
+                                HorizontalOptions="CenterAndExpand" Scale="1.2" VerticalOptions="EndAndExpand" Margin="0,5,0,0"
+                                BackgroundColor="Transparent" CornerRadius="50"/>
                         
-                        <Button Command="{Binding GoogleRegBtn}" ImageSource="google.png" HorizontalOptions="CenterAndExpand" Scale="1.2"
-                                BackgroundColor="Transparent" CornerRadius="50" VerticalOptions="EndAndExpand" Margin="0,5,0,0"/>
                     </StackLayout>
 
                 </StackLayout>
 
-                <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand" Margin="0,0,0,0">
-                    <Button Command="{Binding LogininBtn}" Text="Loginin" HorizontalOptions="FillAndExpand"/>
-                    <Button Command="{Binding RegistrBtn}" Text="Registr" HorizontalOptions="FillAndExpand"/>
-                </StackLayout>
+                
+                <Grid VerticalOptions="EndAndExpand">
+                    
+                    <Frame Margin="4,2,0,4" Grid.Row="0" Grid.ColumnSpan="1" Padding="0" 
+                           BackgroundColor="{DynamicResource BtnBackgroundFrame}" BorderColor="Gray">
+                        
+                        <Button Command="{Binding LogininBtn}" BackgroundColor="{DynamicResource BackgroundButton}"
+                               Text="Loginin" FontFamily="Montserrat_Font" FontSize="14"/>
+                    </Frame>
+                    
+                    <Frame Margin="-2,2,4,4" Grid.Row="0" Grid.Column="1" Padding="0" 
+                           BackgroundColor="{DynamicResource BtnBackgroundFrame}" BorderColor="Gray">
+                        
+                        <Button Command="{Binding RegistrBtn}" BackgroundColor="{DynamicResource BackgroundButton}"
+                            Text="Registr" FontFamily="Montserrat_Font" FontSize="14"/>
+                    </Frame>
+                    
+                </Grid>
+                
             </StackLayout>
         </Frame>
     </Grid>

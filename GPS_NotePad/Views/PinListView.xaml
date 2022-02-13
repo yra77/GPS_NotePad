@@ -7,36 +7,57 @@
              xmlns:prism1="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
              ios:Page.UseSafeArea="True"
              x:Class="GPS_NotePad.Views.PinListView"
-             Title="Markers">
+             Title="Pins"
+             IconImageSource="{DynamicResource pinGray}"
+             BackgroundColor="{DynamicResource PageBackground}">
+    
     
     <ContentPage.Content>
         <Grid>
-            <StackLayout VerticalOptions="Start">
-                <SearchBar HorizontalOptions="CenterAndExpand" CancelButtonColor="Red" Placeholder="Search" PlaceholderColor="Gray"
+            
+            <Frame VerticalOptions="Start" BorderColor="Black" Padding="0" Margin="0,5,0,10" BackgroundColor="Transparent">
+                
+                <SearchBar HorizontalOptions="CenterAndExpand" CancelButtonColor="{DynamicResource CancelButtonColor}"
+                           Placeholder="Search" FontFamily="Montserrat_Font" PlaceholderColor="{DynamicResource PlaceholderColorGray}"
                            Keyboard="Text" Text="{Binding Search}" SearchCommand="{Binding SearchBtn_Pressed}">
-                <SearchBar.Behaviors>
-                    <prism1:EventToCommandBehavior EventName="Unfocused"
+                    <SearchBar.Behaviors>
+                          <prism1:EventToCommandBehavior EventName="Unfocused"
                                           Command="{Binding UnfocusedCommand}"/>
-                </SearchBar.Behaviors>
+                    </SearchBar.Behaviors>
                 </SearchBar>
-            </StackLayout>
-            <StackLayout Margin="0,50,0,0">
+                
+            </Frame>
+            
+            <StackLayout Margin="0,60,0,0">
 
                 <ListView x:Name="listView" VerticalOptions="FillAndExpand" BackgroundColor="Transparent"
-                             CachingStrategy="RecycleElement" HasUnevenRows="True" SeparatorColor="White" ItemsSource="{Binding ListMarkers}">
+                             CachingStrategy="RecycleElement" HasUnevenRows="True" SeparatorColor="{DynamicResource SeparatorColor}" 
+                          ItemsSource="{Binding ListMarkers}">
                     <ListView.ItemTemplate>
+                        
                         <DataTemplate>
 
                             <ViewCell x:Name="Item">
-                                    <Grid BackgroundColor="#272927" Margin="9,10,9,10">
-                                    <Frame Grid.Column="0" Padding="0" Margin="8" CornerRadius="50" ScaleX="0.5" ScaleY="0.7" HasShadow="False">
-                                            <Image Source="{Binding ImagePath}" Aspect="AspectFill" Scale="1" />
-                                        </Frame>
+                                <ViewCell.View>
+                                   
+                                   <Grid BackgroundColor="{DynamicResource ItemListView_Background}" Margin="0,0,0,0">
+                                    
+                                    <Frame Grid.Column="0" Padding="0" Margin="8" CornerRadius="50" 
+                                           ScaleX="0.5" ScaleY="0.7" HasShadow="False">
+                                            
+                                        <Image Source="{Binding ImagePath}" Aspect="AspectFill" Scale="1" />
+                                        
+                                    </Frame>
+                                    
                                     <Label Grid.Column="1" VerticalOptions="Center" Margin="20,0,0,0" 
-                                                       TextColor="White" Text="{Binding Label}" FontSize="14" />
-                                    <Label Grid.Column="2" VerticalOptions="Center" 
-                                                       TextColor="Wheat" Text="{Binding Address}" FontSize="14"/>
-                                    </Grid>
+                                           TextColor="{DynamicResource ItemTextColor1}" Text="{Binding Label}" FontSize="14" />
+
+                                        <Label Grid.Column="2" VerticalOptions="Center" FontFamily="Montserrat_Font"
+                                               TextColor="{DynamicResource ItemTextColor2}" Text="{Binding Address}" FontSize="14"/>
+                                   
+                                   </Grid>
+                                    
+                                </ViewCell.View>
                             </ViewCell>
 
                         </DataTemplate>
@@ -49,9 +70,11 @@
                 </ListView>
 
             </StackLayout>
-            <Button x:Name="fixed" Command="{Binding AddNewMarker}" Text="+" BackgroundColor="#272927" WidthRequest="50" HeightRequest="50" 
-                    BorderRadius="100" Margin="0,0,20,40"
-                    BorderColor="#FF4081" BorderWidth="2" TextColor="#FF4081" VerticalOptions="End" HorizontalOptions="End"/>
+            
+            <Button x:Name="fixed" Command="{Binding AddNewMarker}" Text="+" BackgroundColor="{DynamicResource BackgroundColor}" 
+                    WidthRequest="50" HeightRequest="50" BorderRadius="100" Margin="0,0,20,40" BorderWidth="2" 
+                    BorderColor="{DynamicResource BorderColor}" TextColor="{DynamicResource TextColor}" 
+                    VerticalOptions="End" HorizontalOptions="End"/>
 
         </Grid>
     </ContentPage.Content>

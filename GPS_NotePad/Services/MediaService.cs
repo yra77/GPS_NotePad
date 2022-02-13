@@ -31,7 +31,7 @@ namespace GPS_NotePad.Services
                 string str = _resizeImage.ResizeImage(photo.FullPath, photo.FileName);
                 return str;
             }
-            return "paris.png";
+            return Constants.Constant.DEFAULT_IMAGE;
         }
 
         public async Task<string> OpenGalery()
@@ -44,7 +44,7 @@ namespace GPS_NotePad.Services
                 //Console.WriteLine("File Size in Bytes: " + new FileInfo(str).Length);
                 return str;
             }
-            return "paris.png";
+            return Constants.Constant.DEFAULT_IMAGE;
         }
 
         public void SaveToAppFolder(string fileName)

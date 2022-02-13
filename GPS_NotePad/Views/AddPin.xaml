@@ -5,43 +5,88 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              ios:Page.UseSafeArea="True"
-             x:Class="GPS_NotePad.Views.AddPin"
              xmlns:control="clr-namespace:GPS_NotePad.Controls"
-             Title="Add Pin">
+             xmlns:resource="clr-namespace:GPS_NotePad.Resources.Resx" 
+             xmlns:effects="clr-namespace:GPS_NotePad.Effects"
+             x:Class="GPS_NotePad.Views.AddPin"
+             Title="Add Pin"
+             BackgroundColor="{DynamicResource PageBackground}">
+    
 
     <ContentPage.Content>
-        <StackLayout BackgroundColor="Transparent" VerticalOptions="Fill">
-            <StackLayout Padding="10" Orientation="Horizontal" VerticalOptions="Start" HorizontalOptions="Fill" BackgroundColor="Blue">
-                <ImageButton Command="{Binding BackBtn}"  BackgroundColor="Transparent" 
-                              Margin="10,0,0,0" Source="strelka.png" HorizontalOptions="StartAndExpand"/>
-                <Label Text="Add Pin" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" FontSize="20" TextColor="White"/>
-                <ImageButton Command="{Binding SaveAddBtn}" BackgroundColor="Transparent" Margin="0,0,10,0"
-                             Source="save.png" HorizontalOptions="EndAndExpand"/>
+
+        <StackLayout BackgroundColor="{DynamicResource BacgroundColorAddPinPage}" VerticalOptions="Fill">
+            
+            <StackLayout Padding="10" Orientation="Horizontal" VerticalOptions="Start" 
+                         HorizontalOptions="Fill" BackgroundColor="{DynamicResource BarColor}">
+
+                <ImageButton Command="{Binding BackBtn}"  BackgroundColor="{DynamicResource Bacground_ImageButton}" 
+                              Margin="10,0,0,0" Source="{DynamicResource backStrelka}" HorizontalOptions="StartAndExpand"/>
+
+                <Label Text="Add Pin" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" 
+                       FontSize="20" TextColor="{DynamicResource TextColor1}" FontFamily="Montserrat_Font"/>
+
+                <ImageButton Command="{Binding SaveAddBtn}" BackgroundColor="{DynamicResource Bacground_ImageButton}" 
+                             Margin="0,0,10,0" Source="{DynamicResource saveIcon}" HorizontalOptions="EndAndExpand"/>
+            
             </StackLayout>
 
-            <StackLayout Margin="10,25,10,30" VerticalOptions="StartAndExpand">
+            <StackLayout Margin="0,25,0,1" VerticalOptions="StartAndExpand">
                
                 <StackLayout VerticalOptions="StartAndExpand" Orientation="Vertical">
-                    <Entry Text="{Binding Label}" FontSize="14" Placeholder="Input the City" PlaceholderColor="Gray"/>
-                    <Entry Text="{Binding Address}" FontSize="14" Placeholder="Input the Country" PlaceholderColor="Gray"/>
+
+                  <Frame Margin="20,0,20,0" Padding="10,0,10,0" HasShadow="False" BackgroundColor="Transparent"
+                          BorderColor="{DynamicResource BorderColorAddPin}">
+
+                        <Entry Text="{Binding Label}" FontSize="14" FontFamily="Montserrat_Font"
+                           Placeholder="{x:Static resource:Resource.PlaceholderEntryAddPin1}" PlaceholderColor="Gray">
+                        <Entry.Effects>
+                            <effects:EntryColorUnderline_Effect/>
+                        </Entry.Effects>
+                    </Entry>
+                      
+                  </Frame>
+
+                    <Frame Margin="20,10,20,0" Padding="10,0,10,0" HasShadow="False" BackgroundColor="Transparent"
+                         BorderColor="{DynamicResource BorderColorAddPin}">
+
+                        <Entry Text="{Binding Address}" FontSize="14" FontFamily="Montserrat_Font"
+                           Placeholder="{x:Static resource:Resource.PlaceholderEntryAddPin2}" PlaceholderColor="Gray">
+                        <Entry.Effects>
+                            <effects:EntryColorUnderline_Effect/>
+                        </Entry.Effects>
+                    </Entry>
+                      
+                  </Frame>
+                    
                     <StackLayout Orientation="Horizontal" Margin="0,25,0,25" HorizontalOptions="CenterAndExpand">
-                        <Label Text="Input image from " TextColor="Red" FontAttributes="Bold" FontSize="14" 
-                                       VerticalOptions="CenterAndExpand"/>
-                        <Button Command="{Binding GaleryBtn}" Text="Galery" FontSize="12" HorizontalOptions="Center"/>
-                        <Button Command="{Binding CameraBtn}" Text="Camera" FontSize="12" HorizontalOptions="End"/>
+
+                        <Label Text="{x:Static resource:Resource.AddPin2}" TextColor="{DynamicResource TextColor2}" 
+                                FontFamily="Montserrat_Font" FontSize="14" VerticalOptions="CenterAndExpand"/>
+
+                        <Button Command="{Binding GaleryBtn}" Text="{x:Static resource:Resource.Button_Galery}" 
+                                FontSize="12" HorizontalOptions="Center" FontFamily="Montserrat_Font"/>
+                        
+                        <Button Command="{Binding CameraBtn}" Text="{x:Static resource:Resource.Button_Camera}" 
+                                FontSize="12" HorizontalOptions="End" FontFamily="Montserrat_Font"/>
+                        
                     </StackLayout>
 
-                    <Label Text="Specify a position on the map" TextColor="Green" HorizontalOptions="Center"/>
+                    <Label Text="{x:Static resource:Resource.AddPin1}" TextColor="{DynamicResource TextColor3}" 
+                            FontFamily="Montserrat_Font" HorizontalOptions="Center" FontSize="14"/>
 
-                    <Grid Margin="-10,0,-10,0" VerticalOptions="Fill">
+                    
+                    <Grid Margin="1,0,1,0" VerticalOptions="Fill">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
+                        
                         <control:MyGoogleMap MoveTo="{Binding MoveTo, Mode=TwoWay}"  
-                                  Grid.RowSpan="8"  VerticalOptions="FillAndExpand"  MapClicPosition="{Binding MapClicPosition}"/>
+                                  Grid.RowSpan="8" VerticalOptions="FillAndExpand" MapClicPosition="{Binding MapClicPosition}"/>
 
-                        <Button Command="{Binding MyLocationBtn}" ImageSource="location.png" VerticalOptions="StartAndExpand" 
+                        <Button Command="{Binding MyLocationBtn}" ImageSource="{DynamicResource locationIcon}" VerticalOptions="StartAndExpand" 
                                 BackgroundColor="Transparent" HorizontalOptions="EndAndExpand" Margin="0,15,0,0"/>
+                    
                     </Grid>
 
                 </StackLayout>
