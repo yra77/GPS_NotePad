@@ -11,6 +11,8 @@ using Xamarin.Forms;
 
 using UIKit;
 using Foundation;
+using System;
+using GPS_NotePad.Helpers;
 
 [assembly: ResolutionGroupName("GPS_NotePad")]
 [assembly: ExportEffect(typeof(EntryUnderlineColor_Effect), "PlainEntryEffect")]
@@ -35,6 +37,33 @@ namespace GPS_NotePad.iOS
             LoadApplication(new App(new IOSPlatformInitializer()));
             Xamarin.FormsGoogleMaps.Init("AIzaSyDzt_zSeQ_rK0TR2ClYHraBm7Yrg83JhDU");
             return base.FinishedLaunching(app, options);
+        }
+
+        //Google Auth
+        public override bool OpenUrl
+                (
+                    UIApplication application,
+                    NSUrl url,
+                    string sourceApplication,
+                    NSObject annotation
+                )
+        {
+           #if DEBUG
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            sb.AppendLine("OpenURL Called");
+            sb.Append("     url         = ").AppendLine(url.AbsoluteUrl.ToString());
+            sb.Append("     application = ").AppendLine(sourceApplication);
+            sb.Append("     annotation  = ").AppendLine(annotation?.ToString());
+            System.Diagnostics.Debug.WriteLine(sb.ToString());
+           #endif
+
+            // Convert iOS NSUrl to C#/netxf/BCL System.Uri - common API
+            Uri uri_netfx = new Uri(url.AbsoluteString);
+
+            // load redirect_url Page
+            AuthenticationState_Helper.Authenticator.OnPageLoading(uri_netfx);
+
+            return true;
         }
     }
     public class IOSPlatformInitializer : IPlatformInitializer

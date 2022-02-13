@@ -5,6 +5,7 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core" 
              xmlns:prism1="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
+             xmlns:resource="clr-namespace:GPS_NotePad.Resources.Resx"
              ios:Page.UseSafeArea="True"
              x:Class="GPS_NotePad.Views.PinListView"
              Title="Pins"
@@ -59,12 +60,12 @@
                                     
                                 </ViewCell.View>
                                 <ViewCell.ContextActions>
-                                    <MenuItem Text="Edit"
+                                    <MenuItem Text="{x:Static resource:Resource.EditItem}"
                                               Command="{Binding EditItem}" 
                                               BindingContext="{Binding Source={x:Reference listView}, Path=BindingContext}"
                                               CommandParameter="{Binding Source={x:Reference Item}, Path=BindingContext}"/>
 
-                                    <MenuItem Text="Delete" IsDestructive="True"
+                                    <MenuItem Text="{x:Static resource:Resource.DeleteItem}" IsDestructive="True"
                                              Command="{Binding DeleteItem}" 
                                              BindingContext="{Binding Source={x:Reference listView}, Path=BindingContext}" 
                                              CommandParameter="{Binding Source={x:Reference Item}, Path=BindingContext}"/>

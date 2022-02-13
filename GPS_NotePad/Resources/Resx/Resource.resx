@@ -164,6 +164,12 @@ Password must contain at least one capital letter, one lowercase letter and one 
   <data name="Button_Galery" xml:space="preserve">
     <value>Galery</value>
   </data>
+  <data name="DeleteItem" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="EditItem" xml:space="preserve">
+    <value>Edit</value>
+  </data>
   <data name="ErrorText_Email" xml:space="preserve">
     <value>Email. Must have - aaa@aa.aa</value>
   </data>

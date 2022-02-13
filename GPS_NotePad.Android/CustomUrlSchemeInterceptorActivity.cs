@@ -16,7 +16,8 @@ namespace GPS_NotePad.Droid
     new[] { Intent.ActionView },
     Categories = new[] { Intent.CategoryDefault, Intent.CategoryBrowsable },
     DataSchemes = new[] { "com.googleusercontent.apps.486491599259-9qkacj16rv2j7rkpoe1upa1ou0gg65nk" },
-    DataPath = "/oauth2redirect")]
+    DataPath = "/oauth2redirect", AutoVerify = true)]
+
     public class CustomUrlSchemeInterceptorActivity : Activity
     {
         protected override void OnCreate(Bundle savedInstanceState)

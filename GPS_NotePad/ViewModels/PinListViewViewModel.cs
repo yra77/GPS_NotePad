@@ -50,7 +50,6 @@ namespace GPS_NotePad.ViewModels
         }
 
        
-
         public event EventHandler IsActiveChanged;
 
 

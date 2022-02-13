@@ -59,8 +59,10 @@ namespace GPS_NotePad.Services
                 var response = await request.GetResponseAsync();
                 if (response != null)
                 {
-                    string userJson = await response.GetResponseTextAsync();
-                    UserDialogs.Instance.Alert(userJson, "Response", "Ok");
+                    var userJson = await response.GetResponseTextAsync();
+
+                    Console.WriteLine(userJson);
+
                     //user = JsonConvert.DeserializeObject<User>(userJson);
                 }
 
