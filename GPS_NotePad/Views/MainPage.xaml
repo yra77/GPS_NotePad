@@ -41,7 +41,6 @@
                                     </Entry.Effects>
                                 </Entry>
                                 
-                                <Image Source="{DynamicResource apple}" Scale="0.5" Grid.Column="1" WidthRequest="50" Aspect="AspectFit"/>
                                 
                             </Grid>
                             
@@ -66,7 +65,6 @@
                                     </Entry.Effects>
                                 </Entry>
                                 
-                                <Image Source="{DynamicResource email}" Scale="0.5" Grid.Column="1" WidthRequest="50" Aspect="AspectFit"/>
                            
                             </Grid>
                             

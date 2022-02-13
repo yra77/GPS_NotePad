@@ -160,6 +160,7 @@ namespace GPS_NotePad.ViewModels
 
         #endregion
 
+
         #region Private method
 
         void CheckName(string temp)
