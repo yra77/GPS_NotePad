@@ -224,6 +224,15 @@ namespace GPS_NotePad.Resources.Resx {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Delete is .
+        /// </summary>
+        internal static string Message_Delete {
+            get {
+                return ResourceManager.GetString("Message_Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Email.
         /// </summary>
         internal static string PlaceholderEmail {

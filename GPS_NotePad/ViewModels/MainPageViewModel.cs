@@ -1,21 +1,16 @@
 ﻿
-
-
 using GPS_NotePad.Helpers;
-using Acr.UserDialogs;
 using GPS_NotePad.Models;
 using GPS_NotePad.Services;
 
-using Xamarin.Essentials;
+using Acr.UserDialogs;
 
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 
 using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Xamarin.Forms;
+
 
 namespace GPS_NotePad.ViewModels
 {
@@ -129,7 +124,7 @@ namespace GPS_NotePad.ViewModels
             set
             {
                 SetProperty(ref _email, value);
-                if (_email.Length > 0) { CheckEmail(value); }
+                if (_email.Length > 0) { CheckEmail(_email); }
             }
         }
 
@@ -330,6 +325,7 @@ namespace GPS_NotePad.ViewModels
             ErrorPassText = "";
             ErrorNameText = "";
             ErrorPassConfText = "";
+            IsOkEnable();
         }
 
         private void RegistrClick()
@@ -363,7 +359,7 @@ namespace GPS_NotePad.ViewModels
                     && PassConfBorderColor == Constants.Constant_Auth.ENTRY_BORDER_COLOR_GREEN) ? IsEnabled = true : IsEnabled = false;
 
             if (IsEnabled)
-                Color_OkBtn = Constants.Constant_Auth.OK_BTN_COLOR_GREEN;
+                Color_OkBtn = Constants.Constant_Auth.OK_BTN_COLOR_OK;
             else
                 Color_OkBtn = Constants.Constant_Auth.OK_BTN_COLOR;
 

@@ -173,6 +173,9 @@ Password must contain at least one capital letter, one lowercase letter and one 
   <data name="ErrorText_Password" xml:space="preserve">
     <value>8-16 symbols one capital letter, one lowercase letter, one digit</value>
   </data>
+  <data name="Message_Delete" xml:space="preserve">
+    <value>Delete is </value>
+  </data>
   <data name="PlaceholderEmail" xml:space="preserve">
     <value>Email</value>
   </data>

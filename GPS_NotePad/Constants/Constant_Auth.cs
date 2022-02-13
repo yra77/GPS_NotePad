@@ -30,7 +30,7 @@ namespace GPS_NotePad.Constants
 
         //Color string
         public const string OK_BTN_COLOR = "Gray";
-        public const string OK_BTN_COLOR_GREEN = "#7485FB";
+        public const string OK_BTN_COLOR_OK = "#7485FB";
         public const string ENTRY_BORDER_COLOR_GRAY = "Gray";
         public const string ENTRY_BORDER_COLOR_GREEN = "Green";
         public const string ENTRY_BORDER_COLOR_RED = "Red";

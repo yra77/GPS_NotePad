@@ -8,12 +8,11 @@
         <!--Image name-->
         <ImageSource x:Key="backStrelka">strelka.png</ImageSource>
         <ImageSource x:Key="saveIcon">save.png</ImageSource>
-        <ImageSource x:Key="apple">apple</ImageSource>
-        <ImageSource x:Key="email">email.png</ImageSource>
         <ImageSource x:Key="google">google.png</ImageSource>
         <ImageSource x:Key="locationIcon">location.png</ImageSource>
         <ImageSource x:Key="mapIcon">mapIcon.png</ImageSource>
         <ImageSource x:Key="pinGray">pin_gray.png</ImageSource>
+        
         
         <!--Color-->
         <Color x:Key="LightGray">LightGray</Color>
@@ -58,7 +57,8 @@
         <Color x:Key="TextColor2">LightGray</Color>
         <Color x:Key="TextColor3">LightGray</Color>
         
+        
         <!--Strings-->
-        <!--<x:String x:Key="eye">eye.png</x:String>-->
+
     </Application.Resources>
 </prism:PrismApplication>

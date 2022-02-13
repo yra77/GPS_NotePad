@@ -136,12 +136,6 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\pic_enter_page.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\apple.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\email.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable\password.png" />
   </ItemGroup>
   <ItemGroup>

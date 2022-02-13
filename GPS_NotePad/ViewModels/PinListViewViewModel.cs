@@ -26,7 +26,7 @@ namespace GPS_NotePad.ViewModels
         private List<MarkerInfo> _listMarkersClone;
         private string _markerImage;
         private string _markerLabel;
-        private string _markerAddress;       
+        private string _markerAddress;
         private string _email;
         private string _search;
         private bool _isActive;
@@ -43,10 +43,13 @@ namespace GPS_NotePad.ViewModels
             ClickToItem = new DelegateCommand<MarkerInfo>(ItemClickAsync);
             SearchBtn_Pressed = new DelegateCommand(SearchBtnPressed);
             UnfocusedCommand = new DelegateCommand(SearchUnfocus);
+            EditItem = new DelegateCommand<MarkerInfo>(EditItem_Click);
+            DeleteItem = new DelegateCommand<MarkerInfo>(DeleteItem_Click);
 
             _verifyInput = new VerifyInput_Helper();
         }
 
+       
 
         public event EventHandler IsActiveChanged;
 
@@ -57,6 +60,9 @@ namespace GPS_NotePad.ViewModels
         public DelegateCommand<MarkerInfo> ClickToItem { get; set; }
         public DelegateCommand AddNewMarker { get; }
         public DelegateCommand SearchBtn_Pressed { get; }
+        public DelegateCommand<MarkerInfo> EditItem{ get; set; }
+        public DelegateCommand<MarkerInfo> DeleteItem { get; set; }
+
 
         public IList<MarkerInfo> ListMarkers { get => _listMarkers; set => SetProperty(ref _listMarkers, value); }
         public bool IsActive { get { return _isActive; } set { SetProperty(ref _isActive, value, IsActiveTabAsync); } }
@@ -109,12 +115,27 @@ namespace GPS_NotePad.ViewModels
                 }
             } 
         }
-        
+
 
         #endregion
 
 
         #region Private method
+
+        private async void DeleteItem_Click(MarkerInfo item)
+        {
+            var res = await UserDialogs.Instance.ConfirmAsync(Resources.Resx.Resource.Message_Delete + " - " + item.Address + " ?", "Message", "Ok", "cancel");
+            if (res)
+            {
+                await _markerService.Delete<MarkerInfo>(item.Id);
+                ListPinAsync();
+            }
+        }
+
+        private void EditItem_Click(MarkerInfo item)
+        {
+            Console.WriteLine("Edit item " + item.Address);
+        }
 
         private async void AddNewMakerClickAsync()
         {
@@ -157,6 +178,7 @@ namespace GPS_NotePad.ViewModels
             {
                 temp.Add(new MarkerInfo
                 {
+                    Id = item.Id,
                     Address = item.Address,
                     Label = item.Label,
                     Latitude = item.Latitude,
