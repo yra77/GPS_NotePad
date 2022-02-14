@@ -13,6 +13,7 @@ namespace GPS_NotePad.Services
     public interface IRegistrService
     {
         Task<bool> Registr(Loginin profile, string passConfirm);
+        Task<bool> RegistrGoogle(Loginin profile);
     }
 
     class RegistrService : IRegistrService
@@ -44,7 +45,7 @@ namespace GPS_NotePad.Services
 
             if (_verifyInput.IsValidEmail(profile.email))
             {
-                if (profile.password.Equals(passConfirm) && _verifyInput.PasswordVerify(profile.password) 
+                if (profile.password.Equals(passConfirm) && _verifyInput.PasswordVerify(profile.password)
                     && _verifyInput.PasswordVerify(passConfirm))
                 {
 
@@ -70,6 +71,16 @@ namespace GPS_NotePad.Services
             }
 
             return false;
+        }
+
+        public async Task<bool> RegistrGoogle(Loginin profile)
+        {
+            if (_verifyInput.IsValidEmail(profile.email))
+            {
+                return await _repository.Insert<Loginin>(profile);
+            }
+            else
+                return false;
         }
 
     }

@@ -35,5 +35,7 @@ namespace GPS_NotePad.Constants
         public const string ENTRY_BORDER_COLOR_GREEN = "Green";
         public const string ENTRY_BORDER_COLOR_RED = "Red";
 
+        public const string GOOGLE_PASSWORD_USER = "GoogleUser1";
+
     }
 }

@@ -78,15 +78,14 @@ namespace GPS_NotePad.Services
 
                 if (user != null && user.Email != null)
                 {              
-                    //App.Current.MainPage = new NavigationPage(new TabbedPageMy());
 
                     var res = await _repository.GetData<Loginin>("Loginin", user.Email);
 
                     if (res.Any())
                     {
-                      //  if (res.First().password == "google")
-                      //  {
-                            googleAuthCallBack(user.Email, true);
+                        //  if (res.First().password == "GoogleUser1")
+                        //  {
+                        googleAuthCallBack(user.Email, true);
                         return;
                         //}
                     }

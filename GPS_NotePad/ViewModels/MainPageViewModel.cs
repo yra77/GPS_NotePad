@@ -282,7 +282,7 @@ namespace GPS_NotePad.ViewModels
                                 {
                                     { "email", Email }
                                 };
-                    await _navigationService.NavigateAsync("/MapView", navParameters, animated: true);
+                    await _navigationService.NavigateAsync("/TabbedPageMy", navParameters, animated: true);
 
                     Password = "";
                 }
@@ -319,7 +319,9 @@ namespace GPS_NotePad.ViewModels
         }
         
         private async void Google_HandlerAsync(string email, bool isReg) 
-        { 
+        {
+            ICheckingDeviceProperty_Helper checkingDeviceProperty = new CheckingDeviceProperty_Helper();
+            await checkingDeviceProperty.CheckingDeviceProperty();
 
             Email = email;
 
@@ -328,19 +330,21 @@ namespace GPS_NotePad.ViewModels
                 Loginin log = new Loginin();
                 log.name = "Google_User";
                 log.email = Email;
-                log.password = "google";
+                log.password = Constants.Constant_Auth.GOOGLE_PASSWORD_USER;
                 log.DateCreated = DateTime.Now;
 
-                if(!await _registrService.Registr(log, "google"))
+                if(!await _registrService.RegistrGoogle(log))
                 {
                     UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_SavePin, "Error", "Ok");
                     return;
                 }
+                else
+                    UserDialogs.Instance.Alert("Your password is " + Constants.Constant_Auth.GOOGLE_PASSWORD_USER, "Message", "Ok");
             }
 
             NavigationParameters navParameters = new NavigationParameters { { "email", Email } };
 
-            await _navigationService.NavigateAsync("/MapView", navParameters, animated: true);
+            await _navigationService.NavigateAsync("/TabbedPageMy", navParameters, animated: true);
 
         }
         
