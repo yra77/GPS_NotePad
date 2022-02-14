@@ -17,6 +17,12 @@ namespace GPS_NotePad.ViewModels
     //486491599259-9qkacj16rv2j7rkpoe1upa1ou0gg65nk.apps.googleusercontent.com
     //AIzaSyDcSVIjErUsWelFNRTTqKJimfh9lDj7JJ0   -  maps google android
     //AIzaSyDzt_zSeQ_rK0TR2ClYHraBm7Yrg83JhDU - ios
+
+
+
+    public delegate void GoogleAuthCallBack(string email, bool isReg);
+
+
     class MainPageViewModel : BindableBase, INavigatedAware
     {
 
@@ -50,6 +56,7 @@ namespace GPS_NotePad.ViewModels
         private bool _isVisiblePassword;
 
         #endregion
+
 
         public MainPageViewModel(IAuthService authService, IRegistrService registrService, INavigationService navigationService)
         {
@@ -275,7 +282,7 @@ namespace GPS_NotePad.ViewModels
                                 {
                                     { "email", Email }
                                 };
-                    await _navigationService.NavigateAsync("/TabbedPageMy", navParameters, animated: true);
+                    await _navigationService.NavigateAsync("/MapView", navParameters, animated: true);
 
                     Password = "";
                 }
@@ -310,11 +317,41 @@ namespace GPS_NotePad.ViewModels
                 PasswordConfirm = "";
             }
         }
+        
+        private async void Google_HandlerAsync(string email, bool isReg) 
+        { 
 
+            Email = email;
+
+            if(!isReg)
+            {
+                Loginin log = new Loginin();
+                log.name = "Google_User";
+                log.email = Email;
+                log.password = "google";
+                log.DateCreated = DateTime.Now;
+
+                if(!await _registrService.Registr(log, "google"))
+                {
+                    UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_SavePin, "Error", "Ok");
+                    return;
+                }
+            }
+
+            NavigationParameters navParameters = new NavigationParameters { { "email", Email } };
+
+            await _navigationService.NavigateAsync("/MapView", navParameters, animated: true);
+
+        }
+        
         private void GoogleClick()
         {
-            _authService.GoogleAuth();
+            GoogleAuthCallBack googleAuthCallBack; 
+            googleAuthCallBack = Google_HandlerAsync;
+
+            _authService.GoogleAuth(googleAuthCallBack);
         }
+
         private void Input_ErrorColor()
         {
             EmailBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_GRAY;

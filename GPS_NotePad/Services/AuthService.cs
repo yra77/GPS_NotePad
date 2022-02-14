@@ -4,7 +4,9 @@ using GPS_NotePad.Constants;
 using GPS_NotePad.Helpers;
 using GPS_NotePad.Models;
 using GPS_NotePad.Repository;
-
+using GPS_NotePad.ViewModels;
+using GPS_NotePad.Views;
+using Newtonsoft.Json;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,16 +21,24 @@ namespace GPS_NotePad.Services
     public interface IAuthService
     {
         Task<bool> Auth(string password, string email);
-        void GoogleAuth();
+        void GoogleAuth(GoogleAuthCallBack myDel);
     }
 
+    
     class AuthService : IAuthService
     {
+
+        #region Private helper
+
+        private GoogleAuthCallBack googleAuthCallBack;
 
         private readonly IRepository _repository;
         private Account _account;
         private readonly AccountStore _store;
         private readonly IVerifyInputLogPas_Helper _verifyInput;
+
+        #endregion
+
 
         public AuthService(IRepository repository)
         {
@@ -38,6 +48,7 @@ namespace GPS_NotePad.Services
             _store = AccountStore.Create();
         }
 
+        
 
         #region Private methods
 
@@ -49,8 +60,9 @@ namespace GPS_NotePad.Services
                 authenticator.Completed -= OnAuthCompletedAsync;
                 authenticator.Error -= OnAuthError;
             }
+            
+            GoogleUser user = null;
 
-           // User user = null;
             if (e.IsAuthenticated)
             {
                 // If the user is authenticated, request their basic user data from Google
@@ -61,20 +73,34 @@ namespace GPS_NotePad.Services
                 {
                     var userJson = await response.GetResponseTextAsync();
 
-                    Console.WriteLine(userJson);
-
-                   // user = JsonConvert.DeserializeObject<User>(userJson);
+                    user = JsonConvert.DeserializeObject<GoogleUser>(userJson); 
                 }
 
-                //if (user != null)
-                //{
-                //	//App.Current.MainPage = new NavigationPage(new MyDashBoardPage());
+                if (user != null && user.Email != null)
+                {              
+                    //App.Current.MainPage = new NavigationPage(new TabbedPageMy());
 
-                //}
+                    var res = await _repository.GetData<Loginin>("Loginin", user.Email);
 
-                // await store.SaveAsync(account = e.Account, AppConstant.Constants.AppName);
-                //await DisplayAlert("Email address", user.Email, "OK");
+                    if (res.Any())
+                    {
+                      //  if (res.First().password == "google")
+                      //  {
+                            googleAuthCallBack(user.Email, true);
+                        return;
+                        //}
+                    }
+                    else
+                    {
+                        googleAuthCallBack(user.Email, false);
+                        return;
+                    }
+
+                }
+
             }
+            UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_SavePin, "Error", "Ok");
+            return;
         }
 
         void OnAuthError(object sender, AuthenticatorErrorEventArgs e)
@@ -131,8 +157,10 @@ namespace GPS_NotePad.Services
             return false;
         }
 
-        public void GoogleAuth()
+        public void GoogleAuth(GoogleAuthCallBack myDel)
         {
+
+            googleAuthCallBack = myDel;
             string clientId = null;
             string redirectUri = null;
 

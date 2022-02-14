@@ -7,7 +7,7 @@ using Android.Content.PM;
 using Android.OS;
 
 using System;
-
+using Xamarin.Auth;
 
 namespace GPS_NotePad.Droid
 {
@@ -30,7 +30,14 @@ namespace GPS_NotePad.Droid
             // Load redirectUrl page
             AuthenticationState_Helper.Authenticator.OnPageLoading(uri);
 
-            Finish();
+            //закрывает уведомление в браузере
+            CustomTabsConfiguration.CustomTabsClosingMessage = null;
+            //закрывает браузер
+            var intent = new Intent(this, typeof(MainActivity));
+            intent.SetFlags(ActivityFlags.ClearTop | ActivityFlags.SingleTop);
+            StartActivity(intent);
+           
+             Finish();
         }
     }
 }
