@@ -50,7 +50,7 @@ namespace GPS_NotePad.Services
                 authenticator.Error -= OnAuthError;
             }
 
-            //User user = null;
+           // User user = null;
             if (e.IsAuthenticated)
             {
                 // If the user is authenticated, request their basic user data from Google
@@ -63,7 +63,7 @@ namespace GPS_NotePad.Services
 
                     Console.WriteLine(userJson);
 
-                    //user = JsonConvert.DeserializeObject<User>(userJson);
+                   // user = JsonConvert.DeserializeObject<User>(userJson);
                 }
 
                 //if (user != null)

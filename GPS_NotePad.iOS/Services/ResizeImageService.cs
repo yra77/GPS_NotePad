@@ -10,7 +10,7 @@ namespace GPS_NotePad.iOS.Services
 {
     class ResizeImageService : WorkingToImagesService
     {
-        public string ResizeImage(string image, string nameImg)
+        public string ResizeImage(string image, string nameImg, bool isGalery)
         {
 
             UIImage originalImage = UIImage.FromFile(image);

@@ -30,7 +30,9 @@
             </Frame>
             
             <StackLayout Margin="0,60,0,0">
-
+                
+                <Line Margin="1,0,0,0" Stroke="Gray" X2="380" HorizontalOptions="CenterAndExpand" StrokeThickness="2"/>
+                
                 <ListView x:Name="listView" VerticalOptions="FillAndExpand" BackgroundColor="Transparent"
                              CachingStrategy="RecycleElement" HasUnevenRows="True" SeparatorColor="{DynamicResource SeparatorColor}" 
                           ItemsSource="{Binding ListMarkers}">
@@ -41,10 +43,10 @@
                             <ViewCell x:Name="Item">
                                 <ViewCell.View>
                                    
-                                   <Grid BackgroundColor="{DynamicResource ItemListView_Background}" Margin="0,0,0,0">
+                                   <Grid HeightRequest="80" BackgroundColor="{DynamicResource ItemListView_Background}">
                                     
-                                    <Frame Grid.Column="0" Padding="0" Margin="8" CornerRadius="50" 
-                                           ScaleX="0.5" ScaleY="0.7" HasShadow="False">
+                                    <Frame Grid.Column="0" Padding="0" Margin="8" CornerRadius="35" 
+                                           ScaleX="0.5" ScaleY="0.8" HasShadow="False">
                                             
                                         <Image Source="{Binding ImagePath}" Aspect="AspectFill" Scale="1" />
                                         

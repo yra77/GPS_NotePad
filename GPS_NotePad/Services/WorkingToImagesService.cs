@@ -6,6 +6,6 @@ namespace GPS_NotePad.Services
 {
     public interface WorkingToImagesService
     {
-        string ResizeImage(string image, string nameImg);
+        string ResizeImage(string image, string nameImg, bool isGalery);
     }
 }

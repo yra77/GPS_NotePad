@@ -28,7 +28,7 @@ namespace GPS_NotePad.Services
             var photo = await Xamarin.Essentials.MediaPicker.CapturePhotoAsync();
             if (photo != null)// do not remove - will be error
             {
-                string str = _resizeImage.ResizeImage(photo.FullPath, photo.FileName);
+                string str = _resizeImage.ResizeImage(photo.FullPath, photo.FileName, false);
                 return str;
             }
             return Constants.Constant.DEFAULT_IMAGE;
@@ -39,7 +39,7 @@ namespace GPS_NotePad.Services
             var photo = await Xamarin.Essentials.MediaPicker.PickPhotoAsync();
             if (photo != null)// do not remove - will be error
             {
-                string str = _resizeImage.ResizeImage(photo.FullPath, photo.FileName);
+                string str = _resizeImage.ResizeImage(photo.FullPath, photo.FileName, false);
                 //Console.WriteLine("File Size in Bytes: " + new FileInfo(photo.FullPath).Length);
                 //Console.WriteLine("File Size in Bytes: " + new FileInfo(str).Length);
                 return str;

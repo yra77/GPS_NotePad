@@ -10,7 +10,7 @@ namespace GPS_NotePad.Droid.Services
 {
     class ResizeImageService : WorkingToImagesService
     {
-        public string ResizeImage(string imagePath, string nameImg)
+        public string ResizeImage(string imagePath, string nameImg, bool isGalery)
         {
             float height = 600;
             float width = 400;
@@ -41,16 +41,17 @@ namespace GPS_NotePad.Droid.Services
 
             Bitmap resizedImg = Bitmap.CreateScaledBitmap(originalImage, (int)newWidth, (int)newHeight, false);//(int)width, (int)height, false);//
 
-            Bitmap resizedImage = Rotate(resizedImg);
 
-            resizedImg.Recycle();
+            if (isGalery)
+                resizedImg = Rotate(resizedImg);
+            
             originalImage.Recycle();
 
             using (MemoryStream ms = new MemoryStream())
             {
-                resizedImage.Compress(Bitmap.CompressFormat.Png, 10, ms);
+                resizedImg.Compress(Bitmap.CompressFormat.Png, 10, ms);
 
-                resizedImage.Recycle();
+                resizedImg.Recycle();
 
                 return SaveToFile(ms.ToArray(), nameImg);
             }

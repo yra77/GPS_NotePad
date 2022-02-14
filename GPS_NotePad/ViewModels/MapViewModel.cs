@@ -225,6 +225,14 @@ namespace GPS_NotePad.ViewModels
         private void SearchListItem_Click(MarkerInfo val)
         {
             MarkerClicked(new Position(val.Latitude, val.Longitude), val.ImagePath, val.Label, val.Address);
+            MoveTo = new MarkerInfo
+            {
+                Address = "ffffff",
+                Latitude = val.Latitude,
+                Longitude = val.Longitude,
+                Label = " ",
+                ImagePath = " "
+            };
             SearchList_Clear();
         }
         async void SearchList_Clear()
