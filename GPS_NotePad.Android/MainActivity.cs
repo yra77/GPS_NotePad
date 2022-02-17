@@ -1,9 +1,8 @@
 ﻿
 
-
-using GPS_NotePad.Services;
 using GPS_NotePad.Droid.Services;
 using GPS_NotePad.Droid.Effects;
+using GPS_NotePad.Services.Interfaces;
 
 using Acr.UserDialogs;
 

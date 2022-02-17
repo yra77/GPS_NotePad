@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace GPS_NotePad.Helpers
@@ -22,38 +19,22 @@ namespace GPS_NotePad.Helpers
                 Regex regex =
              new Regex(@"^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$",
              RegexOptions.CultureInvariant | RegexOptions.Singleline);
-                
-               // Console.WriteLine($"The email is {email}");
                
-                bool isValidEmail = regex.IsMatch(email);
-               
-                //if (!isValidEmail)
-                //{
-                //    Console.WriteLine($"The email is invalid");
-                //}
-                //else
-                //{
-                //    Console.WriteLine($"The email is valid");
-                //}
-                return isValidEmail;
-
+                return regex.IsMatch(email);
         }
     
         public bool EmailVerify(ref string str)
         {
             bool flag = true;
             string temp = str;
-            int codeASCII = 0;
 
             for (int i = 0; i < temp.Length; i++)
             {
-                codeASCII = Char.ConvertToUtf32(temp[i].ToString(), 0);
-                if ((codeASCII == 45) || (codeASCII == 95) || (codeASCII == 64) || (codeASCII == 46) || (codeASCII == 38) || 
-                    (codeASCII == 36) || (codeASCII > 47 && codeASCII < 58) || (codeASCII > 64 && codeASCII < 91) || 
-                    (codeASCII > 96 && codeASCII < 123))
+               
+                if (char.IsDigit(temp[i]) || (temp[i] >= 'A' && temp[i] <= 'Z') || (temp[i] >= 'a' && temp[i] <= 'z') 
+                    || temp[i] == '.' || temp[i] == '@' || temp[i] == '_' || temp[i] == '-')
                 {
                     continue;
-                    // Console.WriteLine(Char.ConvertToUtf32(str[i].ToString(), 0));
                 }
                 else
                 {
@@ -63,21 +44,21 @@ namespace GPS_NotePad.Helpers
 
             }
             str = temp;
+
             return flag;
         }
+
         public bool NameVerify(ref string str)
         {
             bool flag = true;
             string temp = str;
-            int codeASCII = 0;
 
             for (int i = 0; i < temp.Length; i++)
             {
-                codeASCII = Char.ConvertToUtf32(temp[i].ToString(), 0);
-                if ((codeASCII > 64 && codeASCII < 91) || (codeASCII > 96 && codeASCII < 123))
+               
+                if((temp[i] >= 'A' && temp[i] <= 'Z') || (temp[i] >= 'a' && temp[i] <= 'z'))
                 {
                     continue;
-                    // Console.WriteLine(Char.ConvertToUtf32(str[i].ToString(), 0));
                 }
                 else
                 {
@@ -94,12 +75,11 @@ namespace GPS_NotePad.Helpers
         {
             bool flag = true;
             string temp = str;
-            int codeASCII = 0;
 
             for (int i = 0; i < temp.Length; i++)
             {
-                codeASCII = Char.ConvertToUtf32(temp[i].ToString(), 0);
-                if ((codeASCII > 47 && codeASCII < 58) || (codeASCII > 64 && codeASCII < 91) || (codeASCII > 96 && codeASCII < 123))
+
+                if(char.IsDigit(temp[i]) || (temp[i] >= 'A' && temp[i] <= 'Z') || (temp[i] >= 'a' && temp[i] <= 'z')) 
                 {
                     continue;
                 }
@@ -117,29 +97,10 @@ namespace GPS_NotePad.Helpers
         public bool PasswordVerify(string str)
         {
 
-            bool isUpper = false;
-            bool isLower = false;
-            bool isDigit = false;
+            Regex regex = new Regex(@"^([A-Z]{1}[A-Za-z0-9]{0,}[0-9]{1,})",
+             RegexOptions.CultureInvariant | RegexOptions.Singleline);
 
-            for (int i = 0; i < str.Length; i++)
-            {
-                int codeASCII = Char.ConvertToUtf32(str[i].ToString(), 0);
-
-                if (codeASCII > 47 && codeASCII < 58)
-                {
-                    isDigit = true;
-                }
-                if (codeASCII > 64 && codeASCII < 91)
-                {
-                    isUpper = true;
-                }
-                if (codeASCII > 96 && codeASCII < 123)
-                {
-                    isLower = true;
-                }
-            }
-
-            return (isDigit && isUpper && isLower);
+            return regex.IsMatch(str);
         }
     }
 }

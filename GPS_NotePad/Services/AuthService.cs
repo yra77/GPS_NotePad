@@ -1,11 +1,11 @@
 ﻿
-using Acr.UserDialogs;
+
 using GPS_NotePad.Constants;
 using GPS_NotePad.Helpers;
 using GPS_NotePad.Models;
 using GPS_NotePad.Repository;
+using GPS_NotePad.Services.Interfaces;
 using GPS_NotePad.ViewModels;
-using GPS_NotePad.Views;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
@@ -18,13 +18,6 @@ using Xamarin.Forms;
 namespace GPS_NotePad.Services
 {
 
-    public interface IAuthService
-    {
-        Task<bool> Auth(string password, string email);
-        void GoogleAuth(GoogleAuthCallBack myDel);
-    }
-
-    
     class AuthService : IAuthService
     {
 
@@ -98,7 +91,7 @@ namespace GPS_NotePad.Services
                 }
 
             }
-            UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_SavePin, "Error", "Ok");
+           // UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_SavePin, "Error", "Ok");
             return;
         }
 
@@ -111,7 +104,7 @@ namespace GPS_NotePad.Services
                 authenticator.Error -= OnAuthError;
             }
 
-            Console.WriteLine("Authentication error: " + e.Message);
+           // Console.WriteLine("Authentication error: " + e.Message);
         }
 
         #endregion
@@ -119,8 +112,10 @@ namespace GPS_NotePad.Services
 
         #region Public method,  Intarface IAuthService implementation
 
-        public async Task<bool> Auth(string password, string email)
+        public async Task<(bool, string)> Auth(string password, string email)
         {
+            string str = "";
+
             if (_verifyInput.IsValidEmail(email))
             {
                 if (_verifyInput.PasswordVerify(password))
@@ -131,29 +126,29 @@ namespace GPS_NotePad.Services
                     {
                         if (res.First().password == password)
                         {
-                            return true;
+                            return (true, "Ok");
                         }
                         else
                         {
-                            UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Password1, "Error", "Ok");
+                            str = Resources.Resx.Resource.Alert_Password1;
                         }
                     }
                     else
                     {
-                        UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Email2, "Error", "Ok");
+                        str = Resources.Resx.Resource.Alert_Email2;
                     }
                 }
                 else
                 {
-                    UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Password2, "Error", "Ok");
+                    str = Resources.Resx.Resource.Alert_Password2;
                 }
             }
             else
             {
-                UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Email3, "Error", "Ok");
+                str = Resources.Resx.Resource.Alert_Email3;
             }
 
-            return false;
+            return (false, str);
         }
 
         public void GoogleAuth(GoogleAuthCallBack myDel)

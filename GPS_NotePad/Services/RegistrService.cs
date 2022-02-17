@@ -1,20 +1,15 @@
 ﻿
-using Acr.UserDialogs;
 using GPS_NotePad.Helpers;
 using GPS_NotePad.Models;
 using GPS_NotePad.Repository;
+using GPS_NotePad.Services.Interfaces;
+
 using System.Linq;
 using System.Threading.Tasks;
 
 
 namespace GPS_NotePad.Services
 {
-
-    public interface IRegistrService
-    {
-        Task<bool> Registr(Loginin profile, string passConfirm);
-        Task<bool> RegistrGoogle(Loginin profile);
-    }
 
     class RegistrService : IRegistrService
     {
@@ -40,8 +35,10 @@ namespace GPS_NotePad.Services
                 return false;
         }
 
-        public async Task<bool> Registr(Loginin profile, string passConfirm)
+        public async Task<(bool, string)> Registr(Loginin profile, string passConfirm)
         {
+
+            string str = "";
 
             if (_verifyInput.IsValidEmail(profile.email))
             {
@@ -51,26 +48,25 @@ namespace GPS_NotePad.Services
 
                     if (await Insert(profile))
                     {
-                        UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Ok_Reg, "", "Ok");
-
-                        return true;
+                        str = Resources.Resx.Resource.Alert_Ok_Reg;
+                        return (true, str);
                     }
                     else
                     {
-                        UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Email1, "Error", "Ok");
+                        str = Resources.Resx.Resource.Alert_Email1;
                     }
                 }
                 else
                 {
-                    UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Password2, "Error", "Ok");
+                    str = Resources.Resx.Resource.Alert_Password2;
                 }
             }
             else
             {
-                UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Email3, "Error", "Ok");
+                str = Resources.Resx.Resource.Alert_Email3;
             }
 
-            return false;
+            return (false, str);
         }
 
         public async Task<bool> RegistrGoogle(Loginin profile)

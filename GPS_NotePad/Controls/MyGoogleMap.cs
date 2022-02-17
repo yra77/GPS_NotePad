@@ -19,7 +19,7 @@ namespace GPS_NotePad.Controls
 
         private Location _currentLocation;
 
-
+       
         public MyGoogleMap()
         {
             PinsSource = new ObservableCollection<Pin>();
@@ -34,7 +34,7 @@ namespace GPS_NotePad.Controls
         #region Public property
 
         public static readonly BindableProperty PinsSourceProperty =
-            BindableProperty.Create(propertyName: "PinsSource",
+            BindableProperty.Create(propertyName: nameof(PinsSource),
                                  returnType: typeof(ObservableCollection<Pin>),
                                  declaringType: typeof(MyGoogleMap),
                                   defaultBindingMode: BindingMode.TwoWay,
@@ -47,7 +47,7 @@ namespace GPS_NotePad.Controls
         }
 
         public static BindableProperty MoveToProperty =
-                           BindableProperty.Create("MoveTo",
+                           BindableProperty.Create(nameof(MoveTo),
                              returnType: typeof(MarkerInfo),
                              declaringType: typeof(MyGoogleMap),
                              defaultValue: null,
@@ -61,7 +61,7 @@ namespace GPS_NotePad.Controls
         }
 
         public static BindableProperty MarkerInfoClickProperty =
-                BindableProperty.Create("MarkerInfoClick",
+                BindableProperty.Create(nameof(MarkerInfoClick),
                          returnType: typeof(MarkerInfo),
                          declaringType: typeof(MyGoogleMap),
                          defaultValue: null,
@@ -74,7 +74,7 @@ namespace GPS_NotePad.Controls
         }
 
         public static BindableProperty MapClicPositionProperty =
-                BindableProperty.Create("MapClicPosition",
+                BindableProperty.Create(nameof(MapClicPosition),
                     returnType: typeof(Position),
                     declaringType: typeof(MyGoogleMap),
                     defaultValue: null,
@@ -94,14 +94,10 @@ namespace GPS_NotePad.Controls
 
         private static void PinsSourcePropertyChanged(BindableObject bindable, object oldvalue, object newValue)
         {
-            var thisInstance = (MyGoogleMap)bindable;
-            var newPinsSource = (ObservableCollection<Pin>)newValue;
-
-            if (thisInstance == null ||
-                newPinsSource == null)
-                return;
-
-            UpdatePinsSource(thisInstance, newPinsSource);
+            if (bindable is MyGoogleMap map && newValue is ObservableCollection<Pin> pin)
+            {
+                UpdatePinsSource(map, pin);
+            }
         }
 
         private static void UpdatePinsSource(MyGoogleMap bindableMap, ObservableCollection<Pin> newSource)
@@ -114,21 +110,40 @@ namespace GPS_NotePad.Controls
 
         private static void MoveTo_FromViewModel(BindableObject bindable, object oldValue, object newValue)
         {
-            var b = (MyGoogleMap)bindable;
-            var a = (MarkerInfo)newValue;
-            if (a.Address == " ")
-                b.Move(a.Latitude, a.Longitude, 1400);
-            else
-                b.Move(a.Latitude, a.Longitude, distance: 50);
+
+            if (bindable is MyGoogleMap map && newValue is MarkerInfo marker)
+            {
+                if (marker.Address == " ")
+                {
+                    map.Move(marker.Latitude, marker.Longitude, 1400);
+                }
+                else if (marker.Address == "fff")
+                {
+                    map.Move(marker.Latitude, marker.Longitude, distance: 50);
+                    map.Pins.Clear();
+                    map.Pins.Add(new Pin
+                    {
+                        Type = PinType.Place,
+                        Address = " ",
+                        Label = " ",
+                        Position = new Position(marker.Latitude, marker.Longitude),
+                        Icon = BitmapDescriptorFactory.FromBundle("pin")
+                    });
+                }
+                else
+                {
+                    map.Move(marker.Latitude, marker.Longitude, distance: 50);
+                }
+            }
         }
 
         private static void OnSelected(BindableObject bindable, object oldValue, object newValue)
         {
-            var a = (MyGoogleMap)bindable;
             newValue = new Position(0, 0);
         }
 
         #endregion
+
 
         #region Private method
 
@@ -168,12 +183,22 @@ namespace GPS_NotePad.Controls
 
         private void PinsSourceOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            ObservableCollection<Pin> newSource = (ObservableCollection<Pin>)sender;
 
-            UpdatePinsSource(this, sender as ObservableCollection<Pin>);
+            if (sender is ObservableCollection<Pin> newSource)
+            {
+                UpdatePinsSource(this, sender as ObservableCollection<Pin>);
+            }
         }
 
         #endregion
+
+        ~MyGoogleMap()
+        {
+            PinClicked -= MyGoogleMap_PinClicked;
+            MapClicked -= MyGoogleMap_MapClicked;
+            SizeChanged -= MyGoogleMap_SizeChanged;
+            PinsSource.CollectionChanged -= PinsSourceOnCollectionChanged;
+        }
 
     }
 }

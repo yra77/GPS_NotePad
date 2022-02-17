@@ -2,7 +2,7 @@
 using Acr.UserDialogs;
 using GPS_NotePad.Models;
 using GPS_NotePad.Helpers;
-using GPS_NotePad.Services;
+using GPS_NotePad.Services.Interfaces;
 using Prism;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -22,16 +22,11 @@ namespace GPS_NotePad.ViewModels
         private readonly IMarkerService _markerService;
         private readonly INavigationService _navigationService;
         private readonly IVerifyInputLogPas_Helper _verifyInput;
-        private IList<MarkerInfo> _listMarkers;
         private List<MarkerInfo> _listMarkersClone;
-        private string _markerImage;
-        private string _markerLabel;
-        private string _markerAddress;
         private string _email;
-        private string _search;
-        private bool _isActive;
 
         #endregion
+
 
         public PinListViewViewModel(INavigationService navigationService, IMarkerService markerService)
         {
@@ -55,18 +50,20 @@ namespace GPS_NotePad.ViewModels
 
         #region Public property
 
-        public DelegateCommand UnfocusedCommand { get; }
-        public DelegateCommand<MarkerInfo> ClickToItem { get; set; }
-        public DelegateCommand AddNewMarker { get; }
-        public DelegateCommand SearchBtn_Pressed { get; }
-        public DelegateCommand<MarkerInfo> EditItem{ get; set; }
-        public DelegateCommand<MarkerInfo> DeleteItem { get; set; }
 
-
+        private IList<MarkerInfo> _listMarkers;
         public IList<MarkerInfo> ListMarkers { get => _listMarkers; set => SetProperty(ref _listMarkers, value); }
+
+
+        private bool _isActive;
         public bool IsActive { get { return _isActive; } set { SetProperty(ref _isActive, value, IsActiveTabAsync); } }
+
+
+        private string _markerImage;
         public string ImagePath { get => _markerImage; set { SetProperty(ref _markerImage, value); } }
 
+
+        private string _search;
         public string Search { get => _search; 
                                set { 
                                      SetProperty(ref _search, value);
@@ -87,7 +84,9 @@ namespace GPS_NotePad.ViewModels
                     OnTextChanged();
             } 
         }
-       
+
+
+        private string _markerLabel;
         public string Label { get => _markerLabel; 
                               set { SetProperty(ref _markerLabel, value);
                 if (_markerLabel.Length > 0)
@@ -101,6 +100,9 @@ namespace GPS_NotePad.ViewModels
                 }
             } 
         }
+
+
+        private string _markerAddress;
         public string Address { get => _markerAddress; 
                                 set { SetProperty(ref _markerAddress, value);
                 if (_markerAddress.Length > 0)
@@ -114,6 +116,14 @@ namespace GPS_NotePad.ViewModels
                 }
             } 
         }
+
+
+        public DelegateCommand UnfocusedCommand { get; }
+        public DelegateCommand<MarkerInfo> ClickToItem { get; set; }
+        public DelegateCommand AddNewMarker { get; }
+        public DelegateCommand SearchBtn_Pressed { get; }
+        public DelegateCommand<MarkerInfo> EditItem { get; set; }
+        public DelegateCommand<MarkerInfo> DeleteItem { get; set; }
 
 
         #endregion

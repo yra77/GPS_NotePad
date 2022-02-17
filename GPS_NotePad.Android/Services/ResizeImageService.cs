@@ -1,6 +1,6 @@
 ﻿
 
-using GPS_NotePad.Services;
+using GPS_NotePad.Services.Interfaces;
 using Android.Graphics;
 using System.IO;
 using Xamarin.Essentials;
@@ -12,44 +12,45 @@ namespace GPS_NotePad.Droid.Services
     {
         public string ResizeImage(string imagePath, string nameImg, bool isGalery)
         {
-            float height = 600;
+            float height = 400;
             float width = 400;
-            float newHeight = 0;
-            float newWidth = 0;
+           // float newHeight = 0;
+          //  float newWidth = 0;
 
             BitmapFactory.Options options = new BitmapFactory.Options();
-            options.InSampleSize = 10;
+            options.InSampleSize = 8;
 
             Bitmap originalImage = BitmapFactory.DecodeFile(imagePath, options);
-
-
-            var originalHeight = originalImage.Height;
-            var originalWidth = originalImage.Width;
-
-            if (originalHeight > originalWidth)
-            {
-                newHeight = height;
-                float ratio = originalHeight / height;
-                newWidth = originalWidth / ratio;
-            }
-            else
-            {
-                newWidth = width;
-                float ratio = originalWidth / width;
-                newHeight = originalHeight / ratio;
-            }
-
-            Bitmap resizedImg = Bitmap.CreateScaledBitmap(originalImage, (int)newWidth, (int)newHeight, false);//(int)width, (int)height, false);//
-
-
             if (isGalery)
-                resizedImg = Rotate(resizedImg);
-            
+                originalImage = Rotate(originalImage);
+
+            //var originalHeight = originalImage.Height;
+            //var originalWidth = originalImage.Width;
+
+            //if (originalHeight > originalWidth)
+            //{
+            //    newHeight = height;
+            //    float ratio = originalHeight / height;
+            //    newWidth = originalWidth / ratio;
+            //}
+            //else
+            //{
+            //    newWidth = width;
+            //    float ratio = originalWidth / width;
+            //    newHeight = originalHeight / ratio;
+            //}
+
+            Bitmap resizedImg = Bitmap.CreateScaledBitmap(originalImage, (int)width, (int)height, false);//(int)newWidth, (int)newHeight, false);//
+
+            //if (isGalery)
+            //    resizedImg = Rotate(resizedImg);
+
+
             originalImage.Recycle();
 
             using (MemoryStream ms = new MemoryStream())
             {
-                resizedImg.Compress(Bitmap.CompressFormat.Png, 10, ms);
+                resizedImg.Compress(Bitmap.CompressFormat.Png, 100, ms);
 
                 resizedImg.Recycle();
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GPS_NotePad.Services
+namespace GPS_NotePad.Services.Interfaces
 {
     public interface WorkingToImagesService
     {

@@ -2,12 +2,13 @@
 using Acr.UserDialogs;
 using GPS_NotePad.Models;
 using GPS_NotePad.Helpers;
-using GPS_NotePad.Services;
+using GPS_NotePad.Services.Interfaces;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Xamarin.Essentials;
 using Xamarin.Forms.GoogleMaps;
+
 
 namespace GPS_NotePad.ViewModels
 {
@@ -21,13 +22,7 @@ namespace GPS_NotePad.ViewModels
         private readonly INavigationService _navigationService;
         private readonly IVerifyInputLogPas_Helper _verifyInput;
         private Location _currentLocation;
-        private MarkerInfo _moveTo;
         private MarkerInfo _markerInfo;
-        private Position _mapClicPosition;
-        private Position _position;
-        private string _markerImage;
-        private string _markerLabel;
-        private string _markerAddress;
         private string _email;
 
         #endregion
@@ -49,20 +44,28 @@ namespace GPS_NotePad.ViewModels
 
         #region Public property
 
-        public DelegateCommand MyLocationBtn { get; }
-        public DelegateCommand BackBtn { get; }
-        public DelegateCommand SaveAddBtn { get; }
-        public DelegateCommand GaleryBtn { get; }
-        public DelegateCommand CameraBtn { get; }
 
-        public MarkerInfo MoveTo { get => _moveTo; set { SetProperty(ref _moveTo, value); } }
+        private string _markerImage;
         public string ImagePath { get => _markerImage; set { SetProperty(ref _markerImage, value); } }
+
+
+        private MarkerInfo _moveTo;
+        public MarkerInfo MoveTo { get => _moveTo; set { SetProperty(ref _moveTo, value); } }
+
+
+        private Position _position;
+        public Position Position { get => _position; set { SetProperty(ref _position, value); } }
+
+
+        private Position _mapClicPosition;
         public Position MapClicPosition
         {
             get { return _mapClicPosition; }
             set { SetProperty(ref _mapClicPosition, value); MapClicked(); }
         }
 
+
+        private string _markerLabel;
         public string Label
         {
             get => _markerLabel;
@@ -81,6 +84,8 @@ namespace GPS_NotePad.ViewModels
             }
         }
 
+
+        private string _markerAddress;
         public string Address
         {
             get => _markerAddress;
@@ -98,21 +103,30 @@ namespace GPS_NotePad.ViewModels
                 }
             }
         }
+
+        public DelegateCommand MyLocationBtn { get; }
+        public DelegateCommand BackBtn { get; }
+        public DelegateCommand SaveAddBtn { get; }
+        public DelegateCommand GaleryBtn { get; }
+        public DelegateCommand CameraBtn { get; }
+
         #endregion
+
+
 
         #region Private metod
 
         private void MyLocation_Click()
         {
-            MoveTo = new MarkerInfo { Address = "ffffff", Latitude = 0, Longitude = 0, Label = " ", ImagePath = " " };
+            MoveTo = new MarkerInfo { Address = "ffffff", Latitude = 0, Longitude = 0, Label = "", ImagePath = "" };
         }
 
         private void MapClicked()
         {
-            _position = new Position(MapClicPosition.Latitude, MapClicPosition.Longitude);
+            Position = new Position(MapClicPosition.Latitude, MapClicPosition.Longitude);
             MoveTo = new MarkerInfo
             {
-                Address = "ffffff",
+                Address = "fff",
                 Latitude = MapClicPosition.Latitude,
                 Longitude = MapClicPosition.Longitude,
                 Label = " ",
@@ -134,7 +148,7 @@ namespace GPS_NotePad.ViewModels
 
         private async void SaveAddClickAsync()
         {
-            if (Label != null && Address != null && _position.Latitude > 0)
+            if (Label != null && Address != null && Position.Latitude > 0)
             {
 
                 _markerInfo = new MarkerInfo
@@ -143,8 +157,8 @@ namespace GPS_NotePad.ViewModels
                     ImagePath = this.ImagePath == null ? Constants.Constant.DEFAULT_IMAGE : ImagePath,
                     Label = this.Label,
                     Address = this.Address,
-                    Latitude = _position.Latitude,
-                    Longitude = _position.Longitude
+                    Latitude = Position.Latitude,
+                    Longitude = Position.Longitude
                 };
 
                 if (await _markerService.Insert(_markerInfo))
@@ -158,7 +172,7 @@ namespace GPS_NotePad.ViewModels
                 UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_All_Field, "Error", "Ok");
         }
 
-        async void BackClickAsync()
+        private async void BackClickAsync()
         {
             await _navigationService.NavigateAsync("/TabbedPageMy?selectedTab=PinListView");
         }
@@ -175,17 +189,15 @@ namespace GPS_NotePad.ViewModels
             _email = MapViewModel.Email;
             Label = "";
             Address = "";
-            ImagePath = "";
-            _position = new Position(0, 0);
 
             _currentLocation = await Geolocation.GetLocationAsync();
             MoveTo = new MarkerInfo
             {
-                Address = " ",
+                Address = "",
                 Latitude = _currentLocation.Latitude,
                 Longitude = _currentLocation.Longitude,
-                Label = " ",
-                ImagePath = " "
+                Label = "",
+                ImagePath = ""
             };
         }
 

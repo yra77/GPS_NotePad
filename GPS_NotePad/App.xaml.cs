@@ -4,13 +4,13 @@ using GPS_NotePad.ViewModels;
 using GPS_NotePad.Views;
 using GPS_NotePad.Repository;
 using GPS_NotePad.Services;
+using GPS_NotePad.Services.Interfaces;
 
 using Xamarin.Forms;
 
 using Prism;
 using Prism.Ioc;
 using Prism.Unity;
-
 
 namespace GPS_NotePad
 {
@@ -27,6 +27,9 @@ namespace GPS_NotePad
         {
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
+            containerRegistry.RegisterForNavigation<LogInView, LogInViewModel>();
+            containerRegistry.RegisterForNavigation<RegistrView, RegistrViewModel>();
+            containerRegistry.RegisterForNavigation<RegistrView2, RegistrViewModel2>();
             containerRegistry.RegisterForNavigation<TabbedPageMy, TabbedPageMyViewModel>();
             containerRegistry.RegisterForNavigation<MapView, MapViewModel>();
             containerRegistry.RegisterForNavigation<PinListView, PinListViewViewModel>();

@@ -1,8 +1,6 @@
 ﻿
 using Acr.UserDialogs;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 
@@ -43,9 +41,9 @@ namespace GPS_NotePad.Helpers
                 var request = new GeolocationRequest(GeolocationAccuracy.Medium);
             var userLocation = await Geolocation.GetLocationAsync(request);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-             UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Device_GeoLocacia, "Error", "Ok");
+                UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Device_GeoLocacia, "Error", "Ok");
                 return false;
             }
             return true;

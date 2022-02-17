@@ -1,17 +1,11 @@
 ﻿
-using System;
+using GPS_NotePad.Services.Interfaces;
+
 using System.Threading.Tasks;
+
 
 namespace GPS_NotePad.Services
 {
-    public interface IMediaService
-    {
-        void SaveToAppFolder(string fileName);
-        Task<string> OpenGalery();
-        Task<string> OpenCamera();
-
-    }
-
     class MediaService : IMediaService
     {
 

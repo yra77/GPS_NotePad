@@ -1,7 +1,6 @@
 ﻿
 
 using GPS_NotePad.iOS.Services;
-using GPS_NotePad.Services;
 using GPS_NotePad.iOS.Effects;
 
 using Prism;
@@ -13,6 +12,7 @@ using UIKit;
 using Foundation;
 using System;
 using GPS_NotePad.Helpers;
+using GPS_NotePad.Services.Interfaces;
 
 [assembly: ResolutionGroupName("GPS_NotePad")]
 [assembly: ExportEffect(typeof(EntryUnderlineColor_Effect), "PlainEntryEffect")]
