@@ -7,7 +7,8 @@ using Prism.Navigation;
 
 namespace GPS_NotePad.ViewModels
 {
-    //486491599259-9qkacj16rv2j7rkpoe1upa1ou0gg65nk.apps.googleusercontent.com
+    //486491599259-tco80iivdbvvj6ohmbhjb3tgn4ibfg5c.apps.googleusercontent.com//ios
+    //486491599259-9qkacj16rv2j7rkpoe1upa1ou0gg65nk.apps.googleusercontent.com//android
     //AIzaSyDcSVIjErUsWelFNRTTqKJimfh9lDj7JJ0   -  maps google android
     //AIzaSyDzt_zSeQ_rK0TR2ClYHraBm7Yrg83JhDU - ios
 

@@ -43,37 +43,21 @@
 			</array>
 		</dict>
 	</array>
+	<key>CFBundleURLSchemes</key>
+	<array>
+		<string>com.googleusercontent.apps.486491599259-tco80iivdbvvj6ohmbhjb3tgn4ibfg5c</string>
+	</array>
+	<key>CFBundleURLName</key>
+	<string>Xamarin.Auth Google PAuth</string>
 	<key>MKDirectionsApplicationSupportedModes</key>
 	<array>
 		<string>MKDirectionsModeBike</string>
 		<string>MKDirectionsModeBus</string>
 		<string>MKDirectionsModeCar</string>
 		<string>MKDirectionsModePedestrian</string>
-		<string>MKDirectionsModeRideShare</string>
 		<string>MKDirectionsModeStreetcar</string>
-		<string>MKDirectionsModeSubway</string>
+		<string>MKDirectionsModeTaxi</string>
 		<string>MKDirectionsModeTrain</string>
-		<string>MKDirectionsModeOther</string>
 	</array>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>location</string>
-		<string>external-accessory</string>
-		<string>fetch</string>
-		<string>processing</string>
-	</array>
-  <key>NSLocationWhenInUseUsageDescription</key>
-  <string>Fill in a reason why your app needs access to location.</string>
-<key>NSLocationAlwaysUsageDescription</key>
-<string>Can we use your location at all times?</string>
-<key>NSLocationWhenInUseUsageDescription</key>
-<string>Can we use your location when your application is being used?</string>
-<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-<string>Can we use your location at all times?</string>
-  <key>LSApplicationQueriesSchemes</key>
-  <array>
-    <string>googlechromes</string>
-    <string>comgooglemaps</string>
-  </array>
 </dict>
 </plist>

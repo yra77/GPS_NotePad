@@ -2,6 +2,8 @@
 
 using GPS_NotePad.iOS.Services;
 using GPS_NotePad.iOS.Effects;
+using GPS_NotePad.Helpers;
+using GPS_NotePad.Services.Interfaces;
 
 using Prism;
 using Prism.Ioc;
@@ -11,8 +13,7 @@ using Xamarin.Forms;
 using UIKit;
 using Foundation;
 using System;
-using GPS_NotePad.Helpers;
-using GPS_NotePad.Services.Interfaces;
+
 
 [assembly: ResolutionGroupName("GPS_NotePad")]
 [assembly: ExportEffect(typeof(EntryUnderlineColor_Effect), "PlainEntryEffect")]
@@ -36,17 +37,12 @@ namespace GPS_NotePad.iOS
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App(new IOSPlatformInitializer()));
             Xamarin.FormsGoogleMaps.Init("AIzaSyDzt_zSeQ_rK0TR2ClYHraBm7Yrg83JhDU");
+            global::Xamarin.Auth.Presenters.XamarinIOS.AuthenticationConfiguration.Init();
             return base.FinishedLaunching(app, options);
         }
 
         //Google Auth
-        public override bool OpenUrl
-                (
-                    UIApplication application,
-                    NSUrl url,
-                    string sourceApplication,
-                    NSObject annotation
-                )
+        public override bool OpenUrl ( UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)
         {
            #if DEBUG
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
