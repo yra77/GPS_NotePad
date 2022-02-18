@@ -62,12 +62,13 @@
             <!--End Marker info modal-->
             
             <!--Search-->
-            <StackLayout VerticalOptions="StartAndExpand" Margin="10,0,10,0">
+            <StackLayout VerticalOptions="StartAndExpand" Margin="10,0,10,0" BackgroundColor="Transparent">
 
-                <Frame VerticalOptions="Start" BorderColor="Black" Padding="0" Margin="0,5,0,10" BackgroundColor="Transparent">
+                <!--ios HeightRequest="40" -->
+                <Frame HorizontalOptions="Center" VerticalOptions="Start" BorderColor="Black" Padding="0" BackgroundColor="Transparent">
 
-                    <SearchBar HorizontalOptions="CenterAndExpand" CancelButtonColor="{DynamicResource CancelButtonColor}" Placeholder="Search" 
-                           PlaceholderColor="{DynamicResource Gray}" Keyboard="Text" 
+                    <SearchBar HorizontalOptions="Center" CancelButtonColor="{DynamicResource CancelButtonColor}" Placeholder="Search" 
+                           PlaceholderColor="{DynamicResource Gray}" Keyboard="Text" BackgroundColor="Transparent"
                            Text="{Binding Search}" SearchCommand="{Binding SearchBtn_Pressed}">
 
                         <SearchBar.Behaviors>

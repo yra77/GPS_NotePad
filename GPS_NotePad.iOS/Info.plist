@@ -19,7 +19,7 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>MinimumOSVersion</key>
-	<string>8.0</string>
+	<string>11.0</string>
 	<key>CFBundleDisplayName</key>
 	<string>GPS_NotePad</string>
 	<key>CFBundleIdentifier</key>
@@ -51,13 +51,30 @@
 	<string>Xamarin.Auth Google PAuth</string>
 	<key>MKDirectionsApplicationSupportedModes</key>
 	<array>
+		<string>MKDirectionsModePlane</string>
 		<string>MKDirectionsModeBike</string>
 		<string>MKDirectionsModeBus</string>
 		<string>MKDirectionsModeCar</string>
+		<string>MKDirectionsModeFerry</string>
 		<string>MKDirectionsModePedestrian</string>
+		<string>MKDirectionsModeRideShare</string>
 		<string>MKDirectionsModeStreetcar</string>
+		<string>MKDirectionsModeSubway</string>
 		<string>MKDirectionsModeTaxi</string>
 		<string>MKDirectionsModeTrain</string>
+		<string>MKDirectionsModeOther</string>
 	</array>
+	<key>UIMainStoryboardFile</key>
+	<string>LaunchScreen</string>
+
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>We would like to know your location to find places near you</string>
+
+	<key>NSCalendarsUsageDescription</key>
+	<string>This app needs access to calendar when open</string>
+
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We would like to know your location to find places near you</string>
+	
 </dict>
 </plist>

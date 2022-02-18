@@ -33,7 +33,7 @@
 
                 <Label HorizontalOptions="StartAndExpand" Margin="20,0,0,0" 
                        Text="Email" TextColor="White" FontSize="14" FontFamily="Montserrat_Font"/>
-
+                <!--ios  Padding="10,12,10,12"-->
                 <Frame Padding="10,4,10,4" HasShadow="False" BorderColor="{Binding EmailBorderColor}" 
                                BackgroundColor="Transparent">
 
@@ -61,6 +61,7 @@
 
                 <Label HorizontalOptions="StartAndExpand" Margin="20,0,0,0" 
                        Text="Password" TextColor="White" FontSize="14" FontFamily="Montserrat_Font"/>
+                <!--ios  Padding="10,0,10,0"-->
                 <Frame Padding="10,4,10,4" HasShadow="False" BorderColor="{Binding PassBorderColor}" 
                                BackgroundColor="Transparent">
 

@@ -194,10 +194,10 @@ namespace GPS_NotePad.Controls
 
         ~MyGoogleMap()
         {
-            PinClicked -= MyGoogleMap_PinClicked;
-            MapClicked -= MyGoogleMap_MapClicked;
-            SizeChanged -= MyGoogleMap_SizeChanged;
-            PinsSource.CollectionChanged -= PinsSourceOnCollectionChanged;
+            //PinClicked -= MyGoogleMap_PinClicked;
+            //MapClicked -= MyGoogleMap_MapClicked;
+            //SizeChanged -= MyGoogleMap_SizeChanged;
+            //PinsSource.CollectionChanged -= PinsSourceOnCollectionChanged;
         }
 
     }

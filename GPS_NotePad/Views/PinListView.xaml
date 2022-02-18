@@ -17,8 +17,8 @@
         <Grid>
             
             <Frame VerticalOptions="Start" BorderColor="Black" Padding="0" Margin="0,5,0,10" BackgroundColor="Transparent">
-                
-                <SearchBar HorizontalOptions="CenterAndExpand" CancelButtonColor="{DynamicResource CancelButtonColor}"
+
+                <SearchBar HorizontalOptions="CenterAndExpand" CancelButtonColor="{DynamicResource CancelButtonColor}" BackgroundColor="Transparent"
                            Placeholder="Search" FontFamily="Montserrat_Font" PlaceholderColor="{DynamicResource PlaceholderColorGray}"
                            Keyboard="Text" Text="{Binding Search}" SearchCommand="{Binding SearchBtn_Pressed}">
                     <SearchBar.Behaviors>

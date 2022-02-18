@@ -27,7 +27,7 @@ namespace GPS_NotePad.ViewModels
         {
 
             _checkingDeviceProperty = new CheckingDeviceProperty_Helper();
-            IsNetworkGeoLocalAsync();
+           // IsNetworkGeoLocalAsync();
 
             LogInBtn = new DelegateCommand(LogininClick);
             RegistrBtn = new DelegateCommand(RegistrClick);

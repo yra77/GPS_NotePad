@@ -119,7 +119,7 @@
                                 FontFamily="Montserrat_Font" FontSize="16" VerticalOptions="CenterAndExpand"/>
 
                     <Button Command="{Binding GaleryBtn}" Text="{x:Static resource:Resource.Button_Galery}" 
-                                FontSize="16" HorizontalOptions="Center" FontFamily="Montserrat_Font"/>
+                             FontSize="16" HorizontalOptions="Center" FontFamily="Montserrat_Font"/>
 
                     <Button Command="{Binding CameraBtn}" Text="{x:Static resource:Resource.Button_Camera}" 
                                 FontSize="16" HorizontalOptions="End" FontFamily="Montserrat_Font"/>
