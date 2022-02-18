@@ -1,13 +1,19 @@
 ﻿
-using Acr.UserDialogs;
+
 using GPS_NotePad.Models;
 using GPS_NotePad.Helpers;
 using GPS_NotePad.Services.Interfaces;
+
+using Acr.UserDialogs;
+
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
+
 using Xamarin.Essentials;
 using Xamarin.Forms.GoogleMaps;
+
+using System;
 
 
 namespace GPS_NotePad.ViewModels
@@ -23,6 +29,7 @@ namespace GPS_NotePad.ViewModels
         private readonly IVerifyInputLogPas_Helper _verifyInput;
         private Location _currentLocation;
         private MarkerInfo _markerInfo;
+        private Position _position;
         private string _email;
 
         #endregion
@@ -40,9 +47,31 @@ namespace GPS_NotePad.ViewModels
             CameraBtn = new DelegateCommand(CameraClickAsync);
             MyLocationBtn = new DelegateCommand(MyLocation_Click);
 
+            LatitudeBorderColor = Constants.Constant.BORDER_COLOR_ADDPIN;
+            LongitudeBorderColor = Constants.Constant.BORDER_COLOR_ADDPIN;
+            AddressBorderColor = Constants.Constant.BORDER_COLOR_ADDPIN;
+            LabelBorderColor = Constants.Constant.BORDER_COLOR_ADDPIN;
         }
 
+
+
         #region Public property
+
+
+        private string _labelBorderColor;
+        public string LabelBorderColor { get => _labelBorderColor; set { SetProperty(ref _labelBorderColor, value); } }
+
+
+        private string _addressBorderColor;
+        public string AddressBorderColor { get => _addressBorderColor; set { SetProperty(ref _addressBorderColor, value); } }
+
+
+        private string _longitudeBorderColor;
+        public string LongitudeBorderColor { get => _longitudeBorderColor; set { SetProperty(ref _longitudeBorderColor, value); } }
+
+
+        private string _latitudeBorderColor;
+        public string LatitudeBorderColor { get => _latitudeBorderColor; set { SetProperty(ref _latitudeBorderColor, value); } }
 
 
         private string _markerImage;
@@ -53,9 +82,29 @@ namespace GPS_NotePad.ViewModels
         public MarkerInfo MoveTo { get => _moveTo; set { SetProperty(ref _moveTo, value); } }
 
 
-        private Position _position;
-        public Position Position { get => _position; set { SetProperty(ref _position, value); } }
+        private string _longitude;
+        public string Longitude 
+        {
+            get => _longitude; 
+            set 
+            { 
+                SetProperty(ref _longitude, value);
+                if (_longitude.Length > 0) LongitudeCheck(Longitude);
+            } 
+        }
+    
 
+        private string _latitude;
+        public string Latitude 
+        { 
+            get => _latitude; 
+            set 
+            {
+                SetProperty(ref _latitude, value);
+                if (_latitude.Length > 0) LatitudeCheck(Latitude);
+            } 
+        }
+    
 
         private Position _mapClicPosition;
         public Position MapClicPosition
@@ -78,7 +127,11 @@ namespace GPS_NotePad.ViewModels
                     if (!_verifyInput.NameVerify(ref temp))//Verify label
                     {
                         Label = temp;
-                        UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Search, "Error", "Ok");
+                        LabelBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_RED;
+                    }
+                    else
+                    {
+                        LabelBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_GREEN;
                     }
                 }
             }
@@ -98,7 +151,11 @@ namespace GPS_NotePad.ViewModels
                     if (!_verifyInput.NameVerify(ref temp))//Verify Address
                     {
                         Address = temp;
-                        UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Search, "Error", "Ok");
+                        AddressBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_RED;
+                    }
+                    else
+                    {
+                        AddressBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_GREEN;
                     }
                 }
             }
@@ -123,15 +180,10 @@ namespace GPS_NotePad.ViewModels
 
         private void MapClicked()
         {
-            Position = new Position(MapClicPosition.Latitude, MapClicPosition.Longitude);
-            MoveTo = new MarkerInfo
-            {
-                Address = "fff",
-                Latitude = MapClicPosition.Latitude,
-                Longitude = MapClicPosition.Longitude,
-                Label = " ",
-                ImagePath = " "
-            };
+            _position = new Position(MapClicPosition.Latitude, MapClicPosition.Longitude);
+
+            Latitude = MapClicPosition.Latitude.ToString();
+            Longitude = MapClicPosition.Longitude.ToString();
         }
 
         private async void CameraClickAsync()
@@ -148,17 +200,19 @@ namespace GPS_NotePad.ViewModels
 
         private async void SaveAddClickAsync()
         {
-            if (Label != null && Address != null && Position.Latitude > 0)
+            if (Label != null && Label.Length > 2 && Address != null
+                && Address.Length > 2 && Longitude?.Length > 0 && Latitude?.Length > 0
+                && ImagePath != null && ImagePath.Length > 2)
             {
 
                 _markerInfo = new MarkerInfo
                 {
                     email = _email,
-                    ImagePath = this.ImagePath == null ? Constants.Constant.DEFAULT_IMAGE : ImagePath,
-                    Label = this.Label,
-                    Address = this.Address,
-                    Latitude = Position.Latitude,
-                    Longitude = Position.Longitude
+                    ImagePath = ImagePath == null ? Constants.Constant.DEFAULT_IMAGE : ImagePath,
+                    Label = Label,
+                    Address = Address,
+                    Latitude = _position.Latitude,
+                    Longitude = _position.Longitude
                 };
 
                 if (await _markerService.Insert(_markerInfo))
@@ -166,10 +220,55 @@ namespace GPS_NotePad.ViewModels
                     BackClickAsync();
                 }
                 else
+                {
                     UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_SavePin, "Error", "Ok");
+                }
             }
             else
+            {
                 UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_All_Field, "Error", "Ok");
+            }
+        }
+
+        private void LatitudeCheck(string position)
+        {
+
+            LatitudeBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_RED;
+
+            if (!_verifyInput.PositionVerify(ref position))
+            {
+                Latitude = position;
+            }
+            else
+            {
+                LatitudeBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_GREEN;
+                MoveTo_Position();
+            }
+        }
+
+        private void LongitudeCheck(string position)
+        {
+            LongitudeBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_RED;
+
+            if (!_verifyInput.PositionVerify(ref position))
+            {
+                Longitude = position;
+            }
+            else
+            {
+                LongitudeBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_GREEN;
+                MoveTo_Position();
+            }
+        }
+
+        private void MoveTo_Position()
+        {
+            Double.TryParse(Latitude, out double latitude); 
+            Double.TryParse(Longitude, out double longitude);
+            
+            _position = new Position(latitude, longitude);
+
+            MoveTo = new MarkerInfo { Address = "fff", Latitude = latitude, Longitude = longitude, Label = "", ImagePath = "" };
         }
 
         private async void BackClickAsync()

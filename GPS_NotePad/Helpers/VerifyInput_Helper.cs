@@ -10,6 +10,7 @@ namespace GPS_NotePad.Helpers
         bool NameVerify(ref string str);
         bool PasswordCheckin(ref string str);
         bool PasswordVerify(string str);
+        bool PositionVerify(ref string str);
     }
 
     class VerifyInput_Helper : IVerifyInputLogPas_Helper
@@ -101,6 +102,29 @@ namespace GPS_NotePad.Helpers
              RegexOptions.CultureInvariant | RegexOptions.Singleline);
 
             return regex.IsMatch(str);
+        }
+
+        public bool PositionVerify(ref string str)
+        {
+            bool flag = true;
+            string temp = str;
+
+            for (int i = 0; i < temp.Length; i++)
+            {
+
+                if (char.IsDigit(temp[i]) || temp[i] == ',' || temp[i] == '-')
+                {
+                    continue;
+                }
+                else
+                {
+                    temp = temp.Remove(i, 1);
+                    flag = false;
+                }
+
+            }
+            str = temp;
+            return flag;
         }
     }
 }

@@ -59,6 +59,7 @@
         <Color x:Key="TextColor1">White</Color>
         <Color x:Key="TextColor2">LightGray</Color>
         <Color x:Key="TextColor3">LightGray</Color>
+        <Color x:Key="BorderColorBtnMedia">#596EFB</Color>
         
         
         <!--Strings-->

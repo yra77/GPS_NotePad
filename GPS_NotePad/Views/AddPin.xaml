@@ -7,7 +7,7 @@
              ios:Page.UseSafeArea="True"
              xmlns:control="clr-namespace:GPS_NotePad.Controls"
              xmlns:resource="clr-namespace:GPS_NotePad.Resources.Resx" 
-             xmlns:effects="clr-namespace:GPS_NotePad.Effects"
+             xmlns:effects="clr-namespace:GPS_NotePad.Effects" xmlns:prism1="http://prismlibrary.com"
              x:Class="GPS_NotePad.Views.AddPin"
              Title="Add Pin"
              BackgroundColor="{DynamicResource PageBackground}">
@@ -54,8 +54,8 @@
 
 
                 <Label Text="City" FontSize="16" TextColor="White" Margin="5,10,0,0" FontFamily="Montserrat_Font"/>
-                <Frame Padding="10,4,10,4" HasShadow="False" BackgroundColor="Transparent"
-                          BorderColor="{DynamicResource BorderColorAddPin}">
+                <Frame Padding="{OnPlatform Android='10,4,10,4', iOS='10,12,10,12'}" HasShadow="False" BackgroundColor="Transparent"
+                       BorderColor="{Binding LabelBorderColor}">
 
                     <Entry Text="{Binding Label}" FontSize="14" FontFamily="Montserrat_Font"
                            Placeholder="{x:Static resource:Resource.PlaceholderEntryAddPin1}" PlaceholderColor="Gray">
@@ -67,8 +67,8 @@
                 </Frame>
 
                 <Label Text="Country" FontSize="16" TextColor="White" Margin="5,10,0,0" FontFamily="Montserrat_Font"/>
-                <Frame Padding="10,4,10,4" HasShadow="False" BackgroundColor="Transparent"
-                         BorderColor="{DynamicResource BorderColorAddPin}">
+                <Frame Padding="{OnPlatform Android='10,4,10,4', iOS='10,12,10,12'}" HasShadow="False" BackgroundColor="Transparent"
+                         BorderColor="{Binding AddressBorderColor}">
 
                     <Entry Text="{Binding Address}" FontSize="14" FontFamily="Montserrat_Font"
                            Placeholder="{x:Static resource:Resource.PlaceholderEntryAddPin2}" PlaceholderColor="Gray">
@@ -86,10 +86,10 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <Frame Grid.Row="0" Grid.Column="0" Padding="10,4,10,4" HasShadow="False" BackgroundColor="Transparent"
-                               BorderColor="{DynamicResource BorderColorAddPin}">
+                    <Frame Grid.Row="0" Grid.Column="0" Padding="{OnPlatform Android='10,4,10,4', iOS='10,12,10,12'}" 
+                           HasShadow="False" BackgroundColor="Transparent" BorderColor="{Binding LatitudeBorderColor}">
 
-                        <Entry Text="{Binding Position.Latitude}" FontSize="14" FontFamily="Montserrat_Font"
+                        <Entry Text="{Binding Latitude}" FontSize="14" FontFamily="Montserrat_Font"
                                    Placeholder="Latitude" PlaceholderColor="Gray">
                             <Entry.Effects>
                                 <effects:EntryColorUnderline_Effect/>
@@ -98,10 +98,10 @@
 
                     </Frame>
 
-                    <Frame Grid.Row="0" Grid.Column="1" Padding="10,4,10,4" HasShadow="False" BackgroundColor="Transparent"
-                                BorderColor="{DynamicResource BorderColorAddPin}">
+                    <Frame Grid.Row="0" Grid.Column="1" Padding="{OnPlatform Android='10,4,10,4', iOS='10,12,10,12'}" 
+                           HasShadow="False" BackgroundColor="Transparent" BorderColor="{Binding LongitudeBorderColor}">
 
-                        <Entry Text="{Binding Position.Longitude}" FontSize="14" FontFamily="Montserrat_Font"
+                        <Entry Text="{Binding Longitude}" FontSize="14" FontFamily="Montserrat_Font"
                                    Placeholder="Longitude" PlaceholderColor="Gray">
                             <Entry.Effects>
                                 <effects:EntryColorUnderline_Effect/>
@@ -113,16 +113,20 @@
                 </Grid>
 
 
-                <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Margin="0,20,0,0">
+                <Label Text="{x:Static resource:Resource.AddPin2}" TextColor="{DynamicResource TextColor1}" 
+                       Margin="5,10,0,0" FontFamily="Montserrat_Font" FontSize="16" VerticalOptions="CenterAndExpand"/>
 
-                    <Label Text="{x:Static resource:Resource.AddPin2}" TextColor="{DynamicResource TextColor2}" 
-                                FontFamily="Montserrat_Font" FontSize="16" VerticalOptions="CenterAndExpand"/>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Fill">
 
-                    <Button Command="{Binding GaleryBtn}" Text="{x:Static resource:Resource.Button_Galery}" 
-                             FontSize="16" HorizontalOptions="Center" FontFamily="Montserrat_Font"/>
 
-                    <Button Command="{Binding CameraBtn}" Text="{x:Static resource:Resource.Button_Camera}" 
-                                FontSize="16" HorizontalOptions="End" FontFamily="Montserrat_Font"/>
+                    <Button Command="{Binding GaleryBtn}" Text="{x:Static resource:Resource.Button_Galery}"
+                            BorderColor="{DynamicResource BorderColorBtnMedia}" BorderWidth="1" 
+                            BackgroundColor="{DynamicResource Transparent}"
+                            FontSize="16" HorizontalOptions="FillAndExpand" FontFamily="Montserrat_Font"/>
+
+                    <Button Command="{Binding CameraBtn}" Text="{x:Static resource:Resource.Button_Camera}"
+                            BorderColor="{DynamicResource BorderColorBtnMedia}" BorderWidth="1" BackgroundColor="{DynamicResource Transparent}"
+                            FontSize="16" HorizontalOptions="FillAndExpand" FontFamily="Montserrat_Font"/>
 
                 </StackLayout>
 

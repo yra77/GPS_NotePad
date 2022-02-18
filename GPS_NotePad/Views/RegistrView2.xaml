@@ -21,9 +21,9 @@
                          HorizontalOptions="Fill" BackgroundColor="{DynamicResource BarColor}">
 
                 <ImageButton Command="{Binding BackBtn}" BackgroundColor="{DynamicResource Bacground_ImageButton}" 
-                              Margin="0,0,0,0" Source="{DynamicResource backStrelka}"/>
+                             Source="{DynamicResource backStrelka}"/>
 
-                <Label Margin="-20,0,0,0" Text="Create an account" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" 
+                <Label Margin="0,0,20,0" Text="Create an account" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" 
                        FontSize="22" TextColor="{DynamicResource TextColor1}" FontFamily="Montserrat_Font"/>
 
             </StackLayout>
@@ -34,7 +34,7 @@
                 <Label HorizontalOptions="StartAndExpand" Margin="20,0,0,0" 
                        Text="Password" TextColor="White" FontSize="14" FontFamily="Montserrat_Font"/>
 
-                <Frame HasShadow="False" Padding="10,4,10,4" BackgroundColor="Transparent" BorderColor="{Binding PassBorderColor}">
+                <Frame HasShadow="False" Padding="{OnPlatform Android='10,4,10,4', iOS='10,0,10,0'}" BackgroundColor="Transparent" BorderColor="{Binding PassBorderColor}">
 
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -56,7 +56,7 @@
                     </Grid>
 
                 </Frame>
-                <Label Text="{Binding ErrorPassText}" FontSize="11" Margin="0,-5,0,0" HorizontalOptions="Center" 
+                <Label Text="{Binding ErrorPassText}" FontSize="11" HorizontalOptions="Center" 
                                TextColor="{Binding PassBorderColor}"/>
 
 
@@ -64,7 +64,8 @@
                 <Label HorizontalOptions="StartAndExpand" Margin="20,0,0,0" 
                        Text="Confirm password" TextColor="White" FontSize="14" FontFamily="Montserrat_Font"/>
 
-                <Frame Padding="10,4,10,4" HasShadow="False" BorderColor="{Binding PassConfBorderColor}" BackgroundColor="Transparent">
+                <Frame Padding="{OnPlatform Android='10,4,10,4', iOS='10,0,10,0'}" HasShadow="False" 
+                       BorderColor="{Binding PassConfBorderColor}" BackgroundColor="Transparent">
 
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -87,25 +88,27 @@
 
                 </Frame>
 
-                <Label Text="{Binding ErrorPassConfText}" FontSize="11" Margin="0,-5,0,0" 
-                               HorizontalOptions="Center" TextColor="{Binding PassConfBorderColor}"/>
+                <Label Text="{Binding ErrorPassConfText}" FontSize="11" 
+                       HorizontalOptions="Center" TextColor="{Binding PassConfBorderColor}"/>
 
 
 
                 <StackLayout BackgroundColor="Transparent" Margin="0,30,0,0">
 
 
-                    <Button IsEnabled="False" Command="{Binding RegistrBtn}" BackgroundColor="{Binding Color_RegistrBtn}" Text="Create account"
-                                FontFamily="Montserrat_Font" VerticalOptions="End" HorizontalOptions="Fill"/>
+                    <Button IsEnabled="False" Command="{Binding RegistrBtn}" BackgroundColor="{Binding Color_RegistrBtn}" 
+                            Text="Create account" FontFamily="Montserrat_Font" VerticalOptions="End" HorizontalOptions="Fill"/>
 
                     <StackLayout Orientation="Horizontal">
 
-                        <Line Margin="1,0,0,0" Stroke="Gray" X2="140" VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand" StrokeThickness="2"/>
+                        <Line Margin="1,0,0,0" Stroke="Gray" X2="140" VerticalOptions="CenterAndExpand" 
+                              HorizontalOptions="StartAndExpand" StrokeThickness="2"/>
 
                         <Label Margin="0,10,0,10" Text="or" TextColor="Gray" FontSize="14" HorizontalOptions="CenterAndExpand"
                             VerticalTextAlignment="Center" FontFamily="Montserrat_Font"/>
 
-                        <Line Margin="1,0,0,0" Stroke="Gray" X2="140"  VerticalOptions="CenterAndExpand" HorizontalOptions="EndAndExpand" StrokeThickness="2"/>
+                        <Line Margin="1,0,0,0" Stroke="Gray" X2="140"  VerticalOptions="CenterAndExpand" 
+                              HorizontalOptions="EndAndExpand" StrokeThickness="2"/>
 
                     </StackLayout>
 

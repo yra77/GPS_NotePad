@@ -161,6 +161,15 @@ namespace GPS_NotePad.Resources.Resx {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Must be 0.0000 or -0.0000.
+        /// </summary>
+        internal static string Alert_Position {
+            get {
+                return ResourceManager.GetString("Alert_Position", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Error saved data.
         /// </summary>
         internal static string Alert_SavePin {

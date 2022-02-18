@@ -40,13 +40,12 @@ namespace GPS_NotePad.ViewModels
         private string _errorEmailText;
         public string ErrorEmailText { get => _errorEmailText; set { SetProperty(ref _errorEmailText, value); } }
 
+        private string _emailBorderColor;
+        public string EmailBorderColor { get => _emailBorderColor; set { SetProperty(ref _emailBorderColor, value); } }
+
 
         private string _errorNameText;
         public string ErrorNameText { get => _errorNameText; set { SetProperty(ref _errorNameText, value); } }
-
-        
-        private string _emailBorderColor;
-        public string EmailBorderColor { get => _emailBorderColor; set { SetProperty(ref _emailBorderColor, value); } }
 
 
         private string _nameBorderColor;

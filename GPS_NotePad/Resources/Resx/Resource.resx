@@ -152,6 +152,9 @@
     <value>Password must have from 8 to 16 symbols, A - Z, a - z, 1 - 9. 
 Password must contain at least one capital letter, one lowercase letter and one number</value>
   </data>
+  <data name="Alert_Position" xml:space="preserve">
+    <value>Must be 0.0000 or -0.0000</value>
+  </data>
   <data name="Alert_SavePin" xml:space="preserve">
     <value>Error saved data</value>
   </data>

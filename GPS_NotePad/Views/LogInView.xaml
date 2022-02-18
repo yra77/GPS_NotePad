@@ -21,9 +21,9 @@
                          HorizontalOptions="Fill" BackgroundColor="{DynamicResource BarColor}">
 
                 <ImageButton Command="{Binding BackBtn}"  BackgroundColor="{DynamicResource Bacground_ImageButton}" 
-                              Margin="0,0,0,0" Source="{DynamicResource backStrelka}"/>
+                             Source="{DynamicResource backStrelka}"/>
 
-                <Label Margin="-20,0,0,0" Text="Log  in" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" 
+                <Label Margin="0,0,20,0" Text="Log  in" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" 
                        FontSize="22" TextColor="{DynamicResource TextColor1}" FontFamily="Montserrat_Font"/>
 
             </StackLayout>
@@ -55,14 +55,14 @@
 
                 </Frame>
 
-                <Label Text="{Binding ErrorEmailText}" FontSize="11" Margin="0,-5,0,0" HorizontalOptions="Center" 
+                <Label Text="{Binding ErrorEmailText}" FontSize="11" HorizontalOptions="Center" 
                                TextColor="{Binding EmailBorderColor}"/>
 
 
                 <Label HorizontalOptions="StartAndExpand" Margin="20,0,0,0" 
                        Text="Password" TextColor="White" FontSize="14" FontFamily="Montserrat_Font"/>
                 <!--ios  Padding="10,0,10,0"-->
-                <Frame Padding="10,4,10,4" HasShadow="False" BorderColor="{Binding PassBorderColor}" 
+                <Frame Padding="{OnPlatform Android='10,4,10,4', iOS='10,0,10,0'}" HasShadow="False" BorderColor="{Binding PassBorderColor}" 
                                BackgroundColor="Transparent">
 
                     <Grid>
@@ -84,7 +84,7 @@
                     </Grid>
                 </Frame>
 
-                <Label Text="{Binding ErrorPassText}" FontSize="11" Margin="0,-5,0,0" HorizontalOptions="Center" 
+                <Label Text="{Binding ErrorPassText}" FontSize="11" HorizontalOptions="Center" 
                                TextColor="{Binding PassBorderColor}"/>
 
                 
@@ -96,12 +96,14 @@
                     
                     <StackLayout Orientation="Horizontal">
                         
-                        <Line Margin="1,0,0,0" Stroke="Gray" X2="140" VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand" StrokeThickness="2"/>
+                        <Line Margin="1,0,0,0" Stroke="Gray" X2="140" VerticalOptions="CenterAndExpand" 
+                              HorizontalOptions="StartAndExpand" StrokeThickness="2"/>
                        
-                        <Label Margin="0,10,0,10" Text="or" TextColor="Gray" FontSize="14" HorizontalOptions="CenterAndExpand"
-                            VerticalTextAlignment="Center"/>
+                        <Label Margin="0,10,0,10" Text="or" TextColor="Gray" FontSize="14" 
+                               HorizontalOptions="CenterAndExpand" VerticalTextAlignment="Center"/>
                         
-                        <Line Margin="1,0,0,0" Stroke="Gray" X2="140"  VerticalOptions="CenterAndExpand" HorizontalOptions="EndAndExpand" StrokeThickness="2"/>
+                        <Line Margin="1,0,0,0" Stroke="Gray" X2="140"  VerticalOptions="CenterAndExpand" 
+                              HorizontalOptions="EndAndExpand" StrokeThickness="2"/>
                
                     </StackLayout>
                     
