@@ -34,8 +34,8 @@
                 <Label HorizontalOptions="StartAndExpand" Margin="20,0,0,0" 
                        Text="Email" TextColor="White" FontSize="14" FontFamily="Montserrat_Font"/>
                 <!--ios  Padding="10,12,10,12"-->
-                <Frame Padding="10,4,10,4" HasShadow="False" BorderColor="{Binding EmailBorderColor}" 
-                               BackgroundColor="Transparent">
+                <Frame Padding="{OnPlatform Android='10,4,10,4', iOS='10,12,10,12'}" HasShadow="False" 
+                       BorderColor="{Binding EmailBorderColor}" BackgroundColor="Transparent">
 
                     <Grid>
                         <Grid.ColumnDefinitions>
