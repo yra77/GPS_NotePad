@@ -179,12 +179,6 @@
     <BundleResource Include="Resources\pin_gray.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\save.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\strelka.png" />
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="Resources\eye.png" />
   </ItemGroup>
   <ItemGroup>
@@ -206,9 +200,27 @@
     <BundleResource Include="Resources\paris.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\password.png" />
+    <BundleResource Include="Resources\pic_enter_page2x.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\pic_enter_page2x.png" />
+    <BundleResource Include="Resources\like_blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\like_gray.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\strelka.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\exid.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\plus.png" />
   </ItemGroup>
 </Project>

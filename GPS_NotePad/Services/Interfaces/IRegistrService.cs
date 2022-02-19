@@ -6,7 +6,7 @@ namespace GPS_NotePad.Services.Interfaces
 {
     public interface IRegistrService
     {
-        Task<(bool, string)> Registr(Loginin profile, string passConfirm);
-        Task<bool> RegistrGoogle(Loginin profile);
+        Task<(bool, string)> RegistrAsync(Loginin profile, string passConfirm);
+        Task<bool> RegistrGoogleAsync(Loginin profile);
     }
 }

@@ -120,7 +120,7 @@ namespace GPS_NotePad.ViewModels
         private async void LogIn_Click()
         {
 
-           var result = await _authService.Auth(Password, Email);
+           var result = await _authService.AuthAsync(Password, Email);
 
             if (result.Item1)
             {

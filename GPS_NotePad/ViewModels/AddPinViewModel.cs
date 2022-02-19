@@ -212,10 +212,11 @@ namespace GPS_NotePad.ViewModels
                     Label = Label,
                     Address = Address,
                     Latitude = _position.Latitude,
-                    Longitude = _position.Longitude
+                    Longitude = _position.Longitude,
+                    LikeImage = Constants.Constant.Like_Image_Blue
                 };
 
-                if (await _markerService.Insert(_markerInfo))
+                if (await _markerService.InsertAsync(_markerInfo))
                 {
                     BackClickAsync();
                 }

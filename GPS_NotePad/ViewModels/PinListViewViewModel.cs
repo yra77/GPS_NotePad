@@ -39,7 +39,10 @@ namespace GPS_NotePad.ViewModels
             SearchBtn_Pressed = new DelegateCommand(SearchBtnPressed);
             UnfocusedCommand = new DelegateCommand(SearchUnfocus);
             EditItem = new DelegateCommand<MarkerInfo>(EditItem_Click);
-            DeleteItem = new DelegateCommand<MarkerInfo>(DeleteItem_Click);
+            DeleteItem = new DelegateCommand<MarkerInfo>(DeleteItem_ClickAsync);
+            LikeImageBtn = new DelegateCommand<object>(LikeImage_Click);
+            ExitBtn = new DelegateCommand(LogOutAsync);
+            SettingsBtn = new DelegateCommand(Settings_ClickAsync);
 
             _verifyInput = new VerifyInput_Helper();
         }
@@ -57,6 +60,10 @@ namespace GPS_NotePad.ViewModels
 
         private bool _isActive;
         public bool IsActive { get { return _isActive; } set { SetProperty(ref _isActive, value, IsActiveTabAsync); } }
+
+
+        private string _likeImage;
+        public string LikeImage { get => _likeImage; set => SetProperty(ref _likeImage, value); }
 
 
         private string _markerImage;
@@ -118,25 +125,54 @@ namespace GPS_NotePad.ViewModels
         }
 
 
+        private int _id;
+        public int Id { get => _id; set => SetProperty(ref _id, value); }
+
+
         public DelegateCommand UnfocusedCommand { get; }
         public DelegateCommand<MarkerInfo> ClickToItem { get; set; }
         public DelegateCommand AddNewMarker { get; }
         public DelegateCommand SearchBtn_Pressed { get; }
         public DelegateCommand<MarkerInfo> EditItem { get; set; }
         public DelegateCommand<MarkerInfo> DeleteItem { get; set; }
-
+        public DelegateCommand<object> LikeImageBtn { get; }
+        public DelegateCommand ExitBtn { get; }
+        public DelegateCommand SettingsBtn { get; }
 
         #endregion
 
 
         #region Private method
 
-        private async void DeleteItem_Click(MarkerInfo item)
+        private void LikeImage_Click(object item)
         {
-            var res = await UserDialogs.Instance.ConfirmAsync(Resources.Resx.Resource.Message_Delete + " - " + item.Address + " ?", "Message", "Ok", "cancel");
+
+            var id = ((int)item)-1;
+
+            if (_listMarkersClone[id].LikeImage == Constants.Constant.Like_Image_Blue)
+            {
+                _listMarkersClone[id].LikeImage = Constants.Constant.Like_Image_Gray;
+            }
+            else
+            {
+                _listMarkersClone[id].LikeImage = Constants.Constant.Like_Image_Blue;
+            }
+
+            MarkerInfo markerItem = new MarkerInfo();
+            markerItem = _listMarkersClone[id];
+
+            _markerService.UpdateAsync(markerItem);
+
+            RefreshPins();
+        }
+
+        private async void DeleteItem_ClickAsync(MarkerInfo item)
+        {
+            var res = await UserDialogs.Instance.ConfirmAsync(Resources.Resx.Resource.Message_Delete 
+                                             + " - " + item.Address + " ?", "Message", "Ok", "cancel");
             if (res)
             {
-                await _markerService.Delete<MarkerInfo>(item.Id);
+                await _markerService.DeleteAsync<MarkerInfo>(item.Id);
                 ListPinAsync();
             }
         }
@@ -174,7 +210,7 @@ namespace GPS_NotePad.ViewModels
 
         async void ListPinAsync()
         {
-            var arr = await _markerService.GetData<MarkerInfo>("MarkerInfo", _email);
+            var arr = await _markerService.GetDataAsync<MarkerInfo>("MarkerInfo", _email);
             
             ListMarkers = new List<MarkerInfo>(ToMyPins(arr));
             _listMarkersClone = new List<MarkerInfo>(ListMarkers);
@@ -193,6 +229,7 @@ namespace GPS_NotePad.ViewModels
                     Latitude = item.Latitude,
                     Longitude = item.Longitude,
                     ImagePath = item.ImagePath,
+                    LikeImage = item.LikeImage,
                     email = item.email
                 });
             }
@@ -200,7 +237,17 @@ namespace GPS_NotePad.ViewModels
             return temp;
         }
 
-        #region Search    
+        private async void LogOutAsync()
+        {
+            await _navigationService.NavigateAsync("/MainPage");
+        }
+
+        private async void Settings_ClickAsync()
+        {
+            await _navigationService.NavigateAsync("/SettingsView");
+        }
+
+        // Search    
         private void SearchUnfocus()
         {
             SearchList_Clear();
@@ -291,7 +338,7 @@ namespace GPS_NotePad.ViewModels
             }
         }
 
-        #endregion
+  
         #endregion
 
         #region Interface InavigatedAword implementation

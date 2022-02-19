@@ -9,9 +9,9 @@ namespace GPS_NotePad.Services.Interfaces
 {
     public interface IMarkerService
     {
-        Task<List<T>> GetData<T>(string table, string email) where T : class, new();
-        Task<int> Update(MarkerInfo profile);
-        Task<bool> Insert(MarkerInfo profile);
-        Task<int> Delete<T>(int id) where T : class, new();
+        Task<List<T>> GetDataAsync<T>(string table, string email) where T : class, new();
+        Task<int> UpdateAsync(MarkerInfo profile);
+        Task<bool> InsertAsync(MarkerInfo profile);
+        Task<int> DeleteAsync<T>(int id) where T : class, new();
     }
 }

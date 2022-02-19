@@ -28,6 +28,8 @@ namespace GPS_NotePad.Models
         [NotNull]
         [MaxLength(200)]
         public string ImagePath { get; set; }
+        [NotNull]
+        public string LikeImage { get; set; }
 
     }
 }

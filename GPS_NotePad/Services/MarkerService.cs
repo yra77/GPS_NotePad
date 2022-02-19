@@ -24,24 +24,24 @@ namespace GPS_NotePad.Services
 
         #region Public method,  Intarface IRegisterService implementation
 
-        public async Task<int> Delete<T>(int id) where T : class, new()
+        public async Task<int> DeleteAsync<T>(int id) where T : class, new()
         {
-            return await _repository.Delete<T>(id);
+            return await _repository.DeleteAsync<T>(id);
         }
 
-        public async Task<List<T>> GetData<T>(string table, string email) where T : class, new()
+        public async Task<List<T>> GetDataAsync<T>(string table, string email) where T : class, new()
         {
-            return await _repository.GetData<T>(table, email);
+            return await _repository.GetDataAsync<T>(table, email);
         }
 
-        public async Task<bool> Insert(MarkerInfo profile)
+        public async Task<bool> InsertAsync(MarkerInfo profile)
         {
-            return await _repository.Insert<MarkerInfo>(profile);
+            return await _repository.InsertAsync<MarkerInfo>(profile);
         }
 
-        public Task<int> Update(MarkerInfo profile)
+        public async Task<int> UpdateAsync(MarkerInfo profile)
         {
-            throw new NotImplementedException();
+            return await _repository.UpdateAsync(profile);
         }
 
         #endregion

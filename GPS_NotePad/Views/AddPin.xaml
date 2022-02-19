@@ -28,7 +28,8 @@
                                      MapClicPosition="{Binding MapClicPosition}"/>
 
                 <Button Command="{Binding MyLocationBtn}" ImageSource="{DynamicResource locationIcon}" VerticalOptions="Start" 
-                                BackgroundColor="Transparent" HorizontalOptions="EndAndExpand" Margin="0,10,0,0"/>
+                        HeightRequest="50" CornerRadius="35" WidthRequest="50" BackgroundColor="{DynamicResource PageBackground}" 
+                        HorizontalOptions="EndAndExpand" Margin="0,10,10,0"/>
 
             </Grid>
 

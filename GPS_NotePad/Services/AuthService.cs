@@ -72,7 +72,7 @@ namespace GPS_NotePad.Services
                 if (user != null && user.Email != null)
                 {              
 
-                    var res = await _repository.GetData<Loginin>("Loginin", user.Email);
+                    var res = await _repository.GetDataAsync<Loginin>("Loginin", user.Email);
 
                     if (res.Any())
                     {
@@ -112,7 +112,7 @@ namespace GPS_NotePad.Services
 
         #region Public method,  Intarface IAuthService implementation
 
-        public async Task<(bool, string)> Auth(string password, string email)
+        public async Task<(bool, string)> AuthAsync(string password, string email)
         {
             string str = "";
 
@@ -120,7 +120,7 @@ namespace GPS_NotePad.Services
             {
                 if (_verifyInput.PasswordVerify(password))
                 {
-                    var res = await _repository.GetData<Loginin>("Loginin", email);
+                    var res = await _repository.GetDataAsync<Loginin>("Loginin", email);
 
                     if (res.Any())
                     {

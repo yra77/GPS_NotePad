@@ -53,8 +53,10 @@ namespace GPS_NotePad.ViewModels
             SearchBtn_Pressed = new DelegateCommand(SearchBtnPressed);
             UnfocusedCommand = new DelegateCommand(SearchUnfocus);
             MyLocationBtn = new DelegateCommand(MyLocation_Click);
+            ExitBtn = new DelegateCommand(LogOutAsync);
+            SettingsBtn = new DelegateCommand(Settings_ClickAsync);
 
-          //  LoadListMarkersAsync();
+            //  LoadListMarkersAsync();
         }
 
 
@@ -166,7 +168,8 @@ namespace GPS_NotePad.ViewModels
         public DelegateCommand CloseMarkerInfo { get; }
         public DelegateCommand<MarkerInfo> Click_SearchListItem { get; }
         public DelegateCommand SearchBtn_Pressed { get; }
-
+        public DelegateCommand ExitBtn { get; }
+        public DelegateCommand SettingsBtn { get; }
 
         #endregion
 
@@ -194,9 +197,19 @@ namespace GPS_NotePad.ViewModels
             MarkerInfoVisible = false;
         }
 
+        private async void LogOutAsync()
+        {
+            await _navigationService.NavigateAsync("/MainPage");
+        }
+
+        private async void Settings_ClickAsync()
+        {
+            await _navigationService.NavigateAsync("/SettingsView");
+        }
+
         private async void LoadListMarkersAsync()
         {
-            var arr = await _markerService.GetData<MarkerInfo>("MarkerInfo", Email);
+            var arr = await _markerService.GetDataAsync<MarkerInfo>("MarkerInfo", Email);
             ListPin.Clear();
             ToMyPins(arr);
         }
@@ -205,14 +218,17 @@ namespace GPS_NotePad.ViewModels
         {
             foreach (var item in arr)
             {
-                ListPin.Add(new Pin
+                if (item.LikeImage == Constants.Constant.Like_Image_Blue)
                 {
-                    Type = PinType.Place,
-                    Address = item.Address,
-                    Label = item.Label,
-                    Position = new Position(item.Latitude, item.Longitude),
-                    Icon = BitmapDescriptorFactory.FromBundle("pin")
-                });
+                    ListPin.Add(new Pin
+                    {
+                        Type = PinType.Place,
+                        Address = item.Address,
+                        Label = item.Label,
+                        Position = new Position(item.Latitude, item.Longitude),
+                        Icon = BitmapDescriptorFactory.FromBundle("pin")
+                    });
+                }
 
                 _listMarkersClone.Add(new MarkerInfo
                 {

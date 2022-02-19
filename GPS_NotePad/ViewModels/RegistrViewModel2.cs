@@ -144,7 +144,7 @@ namespace GPS_NotePad.ViewModels
             log.password = Password;
             log.DateCreated = DateTime.Now;
 
-            var result = await _registrService.Registr(log, PasswordConfirm);
+            var result = await _registrService.RegistrAsync(log, PasswordConfirm);
 
             if (result.Item1)
             {
@@ -253,7 +253,7 @@ namespace GPS_NotePad.ViewModels
                 log.password = Constants.Constant_Auth.GOOGLE_PASSWORD_USER;
                 log.DateCreated = DateTime.Now;
 
-                if (!await _registrService.RegistrGoogle(log))
+                if (!await _registrService.RegistrGoogleAsync(log))
                 {
                     UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_SavePin, "Error", "Ok");
                     return;

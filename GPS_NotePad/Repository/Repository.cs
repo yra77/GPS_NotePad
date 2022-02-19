@@ -21,17 +21,17 @@ namespace GPS_NotePad.Repository
         }
 
 
-        public async Task<int> Delete<T>(int id) where T : class, new()
+        public async Task<int> DeleteAsync<T>(int id) where T : class, new()
         {
             return await _connection.DeleteAsync<T>(id);
         }
 
-        public async Task<List<T>> GetData<T>(string table, string email) where T : class, new()
+        public async Task<List<T>> GetDataAsync<T>(string table, string email) where T : class, new()
         {
             return await _connection.QueryAsync<T>("SELECT * FROM '" + table + "' WHERE email ='" + email + "'");
         }
 
-        public async Task<bool> Insert<T>(T profile) where T : class, new()
+        public async Task<bool> InsertAsync<T>(T profile) where T : class, new()
         {
            var u =  await _connection.InsertAsync(profile);
             if(u > 0)
@@ -39,7 +39,7 @@ namespace GPS_NotePad.Repository
             return false;
         }
 
-        public async Task<int> Update<T>(T profile) where T : class, new()
+        public async Task<int> UpdateAsync<T>(T profile) where T : class, new()
         {
             return await _connection.UpdateAsync(profile);
         }

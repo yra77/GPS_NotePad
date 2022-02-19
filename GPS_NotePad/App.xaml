@@ -6,6 +6,11 @@
     <Application.Resources>
         
         <!--Image name-->
+        <ImageSource x:Key="like_blue">like_blue.png</ImageSource>
+        <ImageSource x:Key="like_gray">like_gray.png</ImageSource>
+        <ImageSource x:Key="exit">exid.png</ImageSource>
+        <ImageSource x:Key="settings">settings.png</ImageSource>
+        <ImageSource x:Key="plus">plus.png</ImageSource>
         <ImageSource x:Key="backStrelka">strelka.png</ImageSource>
         <ImageSource x:Key="saveIcon">save.png</ImageSource>
         <ImageSource x:Key="google">google.png</ImageSource>
@@ -22,28 +27,29 @@
         <Color x:Key="Gray">Gray</Color>
         <Color x:Key="NameAppColor">Black</Color>
         <Color x:Key="Modal_MarkerInfo_Background">#1E242B</Color>
-        <Color x:Key="CancelButtonColor">Red</Color>
+        <Color x:Key="CancelButtonColor">Gray</Color>
         <Color x:Key="Bacground_ImageButton">Transparent</Color>
         <Color x:Key="Transparent">Transparent</Color>
 
-        <Color x:Key="PageBackground">#33374E</Color>
+        <Color x:Key="PageBackground">#1E242B</Color>
+        <Color x:Key="SearchBackground">#33374E</Color>
         
         <!--Tabbed bar-->
-        <Color x:Key="BarBackground_TabbedBar">#33374E</Color>
+        <Color x:Key="BarBackground_TabbedBar">#1E242B</Color>
         <Color x:Key="SelectedTabColor">White</Color>
         <Color x:Key="UnselectedTabColor">Black</Color>
 
         <!--MainPage-->
-        <Color x:Key="BtnBackgroundFrame">#33374E</Color>
+        <Color x:Key="BtnBackgroundFrame">#1E242B</Color>
         <Color x:Key="BackgroundButton">Transparent</Color>
         <Color x:Key="Btn">#596EFB</Color>
         
         <!--List view-->
-        <Color x:Key="ItemListView_Background">#33374E</Color>
+        <Color x:Key="ItemListView_Background">#1E242B</Color>
         <Color x:Key="SeparatorColor">White</Color>
         <Color x:Key="ItemListBorderColor">White</Color>
         <Color x:Key="ItemTextColor1">White</Color>
-        <Color x:Key="ItemTextColor2">Wheat</Color>
+        <Color x:Key="ItemTextColor2">Gray</Color>
 
         <Color x:Key="PlaceholderColorGray">Gray</Color>
         
@@ -55,7 +61,7 @@
         <!--AddPin-->
         <Color x:Key="BacgroundColorAddPinPage">Transparent</Color>
         <Color x:Key="BorderColorAddPin">LightGray</Color>
-        <Color x:Key="BarColor">#33374E</Color>
+        <Color x:Key="BarColor">#1E242B</Color>
         <Color x:Key="TextColor1">White</Color>
         <Color x:Key="TextColor2">LightGray</Color>
         <Color x:Key="TextColor3">LightGray</Color>

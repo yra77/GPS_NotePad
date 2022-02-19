@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core" 
+             xmlns:prism1="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
+             ios:Page.UseSafeArea="True"
+             x:Class="GPS_NotePad.Views.SettingsView"
+             BackgroundColor="{DynamicResource PageBackground}"
+             Title="Settings">
+    
+    
+    <ContentPage.Content>
+        <StackLayout>
+           
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

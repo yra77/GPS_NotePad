@@ -24,18 +24,18 @@ namespace GPS_NotePad.Services
             _repository.CreateTable<Loginin>();
         }
 
-        private async Task<bool> Insert(Loginin profile)
+        private async Task<bool> InsertAsync(Loginin profile)
         {
-            var res = await _repository.GetData<Loginin>("Loginin", profile.email);
+            var res = await _repository.GetDataAsync<Loginin>("Loginin", profile.email);
             if (!res.Any())
             {
-                return await _repository.Insert<Loginin>(profile);
+                return await _repository.InsertAsync<Loginin>(profile);
             }
             else
                 return false;
         }
 
-        public async Task<(bool, string)> Registr(Loginin profile, string passConfirm)
+        public async Task<(bool, string)> RegistrAsync(Loginin profile, string passConfirm)
         {
 
             string str = "";
@@ -46,7 +46,7 @@ namespace GPS_NotePad.Services
                     && _verifyInput.PasswordVerify(passConfirm))
                 {
 
-                    if (await Insert(profile))
+                    if (await InsertAsync(profile))
                     {
                         str = Resources.Resx.Resource.Alert_Ok_Reg;
                         return (true, str);
@@ -69,11 +69,11 @@ namespace GPS_NotePad.Services
             return (false, str);
         }
 
-        public async Task<bool> RegistrGoogle(Loginin profile)
+        public async Task<bool> RegistrGoogleAsync(Loginin profile)
         {
             if (_verifyInput.IsValidEmail(profile.email))
             {
-                return await _repository.Insert<Loginin>(profile);
+                return await _repository.InsertAsync<Loginin>(profile);
             }
             else
                 return false;

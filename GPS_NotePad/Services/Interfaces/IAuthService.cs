@@ -7,7 +7,7 @@ namespace GPS_NotePad.Services.Interfaces
 {
     public interface IAuthService
     {
-        Task<(bool, string)> Auth(string password, string email);
+        Task<(bool, string)> AuthAsync(string password, string email);
         void GoogleAuth(GoogleAuthCallBack myDel);
     }
 

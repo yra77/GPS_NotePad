@@ -42,7 +42,7 @@
                             <ColumnDefinition Width="50"/>
                         </Grid.ColumnDefinitions>
 
-                        <Entry Keyboard="Text" IsPassword="{Binding IsVisiblePassword}" Text="{Binding Password}" 
+                        <Entry Keyboard="Text" IsPassword="{Binding IsVisiblePassword}" Text="{Binding Password}" FontSize="16"
                                        Placeholder="{x:Static resource:Resource.PlaceholderPassword}" FontFamily="Montserrat_Font"
                                            PlaceholderColor="{DynamicResource LightGray}" >
                             <Entry.Effects>
