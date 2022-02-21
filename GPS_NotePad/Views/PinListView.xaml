@@ -27,11 +27,11 @@
                 <ImageButton Grid.Row="0" Grid.Column="0" HorizontalOptions="Start" Command="{Binding SettingsBtn}"
                                   BackgroundColor="{DynamicResource Transparent}" Source="{DynamicResource settings}"/>
 
-                <Frame Grid.Row="0" Grid.Column="1" HeightRequest="40" VerticalOptions="Start" 
-                           CornerRadius="5" Padding="0" BackgroundColor="{DynamicResource Transparent}">
+                <Frame Grid.Row="0" Grid.Column="1" HeightRequest="40" VerticalOptions="Start" HasShadow="False"
+                       BorderColor="{DynamicResource Transparent}" CornerRadius="5" Padding="0" BackgroundColor="{DynamicResource Transparent}">
 
                     <SearchBar HorizontalOptions="CenterAndExpand" CancelButtonColor="{DynamicResource CancelButtonColor}" 
-                           BackgroundColor="{DynamicResource SearchBackground}"
+                           BackgroundColor="{DynamicResource Transparent}"
                            Placeholder="{x:Static resource:Resource.Search}" FontFamily="Montserrat_Font" 
                                PlaceholderColor="{DynamicResource PlaceholderColorGray}"
                            Keyboard="Text" Text="{Binding Search}" SearchCommand="{Binding SearchBtn_Pressed}">
@@ -48,13 +48,13 @@
                                   BackgroundColor="{DynamicResource Transparent}" Source="{DynamicResource exit}"/>
             </Grid>
 
-            <StackLayout Margin="0,60,0,0">
+            <StackLayout Margin="0,60,0,0" HorizontalOptions="Start">
 
                 <Line Margin="1,0,0,0" Stroke="Gray" X2="380" HorizontalOptions="CenterAndExpand" StrokeThickness="2"/>
 
                 <ListView x:Name="listView" VerticalOptions="FillAndExpand" BackgroundColor="{DynamicResource Transparent}"
-                             HasUnevenRows="True" SeparatorColor="{DynamicResource SeparatorColor}" 
-                          ItemsSource="{Binding ListMarkers}">
+                          HasUnevenRows="True" SeparatorColor="{DynamicResource SeparatorColor}" HorizontalOptions="Center"
+                          ItemsSource="{Binding ListMarkers}" Margin="0,0,15,0">
                     <ListView.ItemTemplate>
 
                         <DataTemplate>
@@ -131,7 +131,7 @@
 
             <Button x:Name="fixed" Command="{Binding AddNewMarker}" ImageSource="{DynamicResource plus}" 
                     BackgroundColor="{DynamicResource BackgroundColor}" 
-                    WidthRequest="50" HeightRequest="50" BorderRadius="100" BorderWidth="2" 
+                    WidthRequest="50" HeightRequest="50" BorderRadius="25" 
                     Margin="0,0,20,40" VerticalOptions="End" HorizontalOptions="End"/>
 
         </Grid>

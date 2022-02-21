@@ -35,7 +35,7 @@
                        FontSize="18" FontFamily="Montserrat_Font"/>
                 
                 <RadioButton Content="English" IsChecked="{Binding SelectEnglish, Mode=TwoWay}"
-                              TextColor="{DynamicResource LightGray}">
+                              TextColor="{DynamicResource LightGray}" BackgroundColor="{DynamicResource Transparent}">
                     <RadioButton.Behaviors>
                         <prism1:EventToCommandBehavior
                         Command="{Binding Checked_EngCommand}"
@@ -45,7 +45,7 @@
                 </RadioButton>
                 
                 <RadioButton Content="Українська" IsChecked="{Binding SelectUkrainian, Mode=TwoWay}"
-                             TextColor="{DynamicResource LightGray}">
+                             TextColor="{DynamicResource LightGray}" BackgroundColor="{DynamicResource Transparent}">
                     <RadioButton.Behaviors>
                         <prism1:EventToCommandBehavior
                         Command="{Binding Checked_UkrCommand}"
