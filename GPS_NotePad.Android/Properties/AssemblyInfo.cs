@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Android;
@@ -15,6 +16,8 @@ using Android.App;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
+
+[assembly: NeutralResourcesLanguage("en-US")]
 
 // Version information for an assembly consists of the following four values:
 //

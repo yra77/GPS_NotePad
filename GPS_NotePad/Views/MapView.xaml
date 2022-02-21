@@ -5,12 +5,13 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core" 
              xmlns:prism1="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
+             xmlns:resource="clr-namespace:GPS_NotePad.Resources.Resx"
              ios:Page.UseSafeArea="True"
              x:Class="GPS_NotePad.Views.MapView"
              xmlns:control="clr-namespace:GPS_NotePad.Controls"
              BackgroundColor="{DynamicResource PageBackground}"
              IconImageSource="{DynamicResource mapIcon}"
-             Title="Map">
+             Title="{x:Static resource:Resource.Map}">
 
     <ContentPage.Content>
         <Grid>
@@ -64,7 +65,7 @@
 
 
             <!--Search-->
-            <Grid VerticalOptions="StartAndExpand" BackgroundColor="Transparent">
+            <Grid VerticalOptions="StartAndExpand" BackgroundColor="{DynamicResource Transparent}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -78,13 +79,13 @@
                     </Grid.ColumnDefinitions>
 
                     <ImageButton Grid.Row="0" Grid.Column="0" HorizontalOptions="Start" Command="{Binding SettingsBtn}"
-                                 VerticalOptions="Center" BackgroundColor="Transparent" Source="{DynamicResource settings}"/>
+                                 VerticalOptions="Center" BackgroundColor="{DynamicResource Transparent}" Source="{DynamicResource settings}"/>
                     
                     <!--ios HeightRequest="40" -->
                     <Frame Grid.Row="0" Grid.Column="1" HeightRequest="40" VerticalOptions="Center" 
-                           CornerRadius="5" Padding="0" BackgroundColor="Transparent">
+                           CornerRadius="5" Padding="0" BackgroundColor="{DynamicResource Transparent}">
 
-                        <SearchBar CancelButtonColor="{DynamicResource CancelButtonColor}" Placeholder="Search" 
+                        <SearchBar CancelButtonColor="{DynamicResource CancelButtonColor}" Placeholder="{x:Static resource:Resource.Search}" 
                            PlaceholderColor="{DynamicResource Gray}" Keyboard="Text" BackgroundColor="{DynamicResource SearchBackground}"
                            Text="{Binding Search}" SearchCommand="{Binding SearchBtn_Pressed}">
 

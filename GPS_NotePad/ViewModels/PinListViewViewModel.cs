@@ -244,7 +244,14 @@ namespace GPS_NotePad.ViewModels
 
         private async void Settings_ClickAsync()
         {
-            await _navigationService.NavigateAsync("/SettingsView");
+
+            Tuple<string, string> tuple = new Tuple<string, string>("TabbedPageMy?selectedTab=PinListView", _email);
+
+            NavigationParameters navParameters = new NavigationParameters
+                                {
+                                    { "addressPage", tuple },
+                                };
+            await _navigationService.NavigateAsync("/SettingsView", navParameters);
         }
 
         // Search    
@@ -344,7 +351,15 @@ namespace GPS_NotePad.ViewModels
         #region Interface InavigatedAword implementation
         public void OnNavigatedFrom(INavigationParameters parameters){ }
 
-        public void OnNavigatedTo(INavigationParameters parameters) { }//ListPinAsync(); }
+        public void OnNavigatedTo(INavigationParameters parameters) 
+        {
+            if (parameters.ContainsKey("email"))
+            {
+                var e = parameters.GetValue<string>("email");
+                _email = e;
+                ListPinAsync();
+            }
+        }
         #endregion
     }
 }

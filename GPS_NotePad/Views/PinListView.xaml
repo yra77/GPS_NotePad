@@ -9,7 +9,7 @@
              ios:Page.UseSafeArea="True"
              x:Name="pinlist"
              x:Class="GPS_NotePad.Views.PinListView"
-             Title="Pins"
+             Title="{x:Static resource:Resource.Pins}"
              IconImageSource="{DynamicResource pinGray}"
              BackgroundColor="{DynamicResource PageBackground}">
 
@@ -32,8 +32,10 @@
 
                     <SearchBar HorizontalOptions="CenterAndExpand" CancelButtonColor="{DynamicResource CancelButtonColor}" 
                            BackgroundColor="{DynamicResource SearchBackground}"
-                           Placeholder="Search" FontFamily="Montserrat_Font" PlaceholderColor="{DynamicResource PlaceholderColorGray}"
+                           Placeholder="{x:Static resource:Resource.Search}" FontFamily="Montserrat_Font" 
+                               PlaceholderColor="{DynamicResource PlaceholderColorGray}"
                            Keyboard="Text" Text="{Binding Search}" SearchCommand="{Binding SearchBtn_Pressed}">
+                        
                         <SearchBar.Behaviors>
                             <prism1:EventToCommandBehavior EventName="Unfocused"
                                           Command="{Binding UnfocusedCommand}"/>

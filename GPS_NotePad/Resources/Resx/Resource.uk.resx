@@ -118,139 +118,141 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AddPin" xml:space="preserve">
-    <value>Add Pin</value>
+    <value>Додати пін</value>
   </data>
   <data name="AddPin2" xml:space="preserve">
-    <value>Add photo </value>
+    <value>Додати фото</value>
   </data>
   <data name="Alert_All_Field" xml:space="preserve">
-    <value>All fields must be filled</value>
+    <value>Заповніть усі поля</value>
   </data>
   <data name="Alert_Device_GeoLocacia" xml:space="preserve">
-    <value>Error! Geo location disable. Restart the application</value>
+    <value>Помилка. Гео локація відключена.</value>
   </data>
   <data name="Alert_Device_Internet" xml:space="preserve">
-    <value>Error! No connection to the internet. Restart the application</value>
+    <value>Помилка. Немає з'єднання з интернетом</value>
   </data>
   <data name="Alert_Email1" xml:space="preserve">
-    <value>Email already exist</value>
+    <value>Такий email вже є</value>
   </data>
   <data name="Alert_Email2" xml:space="preserve">
-    <value>Email do not exist</value>
+    <value>Токаго email не має</value>
   </data>
   <data name="Alert_Email3" xml:space="preserve">
-    <value>Email is not valid</value>
+    <value>Email не валідний</value>
   </data>
   <data name="Alert_Ok_Reg" xml:space="preserve">
-    <value>OK! Are you registered.</value>
+    <value>Вітаю. Ви зареєстровані.</value>
   </data>
   <data name="Alert_Password1" xml:space="preserve">
-    <value>Password do not exist</value>
+    <value>Такого пароля немає</value>
   </data>
   <data name="Alert_Password2" xml:space="preserve">
-    <value>Password must have from 8 to 16 symbols, A - Z, a - z, 1 - 9. 
-Password must contain at least one capital letter, one lowercase letter and one number</value>
+    <value>Пароль має бути 8 to 16 символів, A - Z, a - z, 1 - 9. </value>
   </data>
   <data name="Alert_Position" xml:space="preserve">
-    <value>Must be 0.0000 or -0.0000</value>
+    <value>Має містити 0.0000 or -0.0000</value>
   </data>
   <data name="Alert_SavePin" xml:space="preserve">
-    <value>Error saved data</value>
+    <value>Помилка не вдалося записати данні</value>
   </data>
   <data name="Alert_Search" xml:space="preserve">
-    <value>A-Z, a-z symbols only</value>
+    <value>Тільки A-Z, a-z сімволи</value>
   </data>
   <data name="Button_Camera" xml:space="preserve">
-    <value>Camera</value>
+    <value>Камера</value>
   </data>
   <data name="Button_Galery" xml:space="preserve">
-    <value>Galery</value>
+    <value>Галерея</value>
   </data>
   <data name="City" xml:space="preserve">
-    <value>City</value>
+    <value>Місто</value>
   </data>
   <data name="Confirmpassword" xml:space="preserve">
-    <value>Confirm password</value>
+    <value>Підтвердьте пароль</value>
   </data>
   <data name="Coordinates" xml:space="preserve">
-    <value>Coordinates</value>
+    <value>Координати</value>
   </data>
   <data name="Country" xml:space="preserve">
-    <value>Country</value>
+    <value>Держава</value>
   </data>
   <data name="Createaccount" xml:space="preserve">
-    <value>Create account</value>
+    <value>Створити аккаунт</value>
   </data>
   <data name="DeleteItem" xml:space="preserve">
-    <value>Delete</value>
+    <value>Видалити</value>
   </data>
   <data name="EditItem" xml:space="preserve">
-    <value>Edit</value>
+    <value>Змінити</value>
   </data>
   <data name="Email" xml:space="preserve">
-    <value>Email</value>
+    <value>Пошта</value>
   </data>
   <data name="ErrorText_Email" xml:space="preserve">
-    <value>Email. Must have - aaa@aa.aa</value>
+    <value>Email. Має бути - aaa@aa.aa</value>
   </data>
   <data name="ErrorText_Name" xml:space="preserve">
-    <value>Must have 2-16 symbols</value>
+    <value>Має бути 2-16 символів</value>
   </data>
   <data name="ErrorText_Password" xml:space="preserve">
-    <value>8-16 symbols first capital letter, one lowercase letter, one digit</value>
+    <value>8-16 символив, перша велика літера, одну малу літеру, одну цифру</value>
   </data>
   <data name="Language" xml:space="preserve">
-    <value>Choose a language</value>
+    <value>Виберіть мову</value>
   </data>
   <data name="Latitude" xml:space="preserve">
-    <value>Latitude</value>
+    <value>Широта</value>
   </data>
   <data name="Login" xml:space="preserve">
-    <value>Log  in</value>
+    <value>Увійти</value>
   </data>
   <data name="Longitude" xml:space="preserve">
-    <value>Longitude</value>
+    <value>Довгота</value>
   </data>
   <data name="Map" xml:space="preserve">
-    <value>Map</value>
+    <value>Карта</value>
   </data>
   <data name="Message_Delete" xml:space="preserve">
-    <value>Delete is </value>
+    <value>Видалити </value>
   </data>
   <data name="Name" xml:space="preserve">
-    <value>Name</value>
+    <value>Ім'я</value>
   </data>
   <data name="Next" xml:space="preserve">
-    <value>Next</value>
+    <value>Далі</value>
   </data>
   <data name="Password" xml:space="preserve">
-    <value>Password</value>
+    <value>Пароль</value>
   </data>
   <data name="Pins" xml:space="preserve">
-    <value>Pins</value>
+    <value>Піни</value>
   </data>
   <data name="PlaceholderEmail" xml:space="preserve">
-    <value>Email</value>
+    <value>пошта</value>
   </data>
   <data name="PlaceholderEntryAddPin1" xml:space="preserve">
-    <value>Input the City</value>
+    <value>Введіть місто</value>
   </data>
   <data name="PlaceholderEntryAddPin2" xml:space="preserve">
-    <value>Input the Country</value>
+    <value>Введіть країну</value>
   </data>
   <data name="PlaceholderName" xml:space="preserve">
-    <value>Name</value>
+    <value>Ім'я</value>
   </data>
   <data name="PlaceholderPassConfirm" xml:space="preserve">
-    <value>Password confirm</value>
+    <value>Підтвердьте пароль</value>
   </data>
   <data name="PlaceholderPassword" xml:space="preserve">
-    <value>Password</value>
+    <value>Пароль</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Search</value>
+    <value>Пошук</value>
   </data>
   <data name="Settings" xml:space="preserve">
-    <value>Settings</value>
+    <value>налаштування</value>
+  </data>
+  <data name="String" xml:space="preserve">
+    <value>Має містити першу велику літеру, і одну малу літеру та одну цифру</value>
   </data>
 </root>

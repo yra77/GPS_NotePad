@@ -25,7 +25,7 @@ using Android;
 namespace GPS_NotePad.Droid
 {
     [Activity(ScreenOrientation = ScreenOrientation.Portrait, Label = "GPS NotePad", Icon = "@drawable/logotip", Theme = "@style/MainTheme", 
-        ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | 
+        ConfigurationChanges = ConfigChanges.Locale | ConfigChanges.ScreenSize | ConfigChanges.Orientation | 
         ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize )]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {

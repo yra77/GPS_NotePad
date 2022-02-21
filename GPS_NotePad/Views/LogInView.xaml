@@ -5,7 +5,7 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              ios:Page.UseSafeArea="True"
-             xmlns:resource="clr-namespace:GPS_NotePad.Resources.Resx" 
+             xmlns:resource="clr-namespace:GPS_NotePad.Resources.Resx"
              xmlns:effects="clr-namespace:GPS_NotePad.Effects"
              NavigationPage.HasNavigationBar="False"
              x:Class="GPS_NotePad.Views.LogInView"
@@ -23,19 +23,21 @@
                 <ImageButton Command="{Binding BackBtn}"  BackgroundColor="{DynamicResource Bacground_ImageButton}" 
                              Source="{DynamicResource backStrelka}"/>
 
-                <Label Margin="0,0,20,0" Text="Log  in" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" 
+                <Label Margin="0,0,20,0" Text="{x:Static resource:Resource.Login}" 
+                       VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" 
                        FontSize="22" TextColor="{DynamicResource TextColor1}" FontFamily="Montserrat_Font"/>
 
             </StackLayout>
 
-            
-            <StackLayout Margin="20,20,20,0" BackgroundColor="Transparent">
+
+            <StackLayout Margin="20,20,20,0" BackgroundColor="{DynamicResource Transparent}">
 
                 <Label HorizontalOptions="StartAndExpand" Margin="20,0,0,0" 
-                       Text="Email" TextColor="White" FontSize="14" FontFamily="Montserrat_Font"/>
-                <!--ios  Padding="10,12,10,12"-->
+                       Text="{x:Static resource:Resource.Email}" TextColor="{DynamicResource White}" 
+                       FontSize="14" FontFamily="Montserrat_Font"/>
+                
                 <Frame Padding="{OnPlatform Android='10,4,10,4', iOS='10,12,10,12'}" HasShadow="False" 
-                       BorderColor="{Binding EmailBorderColor}" BackgroundColor="Transparent">
+                       BorderColor="{Binding EmailBorderColor}" BackgroundColor="{DynamicResource Transparent}">
 
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -60,10 +62,10 @@
 
 
                 <Label HorizontalOptions="StartAndExpand" Margin="20,0,0,0" 
-                       Text="Password" TextColor="White" FontSize="14" FontFamily="Montserrat_Font"/>
-                <!--ios  Padding="10,0,10,0"-->
-                <Frame Padding="{OnPlatform Android='10,4,10,4', iOS='10,0,10,0'}" HasShadow="False" BorderColor="{Binding PassBorderColor}" 
-                               BackgroundColor="Transparent">
+                       Text="{x:Static resource:Resource.Password}" TextColor="White" FontSize="14" FontFamily="Montserrat_Font"/>
+               
+                <Frame Padding="{OnPlatform Android='10,4,10,4', iOS='10,0,10,0'}" HasShadow="False" 
+                       BorderColor="{Binding PassBorderColor}" BackgroundColor="{DynamicResource Transparent}">
 
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -79,18 +81,20 @@
                             </Entry.Effects>
                         </Entry>
 
-                        <ImageButton Source="{Binding ImagePassword}" BackgroundColor="Transparent" Scale="0.5" Grid.Column="1" 
-                                             Command="{Binding Btn_IsVisiblePassword}" WidthRequest="50" Aspect="AspectFit"/>
+                        <ImageButton Source="{Binding ImagePassword}" BackgroundColor="{DynamicResource Transparent}" 
+                                     Scale="0.5" Grid.Column="1" Command="{Binding Btn_IsVisiblePassword}" 
+                                     WidthRequest="50" Aspect="AspectFit"/>
                     </Grid>
                 </Frame>
 
                 <Label Text="{Binding ErrorPassText}" FontSize="11" HorizontalOptions="Center" 
                                TextColor="{Binding PassBorderColor}"/>
 
-                
-                <StackLayout BackgroundColor="Transparent" Margin="0,30,0,0">
+
+                <StackLayout BackgroundColor="{DynamicResource Transparent}" Margin="0,30,0,0">
                     
-                    <Button IsEnabled="False" Command="{Binding LogInBtn}" BackgroundColor="{Binding Color_OkBtn}" Text="Log  in"
+                    <Button IsEnabled="False" Command="{Binding LogInBtn}" BackgroundColor="{Binding Color_OkBtn}" 
+                            Text="{x:Static resource:Resource.Login}"
                                 FontFamily="Montserrat_Font" VerticalOptions="End" HorizontalOptions="Fill"/>
 
                     
@@ -98,8 +102,8 @@
                         
                         <Line Margin="1,0,0,0" Stroke="Gray" X2="140" VerticalOptions="CenterAndExpand" 
                               HorizontalOptions="StartAndExpand" StrokeThickness="2"/>
-                       
-                        <Label Margin="0,10,0,10" Text="or" TextColor="Gray" FontSize="14" 
+
+                        <Label Margin="0,10,0,10" Text="or" TextColor="{DynamicResource Gray}" FontSize="14" 
                                HorizontalOptions="CenterAndExpand" VerticalTextAlignment="Center"/>
                         
                         <Line Margin="1,0,0,0" Stroke="Gray" X2="140"  VerticalOptions="CenterAndExpand" 
@@ -108,8 +112,8 @@
                     </StackLayout>
                     
                     
-                <Button Command="{Binding GoogleBtn}" ImageSource="{DynamicResource google}" BorderColor="White" BorderWidth="1"
-                                HorizontalOptions="Fill" VerticalOptions="EndAndExpand" BackgroundColor="Transparent" />
+                <Button Command="{Binding GoogleBtn}" ImageSource="{DynamicResource google}" BorderColor="{DynamicResource White}" BorderWidth="1"
+                                HorizontalOptions="Fill" VerticalOptions="EndAndExpand" BackgroundColor="{DynamicResource Transparent}" />
                     
                 </StackLayout>
 

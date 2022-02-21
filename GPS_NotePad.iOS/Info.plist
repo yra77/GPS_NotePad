@@ -76,5 +76,13 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We would like to know your location to find places near you</string>
 	
+<key>CFBundleLocalizations</key>
+<array>
+  <string>en</string>
+    <string>uk</string>
+</array>
+<key>CFBundleDevelopmentRegion</key>
+<string>en</string>
+
 </dict>
 </plist>

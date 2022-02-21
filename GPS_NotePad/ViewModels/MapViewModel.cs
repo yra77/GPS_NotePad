@@ -204,7 +204,13 @@ namespace GPS_NotePad.ViewModels
 
         private async void Settings_ClickAsync()
         {
-            await _navigationService.NavigateAsync("/SettingsView");
+            Tuple<string, string> tuple = new Tuple<string, string>("TabbedPageMy", _email);
+
+            NavigationParameters navParameters = new NavigationParameters
+                                {
+                                    { "addressPage", tuple }
+                                };
+            await _navigationService.NavigateAsync("/SettingsView", navParameters);
         }
 
         private async void LoadListMarkersAsync()

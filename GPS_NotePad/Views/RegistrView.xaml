@@ -20,22 +20,24 @@
             <StackLayout Padding="10" Orientation="Horizontal" VerticalOptions="Start" 
                          HorizontalOptions="Fill" BackgroundColor="{DynamicResource BarColor}">
 
-                <ImageButton Command="{Binding BackBtn}"  BackgroundColor="{DynamicResource Bacground_ImageButton}" 
+                <ImageButton Command="{Binding BackBtn}" BackgroundColor="{DynamicResource Bacground_ImageButton}" 
                              Source="{DynamicResource backStrelka}"/>
 
-                <Label Margin="0,0,20,0" Text="Create an account" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" 
+                <Label Margin="0,0,20,0" Text="{x:Static resource:Resource.Createaccount}" 
+                       VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" 
                        FontSize="22" TextColor="{DynamicResource TextColor1}" FontFamily="Montserrat_Font"/>
 
             </StackLayout>
 
 
-            <StackLayout Margin="20,20,20,0" BackgroundColor="Transparent">
+            <StackLayout Margin="20,20,20,0" BackgroundColor="{DynamicResource Transparent}">
 
                 <Label HorizontalOptions="StartAndExpand" Margin="20,0,0,0" 
-                       Text="Name" TextColor="White" FontSize="14" FontFamily="Montserrat_Font"/>
+                       Text="{x:Static resource:Resource.Name}" TextColor="{DynamicResource White}" 
+                       FontSize="14" FontFamily="Montserrat_Font"/>
 
                 <Frame HasShadow="False" Padding="{OnPlatform Android='10,4,10,4', iOS='10,12,10,12'}" 
-                       BackgroundColor="Transparent" BorderColor="{Binding NameBorderColor}">
+                       BackgroundColor="{DynamicResource Transparent}" BorderColor="{Binding NameBorderColor}">
 
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -59,10 +61,10 @@
 
 
                 <Label HorizontalOptions="StartAndExpand" Margin="20,0,0,0" 
-                       Text="Email" TextColor="White" FontSize="14" FontFamily="Montserrat_Font"/>
+                       Text="{x:Static resource:Resource.Email}" TextColor="White" FontSize="14" FontFamily="Montserrat_Font"/>
 
                 <Frame Padding="{OnPlatform Android='10,4,10,4', iOS='10,12,10,12'}" HasShadow="False" 
-                       BorderColor="{Binding EmailBorderColor}" BackgroundColor="Transparent">
+                       BorderColor="{Binding EmailBorderColor}" BackgroundColor="{DynamicResource Transparent}">
 
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -85,17 +87,19 @@
                                TextColor="{Binding EmailBorderColor}"/>
 
 
-                <StackLayout BackgroundColor="Transparent" Margin="0,30,0,0">
+                <StackLayout BackgroundColor="{DynamicResource Transparent}" Margin="0,30,0,0">
 
-                    <Button IsEnabled="False" Command="{Binding NextBtn}" BackgroundColor="{Binding Color_NextBtn}" Text="Next"
-                                FontFamily="Montserrat_Font" VerticalOptions="End" HorizontalOptions="Fill"/>
+                    <Button IsEnabled="False" Command="{Binding NextBtn}" BackgroundColor="{Binding Color_NextBtn}"
+                            Text="{x:Static resource:Resource.Next}"
+                            FontFamily="Montserrat_Font" VerticalOptions="End" HorizontalOptions="Fill"/>
 
                     <StackLayout Orientation="Horizontal">
 
                         <Line Margin="1,0,0,0" Stroke="Gray" X2="140" VerticalOptions="CenterAndExpand" 
                               HorizontalOptions="StartAndExpand" StrokeThickness="2"/>
 
-                        <Label Margin="0,10,0,10" Text="or" TextColor="Gray" FontSize="14" HorizontalOptions="CenterAndExpand"
+                        <Label Margin="0,10,0,10" Text="or" TextColor="{DynamicResource Gray}" 
+                               FontSize="14" HorizontalOptions="CenterAndExpand"
                             VerticalTextAlignment="Center" FontFamily="Montserrat_Font"/>
 
                         <Line Margin="1,0,0,0" Stroke="Gray" X2="140"  VerticalOptions="CenterAndExpand" 
@@ -103,8 +107,11 @@
 
                     </StackLayout>
 
-                    <Button Command="{Binding GoogleBtn}" ImageSource="{DynamicResource google}" BorderColor="White" BorderWidth="1"
-                                HorizontalOptions="Fill" VerticalOptions="EndAndExpand" BackgroundColor="Transparent" />
+                    <Button Command="{Binding GoogleBtn}" ImageSource="{DynamicResource google}" 
+                            BorderColor="{DynamicResource White}" BorderWidth="1"
+                                HorizontalOptions="Fill" VerticalOptions="EndAndExpand"
+                            BackgroundColor="{DynamicResource Transparent}"/>
+                    
                 </StackLayout>
 
             </StackLayout>
