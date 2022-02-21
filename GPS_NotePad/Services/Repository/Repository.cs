@@ -1,12 +1,13 @@
 ﻿
 
 using Acr.UserDialogs;
+using GPS_NotePad.Models;
 using GPS_NotePad.Services.Interfaces;
 using SQLite;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace GPS_NotePad.Repository
+namespace GPS_NotePad.Services.Repository
 {
 
     class Repository: IRepository
@@ -18,6 +19,9 @@ namespace GPS_NotePad.Repository
         {
             _connectionProvider = connectionProvider;
             _connection = _connectionProvider.GetConnection();
+
+            CreateTable<Loginin>();
+            CreateTable<MarkerInfo>();
         }
 
 

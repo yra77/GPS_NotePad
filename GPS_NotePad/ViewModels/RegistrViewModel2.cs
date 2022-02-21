@@ -1,9 +1,12 @@
 ﻿
-using Acr.UserDialogs;
 
 using GPS_NotePad.Helpers;
 using GPS_NotePad.Models;
-using GPS_NotePad.Services.Interfaces;
+using GPS_NotePad.Services.AuthService;
+using GPS_NotePad.Services.RegistrService;
+using GPS_NotePad.Services.SettingsManager;
+
+using Acr.UserDialogs;
 
 using Prism.Commands;
 using Prism.Mvvm;
@@ -24,14 +27,19 @@ namespace GPS_NotePad.ViewModels
         private readonly IVerifyInputLogPas_Helper _verifyInput;
         private readonly IRegistrService _registrService;
         private readonly IAuthService _authService;
+        private readonly ISettingsManager _settingsManager;
         private string _name;
         private string _email;
 
 
-        public RegistrViewModel2(IRegistrService registrService, IAuthService authService, INavigationService navigationService)
+        public RegistrViewModel2(IRegistrService registrService, 
+                                    IAuthService authService, 
+                                    INavigationService navigationService, 
+                                    ISettingsManager settingsManager)
         {
 
             _navigationService = navigationService;
+            _settingsManager = settingsManager;
             _verifyInput = new VerifyInput_Helper();
             _registrService = registrService;
             _authService = authService;
@@ -149,6 +157,7 @@ namespace GPS_NotePad.ViewModels
             if (result.Item1)
             {
                 UserDialogs.Instance.Alert(result.Item2, "Info", "Ok");
+
                 Password = "";
                 PasswordConfirm = "";
                 NavigationParameters navParameters = new NavigationParameters
@@ -262,7 +271,8 @@ namespace GPS_NotePad.ViewModels
                     UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Ok_Reg + " Your password is "
                                                + Constants.Constant_Auth.GOOGLE_PASSWORD_USER, "Message", "Ok");
             }
-           
+
+            _settingsManager.Email = _email;
             NavigationParameters navParameters = new NavigationParameters { { "email", _email } };
 
             await _navigationService.NavigateAsync("/TabbedPageMy", navParameters, animated: true);

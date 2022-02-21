@@ -1,7 +1,7 @@
 ﻿
 using System.Threading.Tasks;
 
-namespace GPS_NotePad.Services.Interfaces
+namespace GPS_NotePad.Services.MediaService
 {
     public interface IMediaService
     {

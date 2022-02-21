@@ -3,7 +3,7 @@
 using GPS_NotePad.Constants;
 using GPS_NotePad.Helpers;
 using GPS_NotePad.Models;
-using GPS_NotePad.Repository;
+using GPS_NotePad.Services.Repository;
 using GPS_NotePad.Services.Interfaces;
 using GPS_NotePad.ViewModels;
 using Newtonsoft.Json;
@@ -15,13 +15,12 @@ using Xamarin.Auth;
 using Xamarin.Forms;
 
 
-namespace GPS_NotePad.Services
+namespace GPS_NotePad.Services.AuthService
 {
 
     class AuthService : IAuthService
     {
 
-        #region Private helper
 
         private GoogleAuthCallBack googleAuthCallBack;
 
@@ -30,20 +29,16 @@ namespace GPS_NotePad.Services
         private readonly AccountStore _store;
         private readonly IVerifyInputLogPas_Helper _verifyInput;
 
-        #endregion
-
 
         public AuthService(IRepository repository)
         {
             _verifyInput = new VerifyInput_Helper();
             _repository = repository;
-            _repository.CreateTable<Loginin>();
             _store = AccountStore.Create();
         }
 
-        
 
-        #region Private methods
+        #region Private helper
 
         async void OnAuthCompletedAsync(object sender, AuthenticatorCompletedEventArgs e)
         {

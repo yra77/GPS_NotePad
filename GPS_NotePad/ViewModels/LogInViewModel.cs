@@ -2,8 +2,8 @@
 
 using Acr.UserDialogs;
 using GPS_NotePad.Helpers;
-using GPS_NotePad.Services.Interfaces;
-
+using GPS_NotePad.Services.AuthService;
+using GPS_NotePad.Services.SettingsManager;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -18,9 +18,11 @@ namespace GPS_NotePad.ViewModels
         private readonly INavigationService _navigationService;
         private readonly IVerifyInputLogPas_Helper _verifyInput;
         private readonly IAuthService _authService;
+        private readonly ISettingsManager _settingsManager;
 
-
-        public LogInViewModel(IAuthService authService, INavigationService navigationService)
+        public LogInViewModel(IAuthService authService, 
+                              INavigationService navigationService, 
+                              ISettingsManager settingsManager)
         {
 
             Email = "";
@@ -40,10 +42,10 @@ namespace GPS_NotePad.ViewModels
             _navigationService = navigationService;
             _verifyInput = new VerifyInput_Helper();
             _authService = authService;
+            _settingsManager = settingsManager;
 
             EmailBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_White;
             PassBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_White;
-
         }
 
        
@@ -124,6 +126,7 @@ namespace GPS_NotePad.ViewModels
 
             if (result.Item1)
             {
+                _settingsManager.Email = Email;
                 NavigationParameters navParameters = new NavigationParameters
                                 {
                                     { "email", Email }

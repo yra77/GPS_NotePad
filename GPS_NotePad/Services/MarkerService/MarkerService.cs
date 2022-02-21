@@ -1,13 +1,11 @@
 ﻿
 using GPS_NotePad.Models;
-using GPS_NotePad.Repository;
-using GPS_NotePad.Services.Interfaces;
-using System;
+using GPS_NotePad.Services.Repository;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 
-namespace GPS_NotePad.Services
+namespace GPS_NotePad.Services.MarkerService
 {
 
     class MarkerService : IMarkerService
@@ -18,11 +16,10 @@ namespace GPS_NotePad.Services
         public MarkerService(IRepository repository)
         {
             _repository = repository;
-            _repository.CreateTable<MarkerInfo>();
         }
 
 
-        #region Public method,  Intarface IRegisterService implementation
+        #region -------------- Intarface IMarkerService implementation --------------------------
 
         public async Task<int> DeleteAsync<T>(int id) where T : class, new()
         {

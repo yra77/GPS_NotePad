@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace GPS_NotePad.Repository
+namespace GPS_NotePad.Services.Repository
 {
     public interface IRepository
     {
@@ -9,7 +9,6 @@ namespace GPS_NotePad.Repository
         Task<int> UpdateAsync<T>(T profile) where T : class, new();
         Task<bool> InsertAsync<T>(T profile) where T : class, new();
         Task<int> DeleteAsync<T>(int id) where T : class, new();
-        void CreateTable<T>() where T : class, new();
     }
 
 }

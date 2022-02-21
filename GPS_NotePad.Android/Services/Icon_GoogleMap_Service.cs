@@ -5,6 +5,7 @@ using Xamarin.Forms.GoogleMaps.Android.Factories;
 using AndroidBitmapDescriptor = Android.Gms.Maps.Model.BitmapDescriptor;
 using AndroidBitmapDescriptorFactory = Android.Gms.Maps.Model.BitmapDescriptorFactory;
 
+
 namespace GPS_NotePad.Droid.Services
 {
     public sealed class Icon_GoogleMap_Service : IBitmapDescriptorFactory

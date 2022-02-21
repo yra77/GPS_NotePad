@@ -1,14 +1,14 @@
 ﻿
 using GPS_NotePad.Helpers;
 using GPS_NotePad.Models;
-using GPS_NotePad.Repository;
+using GPS_NotePad.Services.Repository;
 using GPS_NotePad.Services.Interfaces;
 
 using System.Linq;
 using System.Threading.Tasks;
 
 
-namespace GPS_NotePad.Services
+namespace GPS_NotePad.Services.RegistrService
 {
 
     class RegistrService : IRegistrService
@@ -21,7 +21,6 @@ namespace GPS_NotePad.Services
         {
             _verifyInput = new VerifyInput_Helper();
             _repository = repository;
-            _repository.CreateTable<Loginin>();
         }
 
         private async Task<bool> InsertAsync(Loginin profile)

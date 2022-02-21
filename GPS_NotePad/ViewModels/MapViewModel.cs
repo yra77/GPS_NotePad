@@ -2,7 +2,7 @@
 
 using GPS_NotePad.Models;
 using GPS_NotePad.Helpers;
-using GPS_NotePad.Services.Interfaces;
+using GPS_NotePad.Services.MarkerService;
 
 using Acr.UserDialogs;
 
@@ -18,29 +18,30 @@ using System.Collections.ObjectModel;
 
 using Xamarin.Essentials;
 using Xamarin.Forms.GoogleMaps;
-
+using GPS_NotePad.Services.SettingsManager;
 
 namespace GPS_NotePad.ViewModels
 {
     class MapViewModel : BindableBase, INavigatedAware, IActiveAware
     {
 
-        #region Private helpers
-
         private readonly IMarkerService _markerService;
         private readonly INavigationService _navigationService;
+        private readonly ISettingsManager _settingsManager;
         private readonly IVerifyInputLogPas_Helper _verifyInput;
         private Location _currentLocation;
         private List<MarkerInfo> _listMarkersClone;
 
-        #endregion
 
-        public MapViewModel(INavigationService navigationService, IMarkerService markerService)
+        public MapViewModel(INavigationService navigationService, 
+                                IMarkerService markerService, 
+                                ISettingsManager settingsManager)
         {
 
             _verifyInput = new VerifyInput_Helper();
             _markerService = markerService;
             _navigationService = navigationService;
+            _settingsManager = settingsManager;
 
             ListPin = new ObservableCollection<Pin>();
             _listMarkersClone = new List<MarkerInfo>();
@@ -56,7 +57,6 @@ namespace GPS_NotePad.ViewModels
             ExitBtn = new DelegateCommand(LogOutAsync);
             SettingsBtn = new DelegateCommand(Settings_ClickAsync);
 
-            //  LoadListMarkersAsync();
         }
 
 
@@ -174,7 +174,7 @@ namespace GPS_NotePad.ViewModels
         #endregion
 
 
-        #region Private metod
+        #region Private helpers
 
         private async void IsActiveTabAsync()
         {
@@ -199,6 +199,7 @@ namespace GPS_NotePad.ViewModels
 
         private async void LogOutAsync()
         {
+            _settingsManager.Email = null;
             await _navigationService.NavigateAsync("/MainPage");
         }
 
@@ -216,7 +217,7 @@ namespace GPS_NotePad.ViewModels
         private async void LoadListMarkersAsync()
         {
             var arr = await _markerService.GetDataAsync<MarkerInfo>("MarkerInfo", Email);
-            ListPin.Clear();
+            //ListPin.Clear();
             ToMyPins(arr);
         }
 

@@ -192,13 +192,5 @@ namespace GPS_NotePad.Controls
 
         #endregion
 
-        ~MyGoogleMap()
-        {
-            //PinClicked -= MyGoogleMap_PinClicked;
-            //MapClicked -= MyGoogleMap_MapClicked;
-            //SizeChanged -= MyGoogleMap_SizeChanged;
-            //PinsSource.CollectionChanged -= PinsSourceOnCollectionChanged;
-        }
-
     }
 }

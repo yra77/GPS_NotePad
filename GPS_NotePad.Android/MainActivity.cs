@@ -47,13 +47,14 @@ namespace GPS_NotePad.Droid
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
+            LoadApplication(new App(new AndroidPlatformInitializer()));
+
             var platformConfig = new PlatformConfig
             {
                 BitmapDescriptorFactory = new Icon_GoogleMap_Service()
             };
             global::Xamarin.FormsGoogleMaps.Init(this, savedInstanceState, platformConfig);
 
-            LoadApplication(new App(new AndroidPlatformInitializer()));
             UserDialogs.Init(this);
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)

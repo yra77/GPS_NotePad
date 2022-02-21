@@ -2,18 +2,23 @@
 
 using GPS_NotePad.ViewModels;
 using GPS_NotePad.Views;
-using GPS_NotePad.Repository;
-using GPS_NotePad.Services;
-using GPS_NotePad.Services.Interfaces;
+using GPS_NotePad.Services.Repository;
+using GPS_NotePad.Services.AuthService;
+using GPS_NotePad.Services.RegistrService;
+using GPS_NotePad.Services.MarkerService;
+using GPS_NotePad.Services.MediaService;
+using GPS_NotePad.Services.SettingsManager;
+using GPS_NotePad.Resources.Resx;
 
+using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Forms;
 
 using Prism;
 using Prism.Ioc;
 using Prism.Unity;
-using Xamarin.CommunityToolkit.Helpers;
-using GPS_NotePad.Resources.Resx;
+
 using System.Globalization;
+
 
 namespace GPS_NotePad
 {
@@ -49,11 +54,13 @@ namespace GPS_NotePad
             containerRegistry.RegisterForNavigation<SettingsView, SettingsViewModel>();
 
             //Services
-            containerRegistry.RegisterSingleton<IRepository, Repository.Repository>();
+            containerRegistry.RegisterSingleton<IRepository, Repository>();
             containerRegistry.RegisterSingleton<IAuthService, AuthService>();
             containerRegistry.RegisterSingleton<IRegistrService, RegistrService>();
             containerRegistry.RegisterSingleton<IMarkerService, MarkerService>();
             containerRegistry.RegisterSingleton<IMediaService, MediaService>();
+            containerRegistry.RegisterSingleton<ISettingsManager, SettingsManager>();
+
         }
 
     }

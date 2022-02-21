@@ -1,9 +1,12 @@
 ﻿
 using GPS_NotePad.Helpers;
+using GPS_NotePad.Services.SettingsManager;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
-
+using System;
+using System.Threading.Tasks;
+using Xamarin.Essentials;
 
 namespace GPS_NotePad.ViewModels
 {
@@ -14,25 +17,25 @@ namespace GPS_NotePad.ViewModels
 
     class MainPageViewModel : BindableBase, INavigatedAware
     {
-
-        #region Private helpers
-
+ 
         private readonly INavigationService _navigationService;
+        private readonly ISettingsManager _settingsManager;
         private readonly ICheckingDeviceProperty_Helper _checkingDeviceProperty;
 
-        #endregion
 
-
-        public MainPageViewModel(INavigationService navigationService)
+        public MainPageViewModel(INavigationService navigationService, 
+                                 ISettingsManager settingsManager)
         {
 
             _checkingDeviceProperty = new CheckingDeviceProperty_Helper();
             IsNetworkGeoLocalAsync();
 
+            _navigationService = navigationService;
+            _settingsManager = settingsManager;
+
             LogInBtn = new DelegateCommand(LogininClick);
             RegistrBtn = new DelegateCommand(RegistrClick);
            
-            _navigationService = navigationService;
         }
 
 
@@ -44,7 +47,7 @@ namespace GPS_NotePad.ViewModels
         #endregion
 
 
-        #region Private Methods
+        #region Private helpers
 
         private async void IsNetworkGeoLocalAsync() //check network and geo location
         {
@@ -61,11 +64,27 @@ namespace GPS_NotePad.ViewModels
             await _navigationService.NavigateAsync("/LogInView", animated: true);
         }
 
+        private async void GoToMapAsync(string email)
+        {
+            await Task.Delay(100);
+            NavigationParameters navParameters = new NavigationParameters
+                                {
+                                    { "email", email }
+                                };
+            await _navigationService.NavigateAsync("/TabbedPageMy", navParameters, animated: true);
+        }
+
         #endregion
 
         #region Interface InavigatedAword implementation
         public void OnNavigatedFrom(INavigationParameters parameters) { }
-        public void OnNavigatedTo(INavigationParameters parameters) { }
+        public void OnNavigatedTo(INavigationParameters parameters)
+        {
+            if (_settingsManager.Email != null)
+            {
+                GoToMapAsync(_settingsManager.Email);
+            }
+        }
         #endregion
     }
 }

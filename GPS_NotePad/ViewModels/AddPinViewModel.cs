@@ -2,7 +2,8 @@
 
 using GPS_NotePad.Models;
 using GPS_NotePad.Helpers;
-using GPS_NotePad.Services.Interfaces;
+using GPS_NotePad.Services.MarkerService;
+using GPS_NotePad.Services.MediaService;
 
 using Acr.UserDialogs;
 
@@ -21,7 +22,6 @@ namespace GPS_NotePad.ViewModels
     class AddPinViewModel : BindableBase, INavigatedAware
     {
 
-        #region Private helpers
 
         private readonly IMarkerService _markerService;
         private readonly IMediaService _mediaService;
@@ -32,7 +32,6 @@ namespace GPS_NotePad.ViewModels
         private Position _position;
         private string _email;
 
-        #endregion
 
         public AddPinViewModel(INavigationService navigationService, IMediaService mediaService, IMarkerService markerService)
         {
@@ -171,7 +170,7 @@ namespace GPS_NotePad.ViewModels
 
 
 
-        #region Private metod
+        #region Private helpers
 
         private void MyLocation_Click()
         {

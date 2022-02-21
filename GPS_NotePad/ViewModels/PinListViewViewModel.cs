@@ -1,15 +1,21 @@
 ﻿
-using Acr.UserDialogs;
+
 using GPS_NotePad.Models;
 using GPS_NotePad.Helpers;
-using GPS_NotePad.Services.Interfaces;
+using GPS_NotePad.Services.MarkerService;
+using GPS_NotePad.Services.SettingsManager;
+
+using Acr.UserDialogs;
+
 using Prism;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
+
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 
 namespace GPS_NotePad.ViewModels
@@ -17,32 +23,22 @@ namespace GPS_NotePad.ViewModels
     class PinListViewViewModel : BindableBase, INavigatedAware, IActiveAware
     {
 
-        #region Private helpers
-
         private readonly IMarkerService _markerService;
         private readonly INavigationService _navigationService;
+        private readonly ISettingsManager _settingsManager;
         private readonly IVerifyInputLogPas_Helper _verifyInput;
         private List<MarkerInfo> _listMarkersClone;
         private string _email;
 
-        #endregion
 
-
-        public PinListViewViewModel(INavigationService navigationService, IMarkerService markerService)
+        public PinListViewViewModel(INavigationService navigationService, 
+                                        IMarkerService markerService, 
+                                        ISettingsManager settingsManager)
         {
 
             _markerService = markerService;
             _navigationService = navigationService;
-
-            AddNewMarker = new DelegateCommand(AddNewMakerClickAsync);
-            ClickToItem = new DelegateCommand<MarkerInfo>(ItemClickAsync);
-            SearchBtn_Pressed = new DelegateCommand(SearchBtnPressed);
-            UnfocusedCommand = new DelegateCommand(SearchUnfocus);
-            EditItem = new DelegateCommand<MarkerInfo>(EditItem_Click);
-            DeleteItem = new DelegateCommand<MarkerInfo>(DeleteItem_ClickAsync);
-            LikeImageBtn = new DelegateCommand<object>(LikeImage_Click);
-            ExitBtn = new DelegateCommand(LogOutAsync);
-            SettingsBtn = new DelegateCommand(Settings_ClickAsync);
+            _settingsManager = settingsManager;
 
             _verifyInput = new VerifyInput_Helper();
         }
@@ -55,94 +51,104 @@ namespace GPS_NotePad.ViewModels
 
 
         private IList<MarkerInfo> _listMarkers;
-        public IList<MarkerInfo> ListMarkers { get => _listMarkers; set => SetProperty(ref _listMarkers, value); }
-
-
-        private bool _isActive;
-        public bool IsActive { get { return _isActive; } set { SetProperty(ref _isActive, value, IsActiveTabAsync); } }
-
-
-        private string _likeImage;
-        public string LikeImage { get => _likeImage; set => SetProperty(ref _likeImage, value); }
-
-
-        private string _markerImage;
-        public string ImagePath { get => _markerImage; set { SetProperty(ref _markerImage, value); } }
-
-
-        private string _search;
-        public string Search { get => _search; 
-                               set { 
-                                     SetProperty(ref _search, value);
-                if (_search.Length > 0)
-                {
-                    string temp = value;
-                    if (!_verifyInput.NameVerify(ref temp))//Verify 
-                    {
-                        Search = temp;
-                        UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Search, "Error", "Ok");
-                    }
-                    else
-                    {
-                        Search_List();
-                    }
-                }
-                else
-                    OnTextChanged();
-            } 
-        }
-
-
-        private string _markerLabel;
-        public string Label { get => _markerLabel; 
-                              set { SetProperty(ref _markerLabel, value);
-                if (_markerLabel.Length > 0)
-                {
-                    string temp = value;
-                    if (!_verifyInput.NameVerify(ref temp))//Verify label
-                    {
-                        Label = temp;
-                        UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Search, "Error", "Ok");
-                    }
-                }
-            } 
-        }
-
-
-        private string _markerAddress;
-        public string Address { get => _markerAddress; 
-                                set { SetProperty(ref _markerAddress, value);
-                if (_markerAddress.Length > 0)
-                {
-                    string temp = value;
-                    if (!_verifyInput.NameVerify(ref temp))//Verify Address
-                    {
-                        Address = temp;
-                        UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Search, "Error", "Ok");
-                    }
-                }
-            } 
+        public IList<MarkerInfo> ListMarkers 
+        { 
+            get => _listMarkers; 
+            set => SetProperty(ref _listMarkers, value); 
         }
 
 
         private int _id;
-        public int Id { get => _id; set => SetProperty(ref _id, value); }
+        public int Id 
+        { 
+            get => _id; 
+            set => SetProperty(ref _id, value); 
+        }
 
 
-        public DelegateCommand UnfocusedCommand { get; }
-        public DelegateCommand<MarkerInfo> ClickToItem { get; set; }
-        public DelegateCommand AddNewMarker { get; }
-        public DelegateCommand SearchBtn_Pressed { get; }
-        public DelegateCommand<MarkerInfo> EditItem { get; set; }
-        public DelegateCommand<MarkerInfo> DeleteItem { get; set; }
-        public DelegateCommand<object> LikeImageBtn { get; }
-        public DelegateCommand ExitBtn { get; }
-        public DelegateCommand SettingsBtn { get; }
+        private bool _isActive;
+        public bool IsActive 
+        { 
+            get { return _isActive; } 
+            set { SetProperty(ref _isActive, value, IsActiveTabAsync); } 
+        }
+
+
+        private string _likeImage;
+        public string LikeImage 
+        { 
+            get => _likeImage; 
+            set => SetProperty(ref _likeImage, value); 
+        }
+
+
+        private string _markerImage;
+        public string ImagePath 
+        { 
+            get => _markerImage; 
+            set { SetProperty(ref _markerImage, value); } 
+        }
+
+
+        private string _search;
+        public string Search 
+        { 
+            get => _search; 
+            set => SetProperty(ref _search, value); 
+        }
+
+
+        private string _markerLabel;
+        public string Label 
+        { 
+            get => _markerLabel;
+            set => SetProperty(ref _markerLabel, value); 
+        }
+        
+
+        private string _markerAddress;
+        public string Address 
+        { 
+            get => _markerAddress; 
+            set => SetProperty(ref _markerAddress, value); 
+        }
+
+
+        public DelegateCommand UnfocusedCommand => new DelegateCommand(SearchUnfocus);
+        public DelegateCommand<MarkerInfo> ClickToItem => new DelegateCommand<MarkerInfo>(ItemClickAsync);
+        public DelegateCommand AddNewMarker => new DelegateCommand(AddNewMakerClickAsync);
+        public DelegateCommand SearchBtn_Pressed => new DelegateCommand(SearchBtnPressed);
+        public DelegateCommand<MarkerInfo> EditItem => new DelegateCommand<MarkerInfo>(EditItem_Click);
+        public DelegateCommand<MarkerInfo> DeleteItem => new DelegateCommand<MarkerInfo>(DeleteItem_ClickAsync);
+        public DelegateCommand<object> LikeImageBtn => new DelegateCommand<object>(LikeImage_Click);
+        public DelegateCommand ExitBtn => new DelegateCommand(LogOutAsync);
+        public DelegateCommand SettingsBtn => new DelegateCommand(Settings_ClickAsync);
 
         #endregion
 
 
-        #region Private method
+        #region Private helpers
+
+        private void CheckingSearch()
+        {
+            if (_search.Length > 0)
+            {
+                string temp = _search;
+                if (!_verifyInput.NameVerify(ref temp))//Verify 
+                {
+                    Search = temp;
+                    UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Search, "Error", "Ok");
+                }
+                else
+                {
+                    Search_List();
+                }
+            }
+            else
+            {
+                OnTextChanged();
+            }
+        }
 
         private void LikeImage_Click(object item)
         {
@@ -239,6 +245,7 @@ namespace GPS_NotePad.ViewModels
 
         private async void LogOutAsync()
         {
+            _settingsManager.Email = null;
             await _navigationService.NavigateAsync("/MainPage");
         }
 
@@ -254,7 +261,8 @@ namespace GPS_NotePad.ViewModels
             await _navigationService.NavigateAsync("/SettingsView", navParameters);
         }
 
-        // Search    
+
+        // Search 
         private void SearchUnfocus()
         {
             SearchList_Clear();
@@ -345,8 +353,8 @@ namespace GPS_NotePad.ViewModels
             }
         }
 
-  
         #endregion
+
 
         #region Interface InavigatedAword implementation
         public void OnNavigatedFrom(INavigationParameters parameters){ }
@@ -361,5 +369,27 @@ namespace GPS_NotePad.ViewModels
             }
         }
         #endregion
+
+
+        #region ---- Override ----
+
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            base.OnPropertyChanged(args);
+
+            Console.WriteLine(args.PropertyName);
+
+            switch (args.PropertyName)
+            {
+                case "Search":
+                    CheckingSearch();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        #endregion
+
     }
 }

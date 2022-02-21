@@ -4,7 +4,7 @@ using GPS_NotePad.Services.Interfaces;
 using System.Threading.Tasks;
 
 
-namespace GPS_NotePad.Services
+namespace GPS_NotePad.Services.MediaService
 {
     class MediaService : IMediaService
     {
@@ -16,7 +16,7 @@ namespace GPS_NotePad.Services
             _resizeImage = resizeImage;
         }
 
-        #region Public method,  Interface ImediaService implamentation
+        #region ----------------- Interface ImediaService implamentation -----------------
         public async Task<string> OpenCamera()
         {
             var photo = await Xamarin.Essentials.MediaPicker.CapturePhotoAsync();

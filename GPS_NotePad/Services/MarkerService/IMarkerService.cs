@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 
-namespace GPS_NotePad.Services.Interfaces
+namespace GPS_NotePad.Services.MarkerService
 {
     public interface IMarkerService
     {

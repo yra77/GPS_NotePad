@@ -3,7 +3,7 @@ using GPS_NotePad.ViewModels;
 using System.Threading.Tasks;
 
 
-namespace GPS_NotePad.Services.Interfaces
+namespace GPS_NotePad.Services.AuthService
 {
     public interface IAuthService
     {

@@ -54,7 +54,7 @@
 
                 <ListView x:Name="listView" VerticalOptions="FillAndExpand" BackgroundColor="{DynamicResource Transparent}"
                           HasUnevenRows="True" SeparatorColor="{DynamicResource SeparatorColor}" HorizontalOptions="Center"
-                          ItemsSource="{Binding ListMarkers}" Margin="0,0,15,0">
+                          ItemsSource="{Binding ListMarkers}">
                     <ListView.ItemTemplate>
 
                         <DataTemplate>
