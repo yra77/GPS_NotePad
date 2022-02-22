@@ -13,7 +13,7 @@ using Prism.Mvvm;
 using Prism.Navigation;
 
 using System;
-
+using System.ComponentModel;
 
 namespace GPS_NotePad.ViewModels
 {
@@ -32,9 +32,9 @@ namespace GPS_NotePad.ViewModels
         private string _email;
 
 
-        public RegistrViewModel2(IRegistrService registrService, 
-                                    IAuthService authService, 
-                                    INavigationService navigationService, 
+        public RegistrViewModel2(IRegistrService registrService,
+                                    IAuthService authService,
+                                    INavigationService navigationService,
                                     ISettingsManager settingsManager)
         {
 
@@ -58,86 +58,112 @@ namespace GPS_NotePad.ViewModels
 
             Color_RegistrBtn = Constants.Constant_Auth.OK_BTN_COLOR;
 
-            GoogleBtn = new DelegateCommand(GoogleClick);
-            RegistrBtn = new DelegateCommand(Registr_Click, IsRegistrEnable).ObservesProperty(() => IsEnabled);
-            Btn_IsVisiblePasConfirm = new DelegateCommand(Click_IsVisiblePasConfirm);
-            Btn_IsVisiblePassword = new DelegateCommand(Click_IsVisiblePassword);
-            BackBtn = new DelegateCommand(BackClickAsync);
-
         }
 
 
         #region Public Property
 
         private string _errorPassText;
-        public string ErrorPassText { get => _errorPassText; set { SetProperty(ref _errorPassText, value); } }
+        public string ErrorPassText
+        {
+            get => _errorPassText;
+            set => SetProperty(ref _errorPassText, value);
+        }
 
 
         private string _errorConfPassText;
-        public string ErrorPassConfText { get => _errorConfPassText; set { SetProperty(ref _errorConfPassText, value); } }
+        public string ErrorPassConfText
+        {
+            get => _errorConfPassText;
+            set => SetProperty(ref _errorConfPassText, value);
+        }
 
 
         private string _passBorderColor;
-        public string PassBorderColor { get => _passBorderColor; set { SetProperty(ref _passBorderColor, value); } }
+        public string PassBorderColor
+        {
+            get => _passBorderColor;
+            set => SetProperty(ref _passBorderColor, value);
+        }
 
 
         private string _passConfBorderColor;
-        public string PassConfBorderColor { get => _passConfBorderColor; set { SetProperty(ref _passConfBorderColor, value); } }
+        public string PassConfBorderColor
+        {
+            get => _passConfBorderColor;
+            set => SetProperty(ref _passConfBorderColor, value);
+        }
 
 
         private string _color_RegistrBtn;
-        public string Color_RegistrBtn { get => _color_RegistrBtn; set => SetProperty(ref _color_RegistrBtn, value); }
+        public string Color_RegistrBtn
+        {
+            get => _color_RegistrBtn;
+            set => SetProperty(ref _color_RegistrBtn, value);
+        }
 
 
         private string _imagePasConfirm;
-        public string ImagePasConfirm { get => _imagePasConfirm; set => SetProperty(ref _imagePasConfirm, value); }
+        public string ImagePasConfirm
+        {
+            get => _imagePasConfirm;
+            set => SetProperty(ref _imagePasConfirm, value);
+        }
 
 
         private string _imagePassword;
-        public string ImagePassword { get => _imagePassword; set => SetProperty(ref _imagePassword, value); }
+        public string ImagePassword
+        {
+            get => _imagePassword;
+            set => SetProperty(ref _imagePassword, value);
+        }
 
 
         private string _password;
         public string Password
         {
-            get { IsRegistrEnable(); return _password; }
-            set
-            {
-                SetProperty(ref _password, value);
-                if (_password.Length > 0) { CheckPassword(value); }
-            }
+            get => _password;
+            set => SetProperty(ref _password, value);
         }
 
 
         private string _passwordConfirm;
         public string PasswordConfirm
         {
-            get { IsRegistrEnable(); return _passwordConfirm; }
-            set
-            {
-                SetProperty(ref _passwordConfirm, value);
-                if (_passwordConfirm.Length > 0) { CheckPassConfirm(value); }
-            }
+            get => _passwordConfirm;
+            set => SetProperty(ref _passwordConfirm, value);
         }
 
 
         private bool _isEnabled;
-        public bool IsEnabled { get { return _isEnabled; } set { SetProperty(ref _isEnabled, value); } }
+        public bool IsEnabled
+        {
+            get => _isEnabled;
+            set => SetProperty(ref _isEnabled, value);
+        }
 
 
         private bool _isVisiblePasConfirm;
-        public bool IsVisiblePasConfirm { get => _isVisiblePasConfirm; set => SetProperty(ref _isVisiblePasConfirm, value); }
+        public bool IsVisiblePasConfirm
+        {
+            get => _isVisiblePasConfirm;
+            set => SetProperty(ref _isVisiblePasConfirm, value);
+        }
 
 
         private bool _isVisiblePassword;
-        public bool IsVisiblePassword { get => _isVisiblePassword; set => SetProperty(ref _isVisiblePassword, value); }
+        public bool IsVisiblePassword
+        {
+            get => _isVisiblePassword;
+            set => SetProperty(ref _isVisiblePassword, value);
+        }
 
 
-        public DelegateCommand RegistrBtn { get; }
-        public DelegateCommand GoogleBtn { get; }
-        public DelegateCommand Btn_IsVisiblePasConfirm { get; }
-        public DelegateCommand Btn_IsVisiblePassword { get; }
-        public DelegateCommand BackBtn { get; }
+        public DelegateCommand RegistrBtn => new DelegateCommand(Registr_Click, IsRegistrEnable).ObservesProperty(() => IsEnabled);
+        public DelegateCommand GoogleBtn => new DelegateCommand(GoogleClick);
+        public DelegateCommand Btn_IsVisiblePasConfirm => new DelegateCommand(Click_IsVisiblePasConfirm);
+        public DelegateCommand Btn_IsVisiblePassword => new DelegateCommand(Click_IsVisiblePassword);
+        public DelegateCommand BackBtn => new DelegateCommand(BackClickAsync);
 
         #endregion
 
@@ -176,41 +202,55 @@ namespace GPS_NotePad.ViewModels
             PasswordConfirm = "";
         }
 
-        private void CheckPassConfirm(string passConfirm)
+        private void CheckPassConfirm()
         {
-            PassConfBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_RED;
-            ErrorPassConfText = Resources.Resx.Resource.ErrorText_Password;
-            if (!_verifyInput.PasswordCheckin(ref passConfirm))
+            if (_passwordConfirm.Length > 0)
             {
-                PasswordConfirm = passConfirm;
-            }
-            else
-            {
-                if (_verifyInput.PasswordVerify(PasswordConfirm) && Password == PasswordConfirm)
+                PassConfBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_RED;
+                ErrorPassConfText = Resources.Resx.Resource.ErrorText_Password;
+
+                string passConfirm = PasswordConfirm;
+
+                if (!_verifyInput.PasswordCheckin(ref passConfirm))
                 {
-                    ErrorPassConfText = "Ok! " + Resources.Resx.Resource.ErrorText_Name;
-                    PassConfBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_GREEN;
-                    IsRegistrEnable();
+                    PasswordConfirm = passConfirm;
                 }
+                else
+                {
+                    if (_verifyInput.PasswordVerify(PasswordConfirm) && Password == PasswordConfirm)
+                    {
+                        ErrorPassConfText = "Ok! " + Resources.Resx.Resource.ErrorText_Name;
+                        PassConfBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_GREEN;
+                    }
+                }
+                IsRegistrEnable();
             }
         }
 
-        private void CheckPassword(string password)
+        private void CheckPassword()
         {
-            PassBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_RED;
-            ErrorPassText = Resources.Resx.Resource.ErrorText_Password;
-            if (!_verifyInput.PasswordCheckin(ref password))
+            if (_password.Length > 0)
             {
-                Password = password;
-            }
-            else
-            {
-                if (_verifyInput.PasswordVerify(Password) && (Password.Length > 7 && Password.Length < 17))
+                PassBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_RED;
+                ErrorPassText = Resources.Resx.Resource.ErrorText_Password;
+
+                string password = Password;
+
+                if (!_verifyInput.PasswordCheckin(ref password))
                 {
-                    ErrorPassText = "Ok!";
-                    PassBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_GREEN;
-                    IsRegistrEnable();
+                    Password = password;
                 }
+                else
+                {
+                    if (_verifyInput.PasswordVerify(Password) && (Password.Length > 7 && Password.Length < 17))
+                    {
+                        ErrorPassText = "Ok!";
+                        PassBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_GREEN;
+                        IsRegistrEnable();
+                    }
+                }
+                CheckPassConfirm();
+                IsRegistrEnable();
             }
         }
 
@@ -295,16 +335,20 @@ namespace GPS_NotePad.ViewModels
         private bool IsRegistrEnable()//Enable disable "Registr" Button
         {
 
-                IsEnabled = (PassBorderColor == Constants.Constant_Auth.ENTRY_BORDER_COLOR_GREEN
-                    && _name.Length >= 2
-                    && _verifyInput.IsValidEmail(_email)
-                    && PassConfBorderColor == Constants.Constant_Auth.ENTRY_BORDER_COLOR_GREEN) 
-                    ? IsEnabled = true : IsEnabled = false;
+            IsEnabled = (PassBorderColor == Constants.Constant_Auth.ENTRY_BORDER_COLOR_GREEN
+                && _name.Length >= 2
+                && _verifyInput.IsValidEmail(_email)
+                && PassConfBorderColor == Constants.Constant_Auth.ENTRY_BORDER_COLOR_GREEN)
+                ? IsEnabled = true : IsEnabled = false;
 
             if (IsEnabled)
+            {
                 Color_RegistrBtn = Constants.Constant_Auth.OK_BTN_COLOR_OK;
+            }
             else
+            {
                 Color_RegistrBtn = Constants.Constant_Auth.OK_BTN_COLOR;
+            }
 
             return IsEnabled;
         }
@@ -330,5 +374,27 @@ namespace GPS_NotePad.ViewModels
         }
 
         #endregion
+
+
+        #region ---- Override ----
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            base.OnPropertyChanged(args);
+
+            switch (args.PropertyName)
+            {
+                case "PasswordConfirm":
+                    CheckPassConfirm();
+                    break;
+                case "Password":
+                    CheckPassword();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        #endregion
+
     }
 }

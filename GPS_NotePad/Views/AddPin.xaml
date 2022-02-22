@@ -25,8 +25,10 @@
            
             <Grid Grid.Row="2" Margin="1,0,1,0" VerticalOptions="FillAndExpand">
 
-                <control:MyGoogleMap MoveTo="{Binding MoveTo, Mode=TwoWay}"  
-                                     MapClicPosition="{Binding MapClicPosition}"/>
+                <control:MyGoogleMap MoveTo="{Binding MoveTo, Mode=TwoWay}" 
+                                     PinsSource="{Binding ListPin, Mode=TwoWay}"
+                                     MapClicPosition="{Binding MapClicPosition}"
+                                     MyLocationEnabled="True" HasZoomEnabled="True"/>
 
                 <Button Command="{Binding MyLocationBtn}" ImageSource="{DynamicResource locationIcon}" VerticalOptions="Start" 
                         HeightRequest="50" CornerRadius="25" WidthRequest="50" BackgroundColor="{DynamicResource PageBackground}" 

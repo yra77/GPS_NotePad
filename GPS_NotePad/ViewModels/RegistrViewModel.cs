@@ -4,7 +4,7 @@ using GPS_NotePad.Models;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
-
+using System.ComponentModel;
 
 namespace GPS_NotePad.ViewModels
 {
@@ -28,104 +28,127 @@ namespace GPS_NotePad.ViewModels
             Color_NextBtn = Constants.Constant_Auth.OK_BTN_COLOR;
 
             IsEnabled = false;
-
-            BackBtn = new DelegateCommand(BackClickAsync);
-            GoogleBtn = new DelegateCommand(GoogleClickAsync);
-            NextBtn = new DelegateCommand(Next_ClickAsync, IsNextEnable).ObservesProperty(() => IsEnabled);
         }
 
 
         #region Public Property
 
         private string _errorEmailText;
-        public string ErrorEmailText { get => _errorEmailText; set { SetProperty(ref _errorEmailText, value); } }
+        public string ErrorEmailText
+        {
+            get => _errorEmailText;
+            set => SetProperty(ref _errorEmailText, value);
+        }
 
         private string _emailBorderColor;
-        public string EmailBorderColor { get => _emailBorderColor; set { SetProperty(ref _emailBorderColor, value); } }
+        public string EmailBorderColor
+        {
+            get => _emailBorderColor;
+            set => SetProperty(ref _emailBorderColor, value);
+        }
 
 
         private string _errorNameText;
-        public string ErrorNameText { get => _errorNameText; set { SetProperty(ref _errorNameText, value); } }
+        public string ErrorNameText
+        {
+            get => _errorNameText;
+            set => SetProperty(ref _errorNameText, value);
+        }
 
 
         private string _nameBorderColor;
-        public string NameBorderColor { get => _nameBorderColor; set { SetProperty(ref _nameBorderColor, value); } }
+        public string NameBorderColor
+        {
+            get => _nameBorderColor;
+            set => SetProperty(ref _nameBorderColor, value);
+        }
 
 
         private string _color_NextBtn;
-        public string Color_NextBtn { get => _color_NextBtn; set => SetProperty(ref _color_NextBtn, value); }
+        public string Color_NextBtn
+        {
+            get => _color_NextBtn;
+            set => SetProperty(ref _color_NextBtn, value);
+        }
 
 
         private string _name;
         public string Name
         {
-            get { IsNextEnable(); return _name; }
-            set
-            {
-                SetProperty(ref _name, value);
-                if (_name.Length > 0) { CheckName(value); }
-            }
+            get => _name; 
+            set => SetProperty(ref _name, value);
         }
 
 
         private string _email;
         public string Email
         {
-            get { IsNextEnable(); return _email; }
-            set
-            {
-                SetProperty(ref _email, value);
-                if (_email.Length > 0) { CheckEmail(_email); }
-            }
+            get => _email; 
+            set => SetProperty(ref _email, value);
         }
 
 
         private bool _isEnabled;
-        public bool IsEnabled { get { return _isEnabled; } set { SetProperty(ref _isEnabled, value); } }
+        public bool IsEnabled
+        {
+            get => _isEnabled;
+            set => SetProperty(ref _isEnabled, value);
+        }
 
-        public DelegateCommand NextBtn { get; private set; }
-        public DelegateCommand GoogleBtn { get; }
-        public DelegateCommand BackBtn { get; }
+
+        public DelegateCommand NextBtn => new DelegateCommand(Next_ClickAsync, IsNextEnable).ObservesProperty(() => IsEnabled);
+        public DelegateCommand GoogleBtn => new DelegateCommand(GoogleClickAsync);
+        public DelegateCommand BackBtn => new DelegateCommand(BackClickAsync);
 
         #endregion
 
 
         #region Private method
 
-        private void CheckName(string name)
+        private void CheckName()
         {
-            NameBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_RED;
-            ErrorNameText = Resources.Resx.Resource.ErrorText_Name;
+            if (_name.Length > 0)
+            {
+                NameBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_RED;
+                ErrorNameText = Resources.Resx.Resource.ErrorText_Name;
 
-            if (!_verifyInput.NameVerify(ref name))
-            {
-                Name = name;
-            }
-            else if (Name.Length >= 2)
-            {
-                ErrorNameText = "Ok! " + Resources.Resx.Resource.ErrorText_Name;
-                NameBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_GREEN;
+                string name = Name;
+
+                if (!_verifyInput.NameVerify(ref name))
+                {
+                    Name = name;
+                }
+                else if (Name.Length >= 2)
+                {
+                    ErrorNameText = "Ok! " + Resources.Resx.Resource.ErrorText_Name;
+                    NameBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_GREEN;
+                }
                 IsNextEnable();
             }
         }
 
-        private void CheckEmail(string email)
+        private void CheckEmail()
         {
-            EmailBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_RED;
-            ErrorEmailText = Resources.Resx.Resource.ErrorText_Email;
+            if (_email.Length > 0)
+            {
+                EmailBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_RED;
+                ErrorEmailText = Resources.Resx.Resource.ErrorText_Email;
 
-            if (!_verifyInput.EmailVerify(ref email))
-            {
-                Email = email;
-            }
-            else
-            {
-                if (_verifyInput.IsValidEmail(Email))
+                string email = Email;
+
+                if (!_verifyInput.EmailVerify(ref email))
                 {
-                    ErrorEmailText = "Ok!";
-                    EmailBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_GREEN;
-                    IsNextEnable();
+                    Email = email;
                 }
+                else
+                {
+                    if (_verifyInput.IsValidEmail(Email))
+                    {
+                        ErrorEmailText = "Ok!";
+                        EmailBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_GREEN;
+                    }
+                }
+                IsNextEnable();
             }
         }
 
@@ -146,14 +169,18 @@ namespace GPS_NotePad.ViewModels
 
         private bool IsNextEnable()//Enable disable "Ok" Button
         {
-                 IsEnabled = (NameBorderColor == Constants.Constant_Auth.ENTRY_BORDER_COLOR_GREEN
-                              && EmailBorderColor == Constants.Constant_Auth.ENTRY_BORDER_COLOR_GREEN) 
-                              ? IsEnabled = true : IsEnabled = false;
+            IsEnabled = (NameBorderColor == Constants.Constant_Auth.ENTRY_BORDER_COLOR_GREEN
+                         && EmailBorderColor == Constants.Constant_Auth.ENTRY_BORDER_COLOR_GREEN)
+                         ? IsEnabled = true : IsEnabled = false;
 
             if (IsEnabled)
+            {
                 Color_NextBtn = Constants.Constant_Auth.OK_BTN_COLOR_OK;
+            }
             else
+            {
                 Color_NextBtn = Constants.Constant_Auth.OK_BTN_COLOR;
+            }
 
             return IsEnabled;
         }
@@ -194,5 +221,28 @@ namespace GPS_NotePad.ViewModels
         public void OnNavigatedFrom(INavigationParameters parameters) { }
         public void OnNavigatedTo(INavigationParameters parameters) { }
         #endregion
+
+
+        #region ---- Override ----
+
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            base.OnPropertyChanged(args);
+
+            switch (args.PropertyName)
+            {
+                case "Email":
+                    CheckEmail();
+                    break;
+                case "Name":
+                    CheckName();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        #endregion
+
     }
 }

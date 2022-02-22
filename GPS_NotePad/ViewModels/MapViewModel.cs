@@ -3,6 +3,7 @@
 using GPS_NotePad.Models;
 using GPS_NotePad.Helpers;
 using GPS_NotePad.Services.MarkerService;
+using GPS_NotePad.Services.SettingsManager;
 
 using Acr.UserDialogs;
 
@@ -11,14 +12,15 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 
+using Xamarin.Essentials;
+using Xamarin.Forms.GoogleMaps;
+
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 
-using Xamarin.Essentials;
-using Xamarin.Forms.GoogleMaps;
-using GPS_NotePad.Services.SettingsManager;
 
 namespace GPS_NotePad.ViewModels
 {
@@ -48,133 +50,152 @@ namespace GPS_NotePad.ViewModels
 
             MarkerInfoVisible = false;
             IsVisible_SearchList = false;
-
-            CloseMarkerInfo = new DelegateCommand(Close_MarkerInfo);
-            Click_SearchListItem = new DelegateCommand<MarkerInfo>(SearchListItem_Click);
-            SearchBtn_Pressed = new DelegateCommand(SearchBtnPressed);
-            UnfocusedCommand = new DelegateCommand(SearchUnfocus);
-            MyLocationBtn = new DelegateCommand(MyLocation_Click);
-            ExitBtn = new DelegateCommand(LogOutAsync);
-            SettingsBtn = new DelegateCommand(Settings_ClickAsync);
-
         }
 
 
         public event EventHandler IsActiveChanged;
 
 
-
         #region Public property
 
 
         private static string _email;
-        public static string Email { get => _email; set => _email = value; }
+        public static string Email 
+        { 
+            get => _email; 
+            set => _email = value; 
+        }
 
 
         private MarkerInfo _markerInfoClick;
         public MarkerInfo MarkerInfoClick
         {
             get => _markerInfoClick;
-            set
-            {
-                SetProperty(ref _markerInfoClick, value);
-                MarkerClicked(new Position(MarkerInfoClick.Latitude, MarkerInfoClick.Longitude), 
-                    MarkerInfoClick.ImagePath, MarkerInfoClick.Label, MarkerInfoClick.Address);
-            }
+            set => SetProperty(ref _markerInfoClick, value);
         }
 
 
-        private MarkerInfo _moveTo;
-        public MarkerInfo MoveTo { get => _moveTo; set { SetProperty(ref _moveTo, value); } }
+        private Tuple<Position, double> _moveTo;
+        public Tuple<Position, double> MoveTo 
+        { 
+            get => _moveTo; 
+            set => SetProperty(ref _moveTo, value); 
+        }
 
 
         private ObservableCollection<Pin> _listPin;
-        public ObservableCollection<Pin> ListPin { get => _listPin; set => SetProperty(ref _listPin, value); }
-
-
-        private Position _mapClicPosition;
-        public Position MapClicPosition
+        public ObservableCollection<Pin> ListPin 
         {
-            get { return _mapClicPosition; }
-            set
-            {
-                SetProperty(ref _mapClicPosition, value);
-                MapClicked();
-            }
+            get => _listPin; 
+            set => SetProperty(ref _listPin, value); 
         }
 
 
         private List<MarkerInfo> _listMarkers;
-        public List<MarkerInfo> ListMarkers { get => _listMarkers; set => SetProperty(ref _listMarkers, value); }
+        public List<MarkerInfo> ListMarkers 
+        { 
+            get => _listMarkers; 
+            set => SetProperty(ref _listMarkers, value);
+        }
 
 
         private bool _isMarkerInfoVisible;
-        public bool MarkerInfoVisible { get => _isMarkerInfoVisible; set { SetProperty(ref _isMarkerInfoVisible, value); } }
+        public bool MarkerInfoVisible 
+        { 
+            get => _isMarkerInfoVisible; 
+            set => SetProperty(ref _isMarkerInfoVisible, value); 
+        }
 
 
         private string _markerImage;
-        public string MarkerImage { get => _markerImage; set { SetProperty(ref _markerImage, value); } }
+        public string MarkerImage 
+        { 
+            get => _markerImage; 
+            set => SetProperty(ref _markerImage, value); 
+        }
 
 
         private string _markerLabel;
-        public string MarkerLabel { get => _markerLabel; set { SetProperty(ref _markerLabel, value); } }
+        public string MarkerLabel 
+        { 
+            get => _markerLabel; 
+            set => SetProperty(ref _markerLabel, value); 
+        }
 
 
         private string _markerAddress;
-        public string MarkerAddress { get => _markerAddress; set { SetProperty(ref _markerAddress, value); } }
+        public string MarkerAddress 
+        { 
+            get => _markerAddress; 
+            set => SetProperty(ref _markerAddress, value); 
+        }
 
 
         private string _markerPosition;
-        public string MarkerPosition { get => _markerPosition; set => SetProperty(ref _markerPosition, value); }
+        public string MarkerPosition 
+        { 
+            get => _markerPosition; 
+            set => SetProperty(ref _markerPosition, value); 
+        }
 
 
         private bool _isActive;
-        public bool IsActive { get { return _isActive; } set { SetProperty(ref _isActive, value, IsActiveTabAsync); } }
+        public bool IsActive 
+        { 
+            get => _isActive; 
+            set => SetProperty(ref _isActive, value, IsActiveTabAsync); 
+        }
 
 
         private bool _isVisible_SearchList;
-        public bool IsVisible_SearchList { get { return _isVisible_SearchList; } 
-            set { SetProperty(ref _isVisible_SearchList, value, IsActiveTabAsync); } }
+        public bool IsVisible_SearchList 
+        { 
+            get => _isVisible_SearchList;  
+            set => SetProperty(ref _isVisible_SearchList, value, IsActiveTabAsync);  
+        }
 
 
         private string _search;
         public string Search
         {
             get => _search;
-            set
-            {
-                SetProperty(ref _search, value);
-                if (_search.Length > 0)
-                {
-                    string temp = value;
-                    if (!_verifyInput.NameVerify(ref temp))//Verify
-                    {
-                        Search = temp;
-                        UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Search, "Error", "Ok");
-                    }
-                    else
-                    {
-                        Search_Markers();
-                    }
-                }
-                else
-                    OnTextChanged();
-            }
+            set => SetProperty(ref _search, value);
         }
 
-
-        public DelegateCommand MyLocationBtn { get; }
-        public DelegateCommand UnfocusedCommand { get; }
-        public DelegateCommand CloseMarkerInfo { get; }
-        public DelegateCommand<MarkerInfo> Click_SearchListItem { get; }
-        public DelegateCommand SearchBtn_Pressed { get; }
-        public DelegateCommand ExitBtn { get; }
-        public DelegateCommand SettingsBtn { get; }
+        
+        public DelegateCommand MyLocationBtn => new DelegateCommand(MyLocation_Click);
+        public DelegateCommand UnfocusedCommand => new DelegateCommand(SearchUnfocus);
+        public DelegateCommand CloseMarkerInfo => new DelegateCommand(Close_MarkerInfo);
+        public DelegateCommand<MarkerInfo> Click_SearchListItem => new DelegateCommand<MarkerInfo>(SearchListItem_Click);
+        public DelegateCommand SearchBtn_Pressed => new DelegateCommand(SearchBtnPressed);
+        public DelegateCommand ExitBtn => new DelegateCommand(LogOutAsync);
+        public DelegateCommand SettingsBtn => new DelegateCommand(Settings_ClickAsync);
 
         #endregion
 
 
         #region Private helpers
+
+        private void CheckingSearch()
+        {
+            if (_search.Length > 0)
+            {
+                string temp = _search;
+                if (!_verifyInput.NameVerify(ref temp))//Verify 
+                {
+                    Search = temp;
+                    UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Search, "Error", "Ok");
+                }
+                else
+                {
+                    Search_Markers();
+                }
+            }
+            else
+            {
+                OnTextChanged();
+            }
+        }
 
         private async void IsActiveTabAsync()
         {
@@ -184,12 +205,7 @@ namespace GPS_NotePad.ViewModels
 
         private void MyLocation_Click()
         {
-            MoveTo = new MarkerInfo { Address = "ffffff", Latitude = 0, Longitude = 0, Label = "", ImagePath = "" };
-        }
-
-        private void MapClicked()
-        {
-            Console.WriteLine("Page1" + MapClicPosition.Latitude);
+            MoveTo = new Tuple<Position, double>(new Position(0, 0), 50.0);
         }
 
         private void Close_MarkerInfo()
@@ -217,11 +233,11 @@ namespace GPS_NotePad.ViewModels
         private async void LoadListMarkersAsync()
         {
             var arr = await _markerService.GetDataAsync<MarkerInfo>("MarkerInfo", Email);
-            //ListPin.Clear();
+            ListPin.Clear();
             ToMyPins(arr);
         }
 
-        void ToMyPins(List<MarkerInfo> arr)
+        private void ToMyPins(List<MarkerInfo> arr)
         {
             foreach (var item in arr)
             {
@@ -249,7 +265,7 @@ namespace GPS_NotePad.ViewModels
             }
         }
 
-        void Obser_ToList()
+        private void Obser_ToList()
         {
             ListMarkers = new List<MarkerInfo>();
             for (int i = 0; i < _listMarkersClone.Count; i++)
@@ -265,8 +281,24 @@ namespace GPS_NotePad.ViewModels
             }
         }
 
-        #region  SearchBar
+        private void MarkerClicked(Position pos, string ImagePath, string Label, string Address)
+        {
+            MarkerInfoVisible = true;
 
+            foreach (var item in _listMarkersClone)
+            {
+                if (item.Address == Address)
+                    ImagePath = item.ImagePath;
+            }
+
+            MarkerImage = ImagePath;
+            MarkerLabel = Label;
+            MarkerAddress = Address;
+            MarkerPosition = pos.Latitude + ",  " + pos.Longitude;
+        }
+
+
+        //Search
         private void SearchUnfocus()
         {
             SearchList_Clear();
@@ -279,32 +311,29 @@ namespace GPS_NotePad.ViewModels
                 SearchListItem_Click(ListMarkers[0]);
             SearchList_Clear();
         }
+
         private void OnTextChanged()
         {
             if (Search == null || Search.Length == 0)
                 SearchList_Clear();
         }
+
         private void SearchListItem_Click(MarkerInfo val)
         {
             MarkerClicked(new Position(val.Latitude, val.Longitude), val.ImagePath, val.Label, val.Address);
-            MoveTo = new MarkerInfo
-            {
-                Address = "ffffff",
-                Latitude = val.Latitude,
-                Longitude = val.Longitude,
-                Label = " ",
-                ImagePath = " "
-            };
+            MoveTo = new Tuple<Position, double>(new Position(val.Latitude, val.Longitude), 50.0);
             SearchList_Clear();
         }
-        async void SearchList_Clear()
+
+        private async void SearchList_Clear()
         {
             await Task.Delay(100);
             ListMarkers = new List<MarkerInfo>();
             ListMarkers.Clear();
             IsVisible_SearchList = false;
         }
-        void Search_Markers()
+
+        private void Search_Markers()
         {
             if (Search == null || Search.Length < 1)
             {
@@ -375,24 +404,9 @@ namespace GPS_NotePad.ViewModels
 
         }
 
+
         #endregion
-        #endregion
-
-        public void MarkerClicked(Position pos, string ImagePath, string Label, string Address)
-        {
-            MarkerInfoVisible = true;
-
-            foreach (var item in _listMarkersClone)
-            {
-                if (item.Address == Address)
-                    ImagePath = item.ImagePath;
-            }
-
-            MarkerImage = ImagePath;
-            MarkerLabel = Label;
-            MarkerAddress = Address;
-            MarkerPosition = pos.Latitude + ",  " + pos.Longitude;
-        }
+       
 
 
         #region Interface InavigatedAword implementation
@@ -404,32 +418,43 @@ namespace GPS_NotePad.ViewModels
             {
                 var e = parameters.GetValue<MarkerInfo>("item");
                 MarkerClicked(new Position(e.Latitude, e.Longitude), e.ImagePath, e.Label, e.Address);
-                MoveTo = new MarkerInfo
-                {
-                    Address = "ffffff",
-                    Latitude = e.Latitude,
-                    Longitude = e.Longitude,
-                    Label = " ",
-                    ImagePath = " "
-                };
+                MoveTo = new Tuple<Position, double>(new Position(e.Latitude, e.Longitude), 50.0);
             }
             if (parameters.ContainsKey("email"))
             {
                 var e = parameters.GetValue<string>("email");
                 Email = e;
-                _currentLocation = await Geolocation.GetLocationAsync();
-                MoveTo = new MarkerInfo
-                {
-                    Address = " ",
-                    Latitude = _currentLocation.Latitude,
-                    Longitude = _currentLocation.Longitude,
-                    Label = " ",
-                    ImagePath = " "
-                };
+                MoveTo = new Tuple<Position, double>(new Position(0, 0), 1400.0);
             }
 
             LoadListMarkersAsync();
         }
         #endregion
+
+
+        #region ---- Override ----
+
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            base.OnPropertyChanged(args);
+
+            switch (args.PropertyName)
+            {
+                case "Search":
+                    CheckingSearch();
+                    break;
+
+                case "MarkerInfoClick":
+                    MarkerClicked(new Position(MarkerInfoClick.Latitude, MarkerInfoClick.Longitude),
+                                  MarkerInfoClick.ImagePath, MarkerInfoClick.Label, MarkerInfoClick.Address);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        #endregion
+
+
     }
 }

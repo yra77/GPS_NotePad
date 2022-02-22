@@ -19,7 +19,7 @@ namespace GPS_NotePad.Controls
 
         private Location _currentLocation;
 
-       
+
         public MyGoogleMap()
         {
             PinsSource = new ObservableCollection<Pin>();
@@ -48,15 +48,15 @@ namespace GPS_NotePad.Controls
 
         public static BindableProperty MoveToProperty =
                            BindableProperty.Create(nameof(MoveTo),
-                             returnType: typeof(MarkerInfo),
+                             returnType: typeof(Tuple<Position, double>),
                              declaringType: typeof(MyGoogleMap),
                              defaultValue: null,
                              defaultBindingMode: BindingMode.TwoWay,
                              propertyChanged: MoveTo_FromViewModel);
 
-        public MarkerInfo MoveTo
+        public Tuple<Position, double> MoveTo
         {
-            get { return (MarkerInfo)GetValue(MoveToProperty); }
+            get { return (Tuple<Position, double>)GetValue(MoveToProperty); }
             set { SetValue(MoveToProperty, value); }
         }
 
@@ -78,8 +78,7 @@ namespace GPS_NotePad.Controls
                     returnType: typeof(Position),
                     declaringType: typeof(MyGoogleMap),
                     defaultValue: null,
-                    defaultBindingMode: BindingMode.TwoWay,
-                    propertyChanged: OnSelected);
+                    defaultBindingMode: BindingMode.TwoWay);
 
         public Position MapClicPosition
         {
@@ -111,36 +110,12 @@ namespace GPS_NotePad.Controls
         private static void MoveTo_FromViewModel(BindableObject bindable, object oldValue, object newValue)
         {
 
-            if (bindable is MyGoogleMap map && newValue is MarkerInfo marker)
+            if (bindable is MyGoogleMap map && newValue is Tuple<Position, double> marker)
             {
-                if (marker.Address == " ")
-                {
-                    map.Move(marker.Latitude, marker.Longitude, 1400);
-                }
-                else if (marker.Address == "fff")
-                {
-                    map.Move(marker.Latitude, marker.Longitude, distance: 50);
-                    map.Pins.Clear();
-                    map.Pins.Add(new Pin
-                    {
-                        Type = PinType.Place,
-                        Address = " ",
-                        Label = " ",
-                        Position = new Position(marker.Latitude, marker.Longitude),
-                        Icon = BitmapDescriptorFactory.FromBundle("pin")
-                    });
-                }
-                else
-                {
-                    map.Move(marker.Latitude, marker.Longitude, distance: 50);
-                }
+                map.Move(marker.Item1.Latitude, marker.Item1.Longitude, marker.Item2);
             }
         }
 
-        private static void OnSelected(BindableObject bindable, object oldValue, object newValue)
-        {
-            newValue = new Position(0, 0);
-        }
 
         #endregion
 

@@ -120,7 +120,7 @@ namespace GPS_NotePad.ViewModels
         public DelegateCommand SearchBtn_Pressed => new DelegateCommand(SearchBtnPressed);
         public DelegateCommand<MarkerInfo> EditItem => new DelegateCommand<MarkerInfo>(EditItem_Click);
         public DelegateCommand<MarkerInfo> DeleteItem => new DelegateCommand<MarkerInfo>(DeleteItem_ClickAsync);
-        public DelegateCommand<object> LikeImageBtn => new DelegateCommand<object>(LikeImage_Click);
+        public DelegateCommand<object> LikeImageBtn => new DelegateCommand<object>(LikeImage_ClickAsync);
         public DelegateCommand ExitBtn => new DelegateCommand(LogOutAsync);
         public DelegateCommand SettingsBtn => new DelegateCommand(Settings_ClickAsync);
 
@@ -149,26 +149,29 @@ namespace GPS_NotePad.ViewModels
                 OnTextChanged();
             }
         }
-
-        private void LikeImage_Click(object item)
+                           
+        private async void LikeImage_ClickAsync(object itemId)
         {
 
-            var id = ((int)item)-1;
+            var id = ((int)itemId);
 
-            if (_listMarkersClone[id].LikeImage == Constants.Constant.Like_Image_Blue)
+            foreach (var item in _listMarkersClone)
             {
-                _listMarkersClone[id].LikeImage = Constants.Constant.Like_Image_Gray;
+                if (item.Id == id)
+                {
+                    if (item.LikeImage == Constants.Constant.Like_Image_Blue)
+                    {
+                        item.LikeImage = Constants.Constant.Like_Image_Gray;
+                    }
+                    else
+                    {
+                        item.LikeImage = Constants.Constant.Like_Image_Blue;
+                    }
+
+                    await _markerService.UpdateAsync(item);
+                    break;
+                }
             }
-            else
-            {
-                _listMarkersClone[id].LikeImage = Constants.Constant.Like_Image_Blue;
-            }
-
-            MarkerInfo markerItem = new MarkerInfo();
-            markerItem = _listMarkersClone[id];
-
-            _markerService.UpdateAsync(markerItem);
-
             RefreshPins();
         }
 
@@ -376,8 +379,6 @@ namespace GPS_NotePad.ViewModels
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             base.OnPropertyChanged(args);
-
-            Console.WriteLine(args.PropertyName);
 
             switch (args.PropertyName)
             {

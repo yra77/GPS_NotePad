@@ -21,7 +21,7 @@
                 <Grid VerticalOptions="FillAndExpand">
                    
                     <control:MyGoogleMap PinsSource="{Binding ListPin, Mode=TwoWay}" MoveTo="{Binding MoveTo, Mode=TwoWay}"
-                                         MapClicPosition="{Binding MapClicPosition}" MarkerInfoClick="{Binding MarkerInfoClick, Mode=TwoWay}"/>
+                                         MarkerInfoClick="{Binding MarkerInfoClick, Mode=TwoWay}"/>
 
                     <Button Command="{Binding MyLocationBtn}" ImageSource="{DynamicResource locationIcon}" VerticalOptions="StartAndExpand" 
                                  CornerRadius="25" WidthRequest="50" HeightRequest="50" BackgroundColor="{DynamicResource PageBackground}" 

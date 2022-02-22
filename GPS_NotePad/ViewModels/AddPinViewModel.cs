@@ -15,7 +15,8 @@ using Xamarin.Essentials;
 using Xamarin.Forms.GoogleMaps;
 
 using System;
-
+using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace GPS_NotePad.ViewModels
 {
@@ -40,11 +41,7 @@ namespace GPS_NotePad.ViewModels
             _navigationService = navigationService;
             _verifyInput = new VerifyInput_Helper();
 
-            BackBtn = new DelegateCommand(BackClickAsync);
-            SaveAddBtn = new DelegateCommand(SaveAddClickAsync);
-            GaleryBtn = new DelegateCommand(GaleryClickAsync);
-            CameraBtn = new DelegateCommand(CameraClickAsync);
-            MyLocationBtn = new DelegateCommand(MyLocation_Click);
+            ListPin = new ObservableCollection<Pin>();
 
             LatitudeBorderColor = Constants.Constant.BORDER_COLOR_ADDPIN;
             LongitudeBorderColor = Constants.Constant.BORDER_COLOR_ADDPIN;
@@ -58,38 +55,58 @@ namespace GPS_NotePad.ViewModels
 
 
         private string _labelBorderColor;
-        public string LabelBorderColor { get => _labelBorderColor; set { SetProperty(ref _labelBorderColor, value); } }
+        public string LabelBorderColor 
+        { 
+            get => _labelBorderColor; 
+            set => SetProperty(ref _labelBorderColor, value); 
+        }
 
 
         private string _addressBorderColor;
-        public string AddressBorderColor { get => _addressBorderColor; set { SetProperty(ref _addressBorderColor, value); } }
+        public string AddressBorderColor 
+        {
+            get => _addressBorderColor; 
+            set => SetProperty(ref _addressBorderColor, value); 
+        }
 
 
         private string _longitudeBorderColor;
-        public string LongitudeBorderColor { get => _longitudeBorderColor; set { SetProperty(ref _longitudeBorderColor, value); } }
+        public string LongitudeBorderColor 
+        { 
+            get => _longitudeBorderColor; 
+            set => SetProperty(ref _longitudeBorderColor, value);
+        }
 
 
         private string _latitudeBorderColor;
-        public string LatitudeBorderColor { get => _latitudeBorderColor; set { SetProperty(ref _latitudeBorderColor, value); } }
+        public string LatitudeBorderColor 
+        { 
+            get => _latitudeBorderColor; 
+            set => SetProperty(ref _latitudeBorderColor, value); 
+        }
 
 
         private string _markerImage;
-        public string ImagePath { get => _markerImage; set { SetProperty(ref _markerImage, value); } }
+        public string ImagePath 
+        { 
+            get => _markerImage; 
+            set => SetProperty(ref _markerImage, value); 
+        }
 
 
-        private MarkerInfo _moveTo;
-        public MarkerInfo MoveTo { get => _moveTo; set { SetProperty(ref _moveTo, value); } }
+        private Tuple<Position, double> _moveTo;
+        public Tuple<Position, double> MoveTo 
+        { 
+            get => _moveTo; 
+            set => SetProperty(ref _moveTo, value); 
+        }
 
 
         private string _longitude;
         public string Longitude 
         {
             get => _longitude; 
-            set 
-            { 
-                SetProperty(ref _longitude, value);
-                if (_longitude.Length > 0) LongitudeCheck(Longitude);
-            } 
+            set => SetProperty(ref _longitude, value);
         }
     
 
@@ -97,19 +114,15 @@ namespace GPS_NotePad.ViewModels
         public string Latitude 
         { 
             get => _latitude; 
-            set 
-            {
-                SetProperty(ref _latitude, value);
-                if (_latitude.Length > 0) LatitudeCheck(Latitude);
-            } 
+            set => SetProperty(ref _latitude, value);
         }
     
 
         private Position _mapClicPosition;
         public Position MapClicPosition
         {
-            get { return _mapClicPosition; }
-            set { SetProperty(ref _mapClicPosition, value); MapClicked(); }
+            get => _mapClicPosition; 
+            set => SetProperty(ref _mapClicPosition, value);
         }
 
 
@@ -117,23 +130,7 @@ namespace GPS_NotePad.ViewModels
         public string Label
         {
             get => _markerLabel;
-            set
-            {
-                SetProperty(ref _markerLabel, value);
-                if (_markerLabel.Length > 0)
-                {
-                    string temp = value;
-                    if (!_verifyInput.NameVerify(ref temp))//Verify label
-                    {
-                        Label = temp;
-                        LabelBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_RED;
-                    }
-                    else
-                    {
-                        LabelBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_GREEN;
-                    }
-                }
-            }
+            set => SetProperty(ref _markerLabel, value);
         }
 
 
@@ -141,30 +138,15 @@ namespace GPS_NotePad.ViewModels
         public string Address
         {
             get => _markerAddress;
-            set
-            {
-                SetProperty(ref _markerAddress, value);
-                if (_markerAddress.Length > 0)
-                {
-                    string temp = value;
-                    if (!_verifyInput.NameVerify(ref temp))//Verify Address
-                    {
-                        Address = temp;
-                        AddressBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_RED;
-                    }
-                    else
-                    {
-                        AddressBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_GREEN;
-                    }
-                }
-            }
+            set => SetProperty(ref _markerAddress, value);
         }
 
-        public DelegateCommand MyLocationBtn { get; }
-        public DelegateCommand BackBtn { get; }
-        public DelegateCommand SaveAddBtn { get; }
-        public DelegateCommand GaleryBtn { get; }
-        public DelegateCommand CameraBtn { get; }
+      
+        public DelegateCommand MyLocationBtn => new DelegateCommand(MyLocation_Click);
+        public DelegateCommand BackBtn => new DelegateCommand(BackClickAsync);
+        public DelegateCommand SaveAddBtn => new DelegateCommand(SaveAddClickAsync);
+        public DelegateCommand GaleryBtn => new DelegateCommand(GaleryClickAsync);
+        public DelegateCommand CameraBtn => new DelegateCommand(CameraClickAsync);
 
         #endregion
 
@@ -172,9 +154,43 @@ namespace GPS_NotePad.ViewModels
 
         #region Private helpers
 
+        private void CheckedLabel()
+        {
+            if (_markerLabel.Length > 0)
+            {
+                string temp = _markerLabel;
+                if (!_verifyInput.NameVerify(ref temp))//Verify label
+                {
+                    Label = temp;
+                    LabelBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_RED;
+                }
+                else
+                {
+                    LabelBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_GREEN;
+                }
+            }
+        }
+
+        private void CheckedAddress()
+        {
+            if (_markerAddress.Length > 0)
+            {
+                string temp = _markerAddress;
+                if (!_verifyInput.NameVerify(ref temp))//Verify Address
+                {
+                    Address = temp;
+                    AddressBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_RED;
+                }
+                else
+                {
+                    AddressBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_GREEN;
+                }
+            }
+        }
+
         private void MyLocation_Click()
         {
-            MoveTo = new MarkerInfo { Address = "ffffff", Latitude = 0, Longitude = 0, Label = "", ImagePath = "" };
+            MoveTo = new Tuple<Position, double>(new Position(0, 0), 50.0);
         }
 
         private void MapClicked()
@@ -183,6 +199,13 @@ namespace GPS_NotePad.ViewModels
 
             Latitude = MapClicPosition.Latitude.ToString();
             Longitude = MapClicPosition.Longitude.ToString();
+        }
+
+        private ObservableCollection<Pin> _listPin;
+        public ObservableCollection<Pin> ListPin
+        {
+            get => _listPin;
+            set => SetProperty(ref _listPin, value);
         }
 
         private async void CameraClickAsync()
@@ -267,8 +290,18 @@ namespace GPS_NotePad.ViewModels
             Double.TryParse(Longitude, out double longitude);
             
             _position = new Position(latitude, longitude);
+            ListPin.Clear();
 
-            MoveTo = new MarkerInfo { Address = "fff", Latitude = latitude, Longitude = longitude, Label = "", ImagePath = "" };
+            ListPin.Add(new Pin
+            {
+                Type = PinType.Place,
+                Address = " ",
+                Label = " ",
+                Position = new Position(latitude, longitude),
+                Icon = BitmapDescriptorFactory.FromBundle("pin")
+            });
+
+            MoveTo = new Tuple<Position, double>(new Position(latitude, longitude), 50.0);
         }
 
         private async void BackClickAsync()
@@ -280,26 +313,48 @@ namespace GPS_NotePad.ViewModels
 
 
         #region Interface InavigatedAword implementation
-
         public void OnNavigatedFrom(INavigationParameters parameters) { }
 
-        public async void OnNavigatedTo(INavigationParameters parameters)
+        public void OnNavigatedTo(INavigationParameters parameters)
         {
             _email = MapViewModel.Email;
             Label = "";
             Address = "";
 
-            _currentLocation = await Geolocation.GetLocationAsync();
-            MoveTo = new MarkerInfo
+            MoveTo = new Tuple<Position, double>(new Position(0, 0), 1400.0);
+        }
+        #endregion
+
+
+        #region ---- Override ----
+
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            base.OnPropertyChanged(args);
+
+            switch (args.PropertyName)
             {
-                Address = "",
-                Latitude = _currentLocation.Latitude,
-                Longitude = _currentLocation.Longitude,
-                Label = "",
-                ImagePath = ""
-            };
+                case "Longitude":
+                        LongitudeCheck(_longitude);
+                    break;
+                case "Latitude":
+                        LatitudeCheck(_latitude);
+                    break;
+                case "MapClicPosition":
+                        MapClicked();
+                    break;
+                case "Label":
+                    CheckedLabel();
+                    break;
+                case "Address":
+                    CheckedAddress();
+                    break;
+                default:
+                    break;
+            }
         }
 
         #endregion
+
     }
 }

@@ -1,13 +1,15 @@
 ﻿
 
-using Acr.UserDialogs;
 using GPS_NotePad.Helpers;
 using GPS_NotePad.Services.AuthService;
 using GPS_NotePad.Services.SettingsManager;
+
+using Acr.UserDialogs;
+
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
-
+using System.ComponentModel;
 
 namespace GPS_NotePad.ViewModels
 {
@@ -20,8 +22,8 @@ namespace GPS_NotePad.ViewModels
         private readonly IAuthService _authService;
         private readonly ISettingsManager _settingsManager;
 
-        public LogInViewModel(IAuthService authService, 
-                              INavigationService navigationService, 
+        public LogInViewModel(IAuthService authService,
+                              INavigationService navigationService,
                               ISettingsManager settingsManager)
         {
 
@@ -34,11 +36,6 @@ namespace GPS_NotePad.ViewModels
 
             Color_OkBtn = Constants.Constant_Auth.OK_BTN_COLOR;
 
-            GoogleBtn = new DelegateCommand(GoogleClickAsync);
-            LogInBtn = new DelegateCommand(LogIn_Click, IsLogInEnable).ObservesProperty(() => IsEnabled);
-            Btn_IsVisiblePassword = new DelegateCommand(Click_IsVisiblePassword);
-            BackBtn = new DelegateCommand(BackClickAsync);
-
             _navigationService = navigationService;
             _verifyInput = new VerifyInput_Helper();
             _authService = authService;
@@ -48,70 +45,93 @@ namespace GPS_NotePad.ViewModels
             PassBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_White;
         }
 
-       
 
         #region Public Property
 
         private string _errorEmailText;
-        public string ErrorEmailText { get => _errorEmailText; set { SetProperty(ref _errorEmailText, value); } }
+        public string ErrorEmailText
+        {
+            get => _errorEmailText;
+            set => SetProperty(ref _errorEmailText, value);
+        }
 
 
         private string _errorPassText;
-        public string ErrorPassText { get => _errorPassText; set { SetProperty(ref _errorPassText, value); } }
+        public string ErrorPassText
+        {
+            get => _errorPassText;
+            set => SetProperty(ref _errorPassText, value);
+        }
 
 
         private string _emailBorderColor;
-        public string EmailBorderColor { get => _emailBorderColor; set { SetProperty(ref _emailBorderColor, value); } }
+        public string EmailBorderColor
+        {
+            get => _emailBorderColor;
+            set => SetProperty(ref _emailBorderColor, value);
+        }
 
 
         private string _passBorderColor;
-        public string PassBorderColor { get => _passBorderColor; set { SetProperty(ref _passBorderColor, value); } }
+        public string PassBorderColor
+        {
+            get => _passBorderColor;
+            set => SetProperty(ref _passBorderColor, value);
+        }
 
 
         private string _color_OkBtn;
-        public string Color_OkBtn { get => _color_OkBtn; set => SetProperty(ref _color_OkBtn, value); }
+        public string Color_OkBtn
+        {
+            get => _color_OkBtn;
+            set => SetProperty(ref _color_OkBtn, value);
+        }
 
 
         private string _imagePassword;
-        public string ImagePassword { get => _imagePassword; set => SetProperty(ref _imagePassword, value); }
+        public string ImagePassword
+        {
+            get => _imagePassword;
+            set => SetProperty(ref _imagePassword, value);
+        }
 
 
         private bool _isEnabled;
-        public bool IsEnabled { get { return _isEnabled; } set { SetProperty(ref _isEnabled, value); } }
+        public bool IsEnabled
+        {
+            get => _isEnabled;
+            set => SetProperty(ref _isEnabled, value);
+        }
 
 
         private bool _isVisiblePassword;
-        public bool IsVisiblePassword { get => _isVisiblePassword; set => SetProperty(ref _isVisiblePassword, value); }
+        public bool IsVisiblePassword
+        {
+            get => _isVisiblePassword;
+            set => SetProperty(ref _isVisiblePassword, value);
+        }
 
 
         private string _email;
         public string Email
         {
-            get { IsLogInEnable(); return _email; }
-            set
-            {
-                SetProperty(ref _email, value);
-                if (_email.Length > 0) { CheckEmail(_email); }
-            }
+            get => _email;
+            set => SetProperty(ref _email, value);
         }
 
 
         private string _password;
         public string Password
         {
-            get { IsLogInEnable(); return _password; }
-            set
-            {
-                SetProperty(ref _password, value);
-                if (_password.Length > 0) { CheckPassword(value); }
-            }
+            get => _password;
+            set => SetProperty(ref _password, value);
         }
 
 
-        public DelegateCommand LogInBtn { get; private set; }
-        public DelegateCommand GoogleBtn { get; }
-        public DelegateCommand Btn_IsVisiblePassword { get; }
-        public DelegateCommand BackBtn { get; }
+        public DelegateCommand LogInBtn => new DelegateCommand(LogIn_Click, IsLogInEnable).ObservesProperty(() => IsEnabled);
+        public DelegateCommand GoogleBtn => new DelegateCommand(GoogleClickAsync);
+        public DelegateCommand Btn_IsVisiblePassword => new DelegateCommand(Click_IsVisiblePassword);
+        public DelegateCommand BackBtn => new DelegateCommand(BackClickAsync);
 
         #endregion
 
@@ -122,7 +142,7 @@ namespace GPS_NotePad.ViewModels
         private async void LogIn_Click()
         {
 
-           var result = await _authService.AuthAsync(Password, Email);
+            var result = await _authService.AuthAsync(Password, Email);
 
             if (result.Item1)
             {
@@ -145,42 +165,57 @@ namespace GPS_NotePad.ViewModels
 
         }
 
-        private void CheckEmail(string email)
+        private void CheckEmail()
         {
-            EmailBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_RED;
-            ErrorEmailText = Resources.Resx.Resource.ErrorText_Email;
 
-            if (!_verifyInput.EmailVerify(ref email))
+            if (_email.Length > 0)
             {
-                Email = email;
-            }
-            else
-            {
-                if (_verifyInput.IsValidEmail(Email))
+                EmailBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_RED;
+                ErrorEmailText = Resources.Resx.Resource.ErrorText_Email;
+
+                string email = Email;
+
+                if (!_verifyInput.EmailVerify(ref email))
                 {
-                    ErrorEmailText = "Ok!";
-                    EmailBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_GREEN;
-                    IsLogInEnable();
+                    Email = email;
                 }
+                else
+                {
+                    if (_verifyInput.IsValidEmail(Email))
+                    {
+                        ErrorEmailText = "Ok!";
+                        EmailBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_GREEN;
+                    }
+                }
+
+                IsLogInEnable();
             }
         }
 
-        private void CheckPassword(string password)
+        private void CheckPassword()
         {
-            PassBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_RED;
-            ErrorPassText = Resources.Resx.Resource.ErrorText_Password;
-            if (!_verifyInput.PasswordCheckin(ref password))
+
+            if (_password.Length > 0)
             {
-                Password = password;
-            }
-            else
-            {
-                if (_verifyInput.PasswordVerify(Password) && (Password.Length > 7 && Password.Length < 17))
+                PassBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_RED;
+                ErrorPassText = Resources.Resx.Resource.ErrorText_Password;
+
+                string password = Password;
+
+                if (!_verifyInput.PasswordCheckin(ref password))
                 {
-                    ErrorPassText = "Ok!";
-                    PassBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_GREEN;
-                    IsLogInEnable();
+                    Password = password;
                 }
+                else
+                {
+                    if (_verifyInput.PasswordVerify(Password) && (Password.Length > 7 && Password.Length < 17))
+                    {
+                        ErrorPassText = "Ok!";
+                        PassBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_GREEN;
+                    }
+                }
+
+                IsLogInEnable();
             }
         }
 
@@ -221,13 +256,17 @@ namespace GPS_NotePad.ViewModels
         private bool IsLogInEnable()//Enable disable "Log in" Button
         {
             IsEnabled = (PassBorderColor == Constants.Constant_Auth.ENTRY_BORDER_COLOR_GREEN
-                && EmailBorderColor == Constants.Constant_Auth.ENTRY_BORDER_COLOR_GREEN) 
+                && EmailBorderColor == Constants.Constant_Auth.ENTRY_BORDER_COLOR_GREEN)
                 ? IsEnabled = true : IsEnabled = false;
 
             if (IsEnabled)
+            {
                 Color_OkBtn = Constants.Constant_Auth.OK_BTN_COLOR_OK;
+            }
             else
+            {
                 Color_OkBtn = Constants.Constant_Auth.OK_BTN_COLOR;
+            }
 
             return IsEnabled;
         }
@@ -245,6 +284,28 @@ namespace GPS_NotePad.ViewModels
             {
                 var e = parameters.GetValue<string>("email");
                 Email = e;
+            }
+        }
+
+        #endregion
+
+
+        #region ---- Override ----
+
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            base.OnPropertyChanged(args);
+
+            switch (args.PropertyName)
+            {
+                case "Email":
+                    CheckEmail();
+                    break;
+                case "Password":
+                    CheckPassword();
+                    break;
+                default:
+                    break;
             }
         }
 
