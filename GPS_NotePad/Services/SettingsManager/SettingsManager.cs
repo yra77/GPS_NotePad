@@ -15,7 +15,7 @@ namespace GPS_NotePad.Services.SettingsManager
 
         public string Language
         {
-            get => Preferences.Get(nameof(Language), null);
+            get => Preferences.Get(nameof(Language), "en");
             set => Preferences.Set(nameof(Language), value);
         }
 

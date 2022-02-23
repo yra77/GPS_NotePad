@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:resource="clr-namespace:GPS_NotePad.Resources.Resx"
+             ios:Page.UseSafeArea="True"
+             x:Class="GPS_NotePad.Views.FotoGaleryView"
+             BackgroundColor="{DynamicResource PageBackground}"
+             Title="Foto Galery">
+    
+    
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <StackLayout Grid.Row="0" Padding="10" Orientation="Horizontal" VerticalOptions="Start" 
+                         HorizontalOptions="Fill" BackgroundColor="{DynamicResource BarColor}">
+
+                <ImageButton Command="{Binding BackBtn}" BackgroundColor="{DynamicResource Bacground_ImageButton}" 
+                             Source="{DynamicResource backStrelka}"/>
+
+                <Label Margin="0,0,20,0" Text="{x:Static resource:Resource.Foto}" 
+                       VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" 
+                       FontSize="22" TextColor="{DynamicResource TextColor1}" FontFamily="Montserrat_Font"/>
+
+            </StackLayout>
+
+
+            <StackLayout Grid.Row="1" VerticalOptions="Center" HeightRequest="400" WidthRequest="200">
+
+                <CarouselView ItemsSource="{Binding ImagesCarousel}" VerticalOptions="FillAndExpand"
+                              PositionChangedCommand="{Binding PositionChangedCommand}"
+                              Position="{Binding PositionFoto, Mode=TwoWay}" IsScrollAnimated="False" Loop="True" PeekAreaInsets="1">
+                    <CarouselView.ItemTemplate>
+
+                        <DataTemplate>
+                            <Image Source="{Binding ImagePath}" Aspect="Fill"/>
+                        </DataTemplate>
+
+                    </CarouselView.ItemTemplate>
+                </CarouselView>
+
+            </StackLayout>
+
+
+            <Label Grid.Row="2" Text="{Binding NumOfImg}" FontSize="14" Margin="20,0,0,0" 
+                   TextColor="{DynamicResource White}" FontFamily="Montserrat_Font"/>
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

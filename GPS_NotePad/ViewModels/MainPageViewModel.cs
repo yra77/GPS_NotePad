@@ -69,7 +69,7 @@ namespace GPS_NotePad.ViewModels
 
         private async void GoToMapAsync(string email)
         {
-            App.Language = _settingsManager.Language;
+            App.Language = (_settingsManager.Language != null) ? _settingsManager.Language : "en";
             LocalizationResourceManager.Current.CurrentCulture = new CultureInfo(App.Language);
 
             await Task.Delay(100);

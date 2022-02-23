@@ -15,7 +15,7 @@ using Xamarin.Forms.GoogleMaps;
 using System;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
-using System.Linq;
+
 
 namespace GPS_NotePad.ViewModels
 {

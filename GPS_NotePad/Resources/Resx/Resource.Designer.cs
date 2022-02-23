@@ -206,7 +206,7 @@ namespace GPS_NotePad.Resources.Resx {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на City.
+        ///   Ищет локализованную строку, похожую на Label.
         /// </summary>
         internal static string City {
             get {
@@ -233,7 +233,7 @@ namespace GPS_NotePad.Resources.Resx {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Country.
+        ///   Ищет локализованную строку, похожую на Description.
         /// </summary>
         internal static string Country {
             get {
@@ -301,6 +301,15 @@ namespace GPS_NotePad.Resources.Resx {
         internal static string ErrorText_Password {
             get {
                 return ResourceManager.GetString("ErrorText_Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Foto.
+        /// </summary>
+        internal static string Foto {
+            get {
+                return ResourceManager.GetString("Foto", resourceCulture);
             }
         }
         
@@ -404,7 +413,7 @@ namespace GPS_NotePad.Resources.Resx {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Input the City.
+        ///   Ищет локализованную строку, похожую на Input the label.
         /// </summary>
         internal static string PlaceholderEntryAddPin1 {
             get {
@@ -413,7 +422,7 @@ namespace GPS_NotePad.Resources.Resx {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Input the Country.
+        ///   Ищет локализованную строку, похожую на Input the description.
         /// </summary>
         internal static string PlaceholderEntryAddPin2 {
             get {

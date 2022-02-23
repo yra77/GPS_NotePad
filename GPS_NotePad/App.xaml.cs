@@ -53,6 +53,7 @@ namespace GPS_NotePad
             containerRegistry.RegisterForNavigation<ModalPageView, ModalPageViewModel>();
             containerRegistry.RegisterForNavigation<PinListView, PinListViewViewModel>();
             containerRegistry.RegisterForNavigation<AddPin, AddPinViewModel>();
+            containerRegistry.RegisterForNavigation<FotoGaleryView, FotoGaleryViewModel>();
             containerRegistry.RegisterForNavigation<SettingsView, SettingsViewModel>();
 
             //Services

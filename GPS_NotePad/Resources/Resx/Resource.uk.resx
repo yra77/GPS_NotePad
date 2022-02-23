@@ -166,7 +166,7 @@
     <value>Галерея</value>
   </data>
   <data name="City" xml:space="preserve">
-    <value>Місто</value>
+    <value>Позначка</value>
   </data>
   <data name="Confirmpassword" xml:space="preserve">
     <value>Підтвердьте пароль</value>
@@ -175,7 +175,7 @@
     <value>Координати</value>
   </data>
   <data name="Country" xml:space="preserve">
-    <value>Держава</value>
+    <value>Опис</value>
   </data>
   <data name="Createaccount" xml:space="preserve">
     <value>Створити аккаунт</value>
@@ -197,6 +197,9 @@
   </data>
   <data name="ErrorText_Password" xml:space="preserve">
     <value>8-16 символив, перша велика літера, одну малу літеру, одну цифру</value>
+  </data>
+  <data name="Foto" xml:space="preserve">
+    <value>Фото</value>
   </data>
   <data name="Language" xml:space="preserve">
     <value>Виберіть мову</value>
@@ -232,10 +235,10 @@
     <value>пошта</value>
   </data>
   <data name="PlaceholderEntryAddPin1" xml:space="preserve">
-    <value>Введіть місто</value>
+    <value>Введіть позначку</value>
   </data>
   <data name="PlaceholderEntryAddPin2" xml:space="preserve">
-    <value>Введіть країну</value>
+    <value>Введіть опис</value>
   </data>
   <data name="PlaceholderName" xml:space="preserve">
     <value>Ім'я</value>

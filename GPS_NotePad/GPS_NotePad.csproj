@@ -39,6 +39,9 @@
     <Compile Update="Views\MapView.xaml.cs">
       <DependentUpon>MapView.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\FotoGaleryView.xaml.cs">
+      <DependentUpon>FotoGaleryView.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\PinListView.xaml.cs">
       <DependentUpon>PinListView.xaml</DependentUpon>
     </Compile>
@@ -59,6 +62,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\ModalPageView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\FotoGaleryView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\RegistrView2.xaml">

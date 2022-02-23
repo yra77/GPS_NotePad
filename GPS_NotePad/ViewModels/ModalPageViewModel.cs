@@ -26,11 +26,15 @@ namespace GPS_NotePad.ViewModels
 
         #region private helper
 
-        
+
         private ObservableCollection<MarkerInfo> _imagesCarousel;
         public ObservableCollection<MarkerInfo> ImagesCarousel { get => _imagesCarousel; set => SetProperty(ref _imagesCarousel, value); }
 
-       
+
+        private int _positionFoto;
+        public int PositionFoto { get => _positionFoto; set => SetProperty(ref _positionFoto, value); }
+
+
         private string _markerImage;
         public string MarkerImage
         {
@@ -64,15 +68,57 @@ namespace GPS_NotePad.ViewModels
 
 
         public DelegateCommand CloseMarkerInfo => new DelegateCommand(Close_MarkerInfo);
+        public DelegateCommand<object> FotoClick => new DelegateCommand<object>(Click_Foto);
 
         #endregion
 
 
+        #region --- Private Helper---
+
+        private void Click_Foto(object obj)
+        {
+            NavigationParameters navParameters = new NavigationParameters
+                                {
+                                    { "fotoGalery", ImagesCarousel }
+                                };
+            _navigationService.NavigateAsync("FotoGaleryView", navParameters, useModalNavigation: true, animated: true);
+        }
 
         private void Close_MarkerInfo()
         {
             _navigationService.GoBackAsync(useModalNavigation: true, animated: true);
         }
+
+        private void ToPage(MarkerInfo item)
+        {
+            MarkerAddress = item.Address;
+            MarkerLabel = item.Label;
+            MarkerImage = item.ImagePath;
+            MarkerPosition = item.Latitude + ",  " + item.Longitude;
+
+            MarkerImage = item.ImagePath.Trim();
+
+            List<string> imgs = MarkerImage.Split(' ').ToList();
+
+            if (imgs.Count == 1)
+            {
+                PositionFoto = 0;
+            }
+            else
+            {
+                PositionFoto = 1;
+            }
+            foreach (var img in imgs)
+            {
+                if (img != null)
+                {
+                    ImagesCarousel.Add(new MarkerInfo { ImagePath = img });
+                }
+            }
+        }
+
+
+        #endregion
 
 
         #region --- Interface InavigatedAword implementation ---
@@ -81,19 +127,9 @@ namespace GPS_NotePad.ViewModels
 
         public void OnNavigatedTo(INavigationParameters parameters)
         {
-            var e = parameters.GetValue<MarkerInfo>("modal");
+            MarkerInfo e = parameters.GetValue<MarkerInfo>("modal");
 
-            MarkerAddress = e.Address;
-            MarkerLabel = e.Label;
-            MarkerImage = e.ImagePath;
-            MarkerPosition = e.Latitude + ",  " + e.Longitude;
-            
-            List<string> imgs = e.ImagePath.Split(' ').ToList();
-
-            foreach (var img in imgs)
-            {
-                ImagesCarousel.Add(new MarkerInfo { ImagePath = img.Trim() });
-            }
+            ToPage(e);
         }
 
         #endregion
