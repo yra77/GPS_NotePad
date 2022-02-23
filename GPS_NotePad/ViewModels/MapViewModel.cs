@@ -108,8 +108,8 @@ namespace GPS_NotePad.ViewModels
         private bool _isVisible_SearchList;
         public bool IsVisible_SearchList 
         { 
-            get => _isVisible_SearchList;  
-            set => SetProperty(ref _isVisible_SearchList, value, IsActiveTabAsync);  
+            get => _isVisible_SearchList;
+            set => SetProperty(ref _isVisible_SearchList, value, IsActiveTabAsync);
         }
 
 

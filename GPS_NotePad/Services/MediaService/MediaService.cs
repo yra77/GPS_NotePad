@@ -25,7 +25,7 @@ namespace GPS_NotePad.Services.MediaService
                 string str = _resizeImage.ResizeImage(photo.FullPath, photo.FileName, false);
                 return str;
             }
-            return Constants.Constant.DEFAULT_IMAGE;
+            return null;
         }
 
         public async Task<string> OpenGalery()
@@ -38,7 +38,7 @@ namespace GPS_NotePad.Services.MediaService
                 //Console.WriteLine("File Size in Bytes: " + new FileInfo(str).Length);
                 return str;
             }
-            return Constants.Constant.DEFAULT_IMAGE;
+            return null;
         }
 
         public void SaveToAppFolder(string fileName)

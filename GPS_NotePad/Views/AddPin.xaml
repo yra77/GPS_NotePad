@@ -9,7 +9,7 @@
              xmlns:resource="clr-namespace:GPS_NotePad.Resources.Resx"
              xmlns:effects="clr-namespace:GPS_NotePad.Effects" 
              xmlns:prism1="http://prismlibrary.com"
-             x:Class="GPS_NotePad.Views.AddPin"
+             x:Class="GPS_NotePad.Views.AddPin"                 
              Title="Add Pin"
              BackgroundColor="{DynamicResource PageBackground}">
     
@@ -18,14 +18,14 @@
 
         <Grid BackgroundColor="{DynamicResource BacgroundColorAddPinPage}" VerticalOptions="Fill">
             <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="8*"/>
-                <RowDefinition Height="4*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
            
-            <Grid Grid.Row="2" Margin="1,0,1,0" VerticalOptions="FillAndExpand">
+            <Grid Grid.Row="2" Margin="1,10,1,0" VerticalOptions="FillAndExpand">
 
-                <control:MyGoogleMap MoveTo="{Binding MoveTo, Mode=TwoWay}" 
+                <control:MyGoogleMap MoveTo="{Binding MoveTo, Mode=TwoWay}"
                                      PinsSource="{Binding ListPin, Mode=TwoWay}"
                                      MapClicPosition="{Binding MapClicPosition}"
                                      MyLocationEnabled="True" HasZoomEnabled="True"/>
@@ -54,9 +54,8 @@
             <Line Grid.Row="0" X2="380" Stroke="White" VerticalOptions="End" StrokeThickness="0.5"/>
 
             
-            <StackLayout Grid.Row="1" Margin="20,0,20,1" VerticalOptions="Start">
-
-
+                <StackLayout Grid.Row="1" Margin="20,0,20,1" VerticalOptions="Start">
+           
                 <Label Text="{x:Static resource:Resource.City}" FontSize="16" TextColor="White" Margin="5,10,0,0" FontFamily="Montserrat_Font"/>
                 <Frame Padding="{OnPlatform Android='10,4,10,4', iOS='10,12,10,12'}" HasShadow="False" BackgroundColor="Transparent"
                        BorderColor="{Binding LabelBorderColor}">
@@ -88,7 +87,7 @@
 
                 <Grid BackgroundColor="Transparent">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
                     <Frame Grid.Row="0" Grid.Column="0" Padding="{OnPlatform Android='10,4,10,4', iOS='10,12,10,12'}" 
@@ -121,6 +120,28 @@
                 <Label Text="{x:Static resource:Resource.AddPin2}" TextColor="{DynamicResource TextColor1}" 
                        Margin="5,10,0,0" FontFamily="Montserrat_Font" FontSize="16" VerticalOptions="CenterAndExpand"/>
 
+                <ListView x:Name="addPin" IsVisible="{Binding IsVisibleFotoList}" VerticalOptions="Start" 
+                           HorizontalOptions="Fill" HeightRequest="60" ItemsSource="{Binding ListImage}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                            <ViewCell>
+                                
+                                <Grid BackgroundColor="{DynamicResource Transparent}" Margin="10,0,0,10">
+                                    
+                                    <Label Grid.Row="0" TextColor="{DynamicResource Gray}" Text="{Binding ImagePath}"/>
+                                    
+                                    <ImageButton Grid.Row="0" Grid.Column="1" HorizontalOptions="Start" 
+                                                 VerticalOptions="Center" Source="{DynamicResource krestik}" 
+                                                 Command="{Binding BindingContext.DeleteImageBtn, Source={x:Reference addPin}}"
+                                                 CommandParameter="{Binding ImagePath}"
+                                                 BackgroundColor="{DynamicResource Transparent}"/>
+                                </Grid>
+                            
+                            </ViewCell>
+                        </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Fill">
 
 
@@ -136,7 +157,8 @@
 
                 </StackLayout>
 
-            </StackLayout>
+                </StackLayout>
+          
         </Grid>
         
     </ContentPage.Content>

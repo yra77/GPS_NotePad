@@ -5,6 +5,7 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              ios:Page.UseSafeArea="True"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              x:Class="GPS_NotePad.Views.ModalPageView"
              BackgroundColor="{DynamicResource Transparent}"
              Padding="0,0,0,56"
@@ -19,16 +20,20 @@
             </StackLayout.GestureRecognizers>
 
             <StackLayout Spacing="0" VerticalOptions="EndAndExpand" BackgroundColor="{StaticResource Modal_MarkerInfo_Background}">
-
-                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Start"
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Start" HeightRequest="115"
                                 Spacing="4" BackgroundColor="{DynamicResource Modal_MarkerInfo_Background}">
 
-                    <Image Source="{Binding MarkerImage}" WidthRequest="115" HeightRequest="115"/>
-                    <Image Source="{Binding MarkerImage}" WidthRequest="115" HeightRequest="115"/>
-                    <Image Source="{Binding MarkerImage}" WidthRequest="115" HeightRequest="115"/>
+                    <CarouselView ItemsSource="{Binding ImagesCarousel}" Position="1" IsScrollAnimated="true" Loop="False" PeekAreaInsets="120">
+                    <CarouselView.ItemTemplate>
+                        <DataTemplate>
+                            
+                                <Image Source="{Binding ImagePath}" WidthRequest="115" HeightRequest="115"/>
+
+                        </DataTemplate>
+                    </CarouselView.ItemTemplate>
+                </CarouselView>
 
                 </StackLayout>
-
                 <StackLayout Margin="0,20,0,20" Orientation="Horizontal"
                                  Spacing="20" HorizontalOptions="CenterAndExpand">
 

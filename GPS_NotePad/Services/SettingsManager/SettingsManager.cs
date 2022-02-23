@@ -13,7 +13,11 @@ namespace GPS_NotePad.Services.SettingsManager
             set => Preferences.Set(nameof(Email), value); 
         }
 
-
+        public string Language
+        {
+            get => Preferences.Get(nameof(Language), null);
+            set => Preferences.Set(nameof(Language), value);
+        }
 
     }
 }

@@ -1,4 +1,5 @@
 ﻿
+using GPS_NotePad.Services.SettingsManager;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -15,13 +16,16 @@ namespace GPS_NotePad.ViewModels
 
 
         private readonly INavigationService _navigationService;
+        private readonly ISettingsManager _settingsManager;
         private string _addressPage;
         private string _email;
 
 
-        public SettingsViewModel(INavigationService navigationService)
+        public SettingsViewModel(INavigationService navigationService,
+                                ISettingsManager settingsManager)
         {
             _navigationService = navigationService;
+            _settingsManager = settingsManager;
 
             if (App.Language == "en")
             {
@@ -31,6 +35,7 @@ namespace GPS_NotePad.ViewModels
             {
                 SelectUkrainian = true;
             }
+
             Checked_EngCommand = new DelegateCommand<string>(Checked_English);
             Checked_UkrCommand = new DelegateCommand<string>(Checked_Ukrain);
             BackBtn = new DelegateCommand(BackClickAsync);
@@ -64,6 +69,7 @@ namespace GPS_NotePad.ViewModels
             {
                 LocalizationResourceManager.Current.CurrentCulture = new CultureInfo("en");
                 App.Language = "en";
+                _settingsManager.Language = "en";
             }
         }
 
@@ -73,6 +79,7 @@ namespace GPS_NotePad.ViewModels
             {
                 LocalizationResourceManager.Current.CurrentCulture = new CultureInfo("uk");
                 App.Language = "uk";
+                _settingsManager.Language = "uk";
             }
         }
 

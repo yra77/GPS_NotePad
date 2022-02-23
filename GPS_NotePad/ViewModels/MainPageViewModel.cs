@@ -1,12 +1,15 @@
 ﻿
 using GPS_NotePad.Helpers;
 using GPS_NotePad.Services.SettingsManager;
+
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
-using System;
+
+using System.Globalization;
 using System.Threading.Tasks;
-using Xamarin.Essentials;
+using Xamarin.CommunityToolkit.Helpers;
+
 
 namespace GPS_NotePad.ViewModels
 {
@@ -66,6 +69,9 @@ namespace GPS_NotePad.ViewModels
 
         private async void GoToMapAsync(string email)
         {
+            App.Language = _settingsManager.Language;
+            LocalizationResourceManager.Current.CurrentCulture = new CultureInfo(App.Language);
+
             await Task.Delay(100);
             NavigationParameters navParameters = new NavigationParameters
                                 {

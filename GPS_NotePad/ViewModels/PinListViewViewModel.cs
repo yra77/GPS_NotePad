@@ -212,12 +212,12 @@ namespace GPS_NotePad.ViewModels
             ListPinAsync();
         }
 
-        void RefreshPins()
+        private void RefreshPins()
         {
             ListMarkers = new List<MarkerInfo>(_listMarkersClone);
         }
 
-        async void ListPinAsync()
+        private async void ListPinAsync()
         {
             var arr = await _markerService.GetDataAsync<MarkerInfo>("MarkerInfo", _email);
             
@@ -225,7 +225,7 @@ namespace GPS_NotePad.ViewModels
             _listMarkersClone = new List<MarkerInfo>(ListMarkers);
         }
 
-        List<MarkerInfo> ToMyPins(List<MarkerInfo> arr)
+        private List<MarkerInfo> ToMyPins(List<MarkerInfo> arr)
         {
             List<MarkerInfo> temp = new List<MarkerInfo>(50);
             foreach(var item in arr)

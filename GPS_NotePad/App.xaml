@@ -18,8 +18,9 @@
         <ImageSource x:Key="mapIcon">mapIcon.png</ImageSource>
         <ImageSource x:Key="pinGray">pin_gray.png</ImageSource>
         <ImageSource x:Key="highImage">pic_enter_page2x.png</ImageSource>
-        
-        
+        <ImageSource x:Key="krestik">clear.png</ImageSource>
+
+
         <!--Color-->
         <Color x:Key="LightGray">LightGray</Color>
         <Color x:Key="AliceBlue">AliceBlue</Color>

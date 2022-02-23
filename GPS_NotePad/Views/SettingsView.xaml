@@ -6,7 +6,6 @@
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core" 
              xmlns:prism1="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
              ios:Page.UseSafeArea="True"
-             xmlns:resource="clr-namespace:GPS_NotePad.Resources.Resx"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              x:Class="GPS_NotePad.Views.SettingsView"
              BackgroundColor="{DynamicResource PageBackground}"

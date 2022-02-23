@@ -148,7 +148,10 @@ namespace GPS_NotePad.Controls
 
         private void MyGoogleMap_SizeChanged(object sender, EventArgs e)
         {
-            PinsSource.CollectionChanged += PinsSourceOnCollectionChanged;
+            if (PinsSource != null)
+            {
+                PinsSource.CollectionChanged += PinsSourceOnCollectionChanged;
+            }
         }
 
         private void MyGoogleMap_MapClicked(object sender, MapClickedEventArgs e)

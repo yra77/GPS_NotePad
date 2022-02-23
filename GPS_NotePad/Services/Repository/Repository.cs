@@ -41,12 +41,9 @@ namespace GPS_NotePad.Services.Repository
 
         public async Task<bool> InsertAsync<T>(T profile) where T : class, new()
         {
-           var u =  await _connection.InsertAsync(profile);
-            if (u > 0)
-            {
-                return true;
-            }
-            return false;
+             var u =  await _connection.InsertAsync(profile);
+
+            return (u > 0) ? true : false;
         }
 
         public async Task<int> UpdateAsync<T>(T profile) where T : class, new()
