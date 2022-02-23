@@ -1,7 +1,6 @@
 ﻿
-
 using GPS_NotePad.Models;
-using GPS_NotePad.Helpers;
+using GPS_NotePad.Services.VerifyService;
 using GPS_NotePad.Services.MarkerService;
 using GPS_NotePad.Services.MediaService;
 
@@ -11,12 +10,12 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 
-using Xamarin.Essentials;
 using Xamarin.Forms.GoogleMaps;
 
 using System;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
+
 
 namespace GPS_NotePad.ViewModels
 {
@@ -27,19 +26,21 @@ namespace GPS_NotePad.ViewModels
         private readonly IMarkerService _markerService;
         private readonly IMediaService _mediaService;
         private readonly INavigationService _navigationService;
-        private readonly IVerifyInputLogPas_Helper _verifyInput;
-        private Location _currentLocation;
+        private readonly IVerifyInputService _verifyInput;
         private MarkerInfo _markerInfo;
         private Position _position;
         private string _email;
 
 
-        public AddPinViewModel(INavigationService navigationService, IMediaService mediaService, IMarkerService markerService)
+        public AddPinViewModel(INavigationService navigationService,
+                                    IMediaService mediaService, 
+                                    IMarkerService markerService,
+                                    IVerifyInputService verifyInputService)
         {
             _markerService = markerService;
             _mediaService = mediaService;
             _navigationService = navigationService;
-            _verifyInput = new VerifyInput_Helper();
+            _verifyInput = verifyInputService;
 
             ListPin = new ObservableCollection<Pin>();
 

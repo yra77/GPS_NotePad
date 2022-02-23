@@ -19,7 +19,7 @@ namespace GPS_NotePad.Services.MarkerService
         }
 
 
-        #region -------------- Intarface IMarkerService implementation --------------------------
+        #region --- Intarface IMarkerService implementation ----
 
         public async Task<int> DeleteAsync<T>(int id) where T : class, new()
         {

@@ -9,6 +9,7 @@ using GPS_NotePad.Services.MarkerService;
 using GPS_NotePad.Services.MediaService;
 using GPS_NotePad.Services.SettingsManager;
 using GPS_NotePad.Resources.Resx;
+using GPS_NotePad.Services.VerifyService;
 
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Forms;
@@ -49,6 +50,7 @@ namespace GPS_NotePad
             containerRegistry.RegisterForNavigation<RegistrView2, RegistrViewModel2>();
             containerRegistry.RegisterForNavigation<TabbedPageMy, TabbedPageMyViewModel>();
             containerRegistry.RegisterForNavigation<MapView, MapViewModel>();
+            containerRegistry.RegisterForNavigation<ModalPageView, ModalPageViewModel>();
             containerRegistry.RegisterForNavigation<PinListView, PinListViewViewModel>();
             containerRegistry.RegisterForNavigation<AddPin, AddPinViewModel>();
             containerRegistry.RegisterForNavigation<SettingsView, SettingsViewModel>();
@@ -60,6 +62,7 @@ namespace GPS_NotePad
             containerRegistry.RegisterSingleton<IMarkerService, MarkerService>();
             containerRegistry.RegisterSingleton<IMediaService, MediaService>();
             containerRegistry.RegisterSingleton<ISettingsManager, SettingsManager>();
+            containerRegistry.RegisterSingleton<IVerifyInputService, VerifyInputService>();
 
         }
 

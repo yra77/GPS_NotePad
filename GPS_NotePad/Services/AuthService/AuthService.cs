@@ -1,12 +1,14 @@
 ﻿
 
 using GPS_NotePad.Constants;
-using GPS_NotePad.Helpers;
+using GPS_NotePad.Services.VerifyService;
 using GPS_NotePad.Models;
 using GPS_NotePad.Services.Repository;
-using GPS_NotePad.Services.Interfaces;
 using GPS_NotePad.ViewModels;
+using GPS_NotePad.Helpers;
+
 using Newtonsoft.Json;
+
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,12 +29,13 @@ namespace GPS_NotePad.Services.AuthService
         private readonly IRepository _repository;
         private Account _account;
         private readonly AccountStore _store;
-        private readonly IVerifyInputLogPas_Helper _verifyInput;
+        private readonly IVerifyInputService _verifyInput;
 
 
-        public AuthService(IRepository repository)
+        public AuthService(IRepository repository,
+                              IVerifyInputService verifyInputService)
         {
-            _verifyInput = new VerifyInput_Helper();
+            _verifyInput = verifyInputService;
             _repository = repository;
             _store = AccountStore.Create();
         }

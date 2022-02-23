@@ -1,7 +1,7 @@
 ﻿
 
 using GPS_NotePad.Models;
-using GPS_NotePad.Helpers;
+using GPS_NotePad.Services.VerifyService;
 using GPS_NotePad.Services.MarkerService;
 using GPS_NotePad.Services.SettingsManager;
 
@@ -16,7 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.ComponentModel;
-
+using System.Linq;
 
 namespace GPS_NotePad.ViewModels
 {
@@ -26,21 +26,21 @@ namespace GPS_NotePad.ViewModels
         private readonly IMarkerService _markerService;
         private readonly INavigationService _navigationService;
         private readonly ISettingsManager _settingsManager;
-        private readonly IVerifyInputLogPas_Helper _verifyInput;
+        private readonly IVerifyInputService _verifyInput;
         private List<MarkerInfo> _listMarkersClone;
         private string _email;
 
 
         public PinListViewViewModel(INavigationService navigationService, 
                                         IMarkerService markerService, 
-                                        ISettingsManager settingsManager)
+                                        ISettingsManager settingsManager,
+                                    IVerifyInputService verifyInputService)
         {
 
             _markerService = markerService;
             _navigationService = navigationService;
             _settingsManager = settingsManager;
-
-            _verifyInput = new VerifyInput_Helper();
+            _verifyInput = verifyInputService;
         }
 
        
@@ -277,6 +277,7 @@ namespace GPS_NotePad.ViewModels
             if (ListMarkers == null || Search == null || Search.Length == 0)
                 SearchList_Clear();
         }
+
         private async void SearchBtnPressed()
         {
             if (ListMarkers != null && ListMarkers.Count > 0)
@@ -301,58 +302,21 @@ namespace GPS_NotePad.ViewModels
                 return;
             }
 
-            string temp = Search.ToLower();
-            List<MarkerInfo> buf = new List<MarkerInfo>();
-            int m = Search.Length < 2 ? 0 : Search.Length - 1;
+            if (ListMarkers.Count == 0)
+                    RefreshPins();
 
-            for (int i = 0; i < ListMarkers.Count; i++)
-            {
-                string s = ListMarkers[i].Label.ToLower();
-                string ss = ListMarkers[i].Address.ToLower();
+            var res = ListMarkers.Where(item => (item.Label.ToLower().Contains(Search.ToLower()) 
+                               || item.Address.ToLower().Contains(Search.ToLower()))).ToList();
 
-                for (int j = m; j < temp.Length; j++)
-                {
-
-                    if (s != null && temp.Length <= s.Length && s[j] == temp[j])
-                    {
-                        bool isThat = false;
-                        foreach (var item in buf)
-                        {
-                            if (item.Label == ListMarkers[i].Label)
-                            {
-                                isThat = true;
-                                break;
-                            }
-                        }
-                        if (!isThat)
-                            buf.Add(ListMarkers[i]);
-                    }
-                    if (ss != null && temp.Length <= ss.Length && ss[j] == temp[j])
-                    {
-                        bool isThat = false;
-                        foreach (var item in buf)
-                        {
-                            if (item.Address == ListMarkers[i].Address)
-                            {
-                                isThat = true;
-                                break;
-                            }
-                        }
-                        if (!isThat)
-                            buf.Add(ListMarkers[i]);
-                    }
-                }
-            }
-
-            if (buf.Count > 0)
+            if (res.Count > 0)
             {
                 ListMarkers.Clear();
-                ListMarkers = buf;
+                ListMarkers = res;
             }
             else
             {
-                string a = Search.Remove(_search.Length - 1, 1);
-                Search = a;
+                ListMarkers.Clear();
+                ListMarkers = new List<MarkerInfo>();
             }
         }
 

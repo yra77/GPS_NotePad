@@ -1,24 +1,22 @@
-﻿using Prism.Commands;
+﻿
+using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
+
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 using Xamarin.CommunityToolkit.Helpers;
+
 
 namespace GPS_NotePad.ViewModels
 {
     class SettingsViewModel : BindableBase, INavigatedAware
     {
 
-        #region Private helpers
 
         private readonly INavigationService _navigationService;
         private string _addressPage;
         private string _email;
-
-        #endregion
 
 
         public SettingsViewModel(INavigationService navigationService)
@@ -42,6 +40,7 @@ namespace GPS_NotePad.ViewModels
 
         #region Public property
 
+
         private bool _selectEnglish;
         public bool SelectEnglish { get=> _selectEnglish; set { SetProperty(ref _selectEnglish, value); } }
 
@@ -57,8 +56,7 @@ namespace GPS_NotePad.ViewModels
         #endregion
 
 
-        #region Private metod
-
+        #region Private helpers
 
         private void Checked_English(string obj)
         {

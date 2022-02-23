@@ -30,39 +30,6 @@
 
             </Frame>
 
-            <!--Marker info modal-->
-            <StackLayout IsVisible="{Binding MarkerInfoVisible}" Margin="0,0,0,-1" VerticalOptions="End" 
-                         HorizontalOptions="Fill" BackgroundColor="{DynamicResource Transparent}">
-                <StackLayout.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding CloseMarkerInfo}"/>
-                </StackLayout.GestureRecognizers>
-
-                <StackLayout Spacing="0" BackgroundColor="{StaticResource Modal_MarkerInfo_Background}">
-
-                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Start"
-                                Spacing="4" BackgroundColor="{DynamicResource Modal_MarkerInfo_Background}">
-
-                        <Image Source="{Binding MarkerImage}" WidthRequest="115" HeightRequest="115"/>
-                        <Image Source="{Binding MarkerImage}" WidthRequest="115" HeightRequest="115"/>
-                        <Image Source="{Binding MarkerImage}" WidthRequest="115" HeightRequest="115"/>
-
-                    </StackLayout>
-
-                    <StackLayout Margin="0,20,0,20" Orientation="Horizontal"
-                                 Spacing="20" HorizontalOptions="CenterAndExpand">
-
-                        <Label Text="{Binding MarkerLabel}" FontSize="20" TextColor="{DynamicResource White}"/>
-                        <Label Text="{Binding MarkerAddress}" FontSize="20" TextColor="{DynamicResource White}"/>
-
-                    </StackLayout>
-                    
-                    <Label Text="{Binding MarkerPosition}" FontSize="12" VerticalOptions="EndAndExpand" 
-                             HorizontalOptions="Center"  Margin="0,0,0,20" TextColor="{DynamicResource Gray}"/>
-
-                </StackLayout>
-            </StackLayout>
-            <!--End Marker info modal-->
-
 
             <!--Search-->
             <Grid VerticalOptions="StartAndExpand" BackgroundColor="{DynamicResource Transparent}">

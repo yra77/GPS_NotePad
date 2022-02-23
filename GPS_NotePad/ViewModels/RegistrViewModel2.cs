@@ -1,6 +1,6 @@
 ﻿
 
-using GPS_NotePad.Helpers;
+using GPS_NotePad.Services.VerifyService;
 using GPS_NotePad.Models;
 using GPS_NotePad.Services.AuthService;
 using GPS_NotePad.Services.RegistrService;
@@ -15,6 +15,7 @@ using Prism.Navigation;
 using System;
 using System.ComponentModel;
 
+
 namespace GPS_NotePad.ViewModels
 {
 
@@ -24,7 +25,7 @@ namespace GPS_NotePad.ViewModels
     {
 
         private readonly INavigationService _navigationService;
-        private readonly IVerifyInputLogPas_Helper _verifyInput;
+        private readonly IVerifyInputService _verifyInput;
         private readonly IRegistrService _registrService;
         private readonly IAuthService _authService;
         private readonly ISettingsManager _settingsManager;
@@ -35,12 +36,13 @@ namespace GPS_NotePad.ViewModels
         public RegistrViewModel2(IRegistrService registrService,
                                     IAuthService authService,
                                     INavigationService navigationService,
-                                    ISettingsManager settingsManager)
+                                    ISettingsManager settingsManager,
+                              IVerifyInputService verifyInputService)
         {
 
             _navigationService = navigationService;
             _settingsManager = settingsManager;
-            _verifyInput = new VerifyInput_Helper();
+            _verifyInput = verifyInputService;
             _registrService = registrService;
             _authService = authService;
 
@@ -168,7 +170,7 @@ namespace GPS_NotePad.ViewModels
         #endregion
 
 
-        #region Private Method
+        #region Private helpers
 
         private async void Registr_Click()
         {

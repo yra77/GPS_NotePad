@@ -10,6 +10,7 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using System.ComponentModel;
+using GPS_NotePad.Services.VerifyService;
 
 namespace GPS_NotePad.ViewModels
 {
@@ -18,13 +19,14 @@ namespace GPS_NotePad.ViewModels
     {
 
         private readonly INavigationService _navigationService;
-        private readonly IVerifyInputLogPas_Helper _verifyInput;
         private readonly IAuthService _authService;
         private readonly ISettingsManager _settingsManager;
+        private readonly IVerifyInputService _verifyInput;
 
         public LogInViewModel(IAuthService authService,
                               INavigationService navigationService,
-                              ISettingsManager settingsManager)
+                              ISettingsManager settingsManager,
+                              IVerifyInputService verifyInputService)
         {
 
             Email = "";
@@ -37,7 +39,7 @@ namespace GPS_NotePad.ViewModels
             Color_OkBtn = Constants.Constant_Auth.OK_BTN_COLOR;
 
             _navigationService = navigationService;
-            _verifyInput = new VerifyInput_Helper();
+            _verifyInput = verifyInputService;
             _authService = authService;
             _settingsManager = settingsManager;
 
@@ -136,8 +138,7 @@ namespace GPS_NotePad.ViewModels
         #endregion
 
 
-
-        #region Private method
+        #region Private helpers
 
         private async void LogIn_Click()
         {

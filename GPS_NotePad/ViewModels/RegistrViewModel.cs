@@ -1,24 +1,29 @@
 ﻿
-using GPS_NotePad.Helpers;
+
 using GPS_NotePad.Models;
+using GPS_NotePad.Services.VerifyService;
+
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
+
 using System.ComponentModel;
+
 
 namespace GPS_NotePad.ViewModels
 {
     class RegistrViewModel : BindableBase, INavigatedAware
     {
 
-        INavigationService _navigationService;
-        private readonly IVerifyInputLogPas_Helper _verifyInput;
+        private readonly INavigationService _navigationService;
+        private readonly IVerifyInputService _verifyInput;
 
 
-        public RegistrViewModel(INavigationService navigationService)
+        public RegistrViewModel(INavigationService navigationService,
+                              IVerifyInputService verifyInputService)
         {
             _navigationService = navigationService;
-            _verifyInput = new VerifyInput_Helper();
+            _verifyInput = verifyInputService;
 
             Name = "";
             Email = "";
@@ -103,7 +108,7 @@ namespace GPS_NotePad.ViewModels
         #endregion
 
 
-        #region Private method
+        #region Private helpers
 
         private void CheckName()
         {

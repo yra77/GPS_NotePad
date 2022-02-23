@@ -1,11 +1,15 @@
 ﻿
 
 using Acr.UserDialogs;
+
 using GPS_NotePad.Models;
 using GPS_NotePad.Services.Interfaces;
+
 using SQLite;
+
 using System.Collections.Generic;
 using System.Threading.Tasks;
+
 
 namespace GPS_NotePad.Services.Repository
 {
@@ -38,8 +42,10 @@ namespace GPS_NotePad.Services.Repository
         public async Task<bool> InsertAsync<T>(T profile) where T : class, new()
         {
            var u =  await _connection.InsertAsync(profile);
-            if(u > 0)
-            return true;
+            if (u > 0)
+            {
+                return true;
+            }
             return false;
         }
 

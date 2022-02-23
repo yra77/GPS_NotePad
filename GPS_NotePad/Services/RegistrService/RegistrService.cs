@@ -1,8 +1,8 @@
 ﻿
-using GPS_NotePad.Helpers;
+
 using GPS_NotePad.Models;
 using GPS_NotePad.Services.Repository;
-using GPS_NotePad.Services.Interfaces;
+using GPS_NotePad.Services.VerifyService;
 
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,11 +15,12 @@ namespace GPS_NotePad.Services.RegistrService
     {
 
         private readonly IRepository _repository;
-        private readonly IVerifyInputLogPas_Helper _verifyInput;
+        private readonly IVerifyInputService _verifyInput;
 
-        public RegistrService(IRepository repository)
+        public RegistrService(IRepository repository,
+                              IVerifyInputService verifyInputService)
         {
-            _verifyInput = new VerifyInput_Helper();
+            _verifyInput = verifyInputService;
             _repository = repository;
         }
 

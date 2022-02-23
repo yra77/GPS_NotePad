@@ -1,29 +1,20 @@
-﻿using System;
+﻿
 using System.Text.RegularExpressions;
 
-namespace GPS_NotePad.Helpers
-{
-    public interface IVerifyInputLogPas_Helper
-    {
-        bool IsValidEmail(string email);
-        bool EmailVerify(ref string str);
-        bool NameVerify(ref string str);
-        bool PasswordCheckin(ref string str);
-        bool PasswordVerify(string str);
-        bool PositionVerify(ref string str);
-    }
 
-    class VerifyInput_Helper : IVerifyInputLogPas_Helper
+namespace GPS_NotePad.Services.VerifyService
+{
+    class VerifyInputService : IVerifyInputService
     {
         public bool IsValidEmail(string email)
         {
-                Regex regex =
-             new Regex(@"^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$",
-             RegexOptions.CultureInvariant | RegexOptions.Singleline);
-               
-                return regex.IsMatch(email);
+            Regex regex =
+         new Regex(@"^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$",
+         RegexOptions.CultureInvariant | RegexOptions.Singleline);
+
+            return regex.IsMatch(email);
         }
-    
+
         public bool EmailVerify(ref string str)
         {
             bool flag = true;
@@ -31,8 +22,8 @@ namespace GPS_NotePad.Helpers
 
             for (int i = 0; i < temp.Length; i++)
             {
-               
-                if (char.IsDigit(temp[i]) || (temp[i] >= 'A' && temp[i] <= 'Z') || (temp[i] >= 'a' && temp[i] <= 'z') 
+
+                if (char.IsDigit(temp[i]) || (temp[i] >= 'A' && temp[i] <= 'Z') || (temp[i] >= 'a' && temp[i] <= 'z')
                     || temp[i] == '.' || temp[i] == '@' || temp[i] == '_' || temp[i] == '-')
                 {
                     continue;
@@ -56,8 +47,8 @@ namespace GPS_NotePad.Helpers
 
             for (int i = 0; i < temp.Length; i++)
             {
-               
-                if((temp[i] >= 'A' && temp[i] <= 'Z') || (temp[i] >= 'a' && temp[i] <= 'z'))
+
+                if ((temp[i] >= 'A' && temp[i] <= 'Z') || (temp[i] >= 'a' && temp[i] <= 'z'))
                 {
                     continue;
                 }
@@ -80,7 +71,7 @@ namespace GPS_NotePad.Helpers
             for (int i = 0; i < temp.Length; i++)
             {
 
-                if(char.IsDigit(temp[i]) || (temp[i] >= 'A' && temp[i] <= 'Z') || (temp[i] >= 'a' && temp[i] <= 'z')) 
+                if (char.IsDigit(temp[i]) || (temp[i] >= 'A' && temp[i] <= 'Z') || (temp[i] >= 'a' && temp[i] <= 'z'))
                 {
                     continue;
                 }
