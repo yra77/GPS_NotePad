@@ -208,6 +208,9 @@ Password must contain at least one capital letter, one lowercase letter and one 
   <data name="Latitude" xml:space="preserve">
     <value>Latitude</value>
   </data>
+  <data name="location" xml:space="preserve">
+    <value>Location</value>
+  </data>
   <data name="Login" xml:space="preserve">
     <value>Log  in</value>
   </data>
@@ -251,9 +254,15 @@ Password must contain at least one capital letter, one lowercase letter and one 
     <value>Password</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Search</value>
+    <value>Search of pins</value>
+  </data>
+  <data name="SearchGooglePlaces" xml:space="preserve">
+    <value>Route</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Settings</value>
+  </data>
+  <data name="StopRoute" xml:space="preserve">
+    <value>Stop route</value>
   </data>
 </root>

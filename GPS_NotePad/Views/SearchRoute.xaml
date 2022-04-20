@@ -1,0 +1,203 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             ios:Page.UseSafeArea="True"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:resource="clr-namespace:GPS_NotePad.Resources.Resx" 
+             xmlns:prism1="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
+             xmlns:effects="clr-namespace:GPS_NotePad.Effects"
+             x:Class="GPS_NotePad.Views.SearchRoute"
+             BackgroundColor="{DynamicResource PageBackground}"
+             Padding="0,0,0,56"
+             Title="Search Route">
+
+    <ContentPage.Content>
+        <Grid VerticalOptions="FillAndExpand"
+              BackgroundColor="{DynamicResource SearchBackground}"
+              RowSpacing="0"
+              ColumnSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            
+            <StackLayout Grid.Row="0" Padding="10" Orientation="Horizontal" VerticalOptions="Start" 
+                         HorizontalOptions="Fill" BackgroundColor="{DynamicResource BarColor}">
+
+                <ImageButton Command="{Binding BackBtn}" BackgroundColor="{DynamicResource Bacground_ImageButton}" 
+                             Source="{DynamicResource backStrelka}"/>
+
+                <Button ImageSource="{DynamicResource locationIcon}" Text="{x:Static resource:Resource.location}" 
+                        Command="{Binding MyLocation}" FontSize="12" TextColor="{DynamicResource LightGray}" 
+                        VerticalOptions="Center" HorizontalOptions="EndAndExpand" BackgroundColor="{DynamicResource Transparent}"/>
+
+            </StackLayout>
+
+
+            <StackLayout Grid.Row="1"  
+                             Padding="10,5,10,5"
+                             BackgroundColor="{DynamicResource Transparent}"
+                             Orientation="Horizontal">
+                <Image Source="{DynamicResource searchIcon}"
+                               HeightRequest="16"
+                               WidthRequest="16"/>
+                <Entry Placeholder="Enter Pickup"
+                       PlaceholderColor="{DynamicResource Gray}"
+                       Keyboard="Text" 
+                       TextColor="{DynamicResource AliceBlue}"
+                               Text="{Binding PickupText}"
+                               FontSize="16"
+                               x:Name="originEntry"
+                               ClassId="origin"
+                               FontAttributes="Italic" 
+                               ReturnType="Search" 
+                               HorizontalOptions="FillAndExpand">
+                    <Entry.Behaviors>
+                        <prism1:EventToCommandBehavior EventName="Focused"
+                                          Command="{Binding FocusedCommand}"/>
+                        <prism1:EventToCommandBehavior EventName="Completed"
+                                          Command="{Binding ClosePickupKeyboard}"/>
+                    </Entry.Behaviors>
+                    <Entry.Effects>
+                        <effects:EntryColorUnderline_Effect/>
+                    </Entry.Effects>
+                </Entry>
+            </StackLayout>
+
+            
+            <StackLayout Grid.Row="2"
+                           Padding="10,5,10,5"
+                           BackgroundColor="{DynamicResource Transparent}"
+                           Orientation="Horizontal">
+                <Image Source="{DynamicResource searchIcon}"
+                               HeightRequest="16"
+                               WidthRequest="16"/>
+                <Entry Placeholder="Where to?"
+                       PlaceholderColor="{DynamicResource Gray}" 
+                       Keyboard="Text" 
+                       TextColor="{DynamicResource AliceBlue}"
+                               Text="{Binding OriginText}"
+                               FontSize="16"
+                               x:Name="destinationEntry"
+                               ClassId="destination"
+                               FontAttributes="Italic"
+                               ReturnType="Search"
+                               HorizontalOptions="FillAndExpand">
+                    <Entry.Behaviors>
+                        <prism1:EventToCommandBehavior EventName="Focused"
+                                          Command="{Binding FocusedCommand}"/>
+                        <prism1:EventToCommandBehavior EventName="Completed"
+                                          Command="{Binding CloseOriginKeyboard}"/>
+                        <prism1:EventToCommandBehavior EventName="Unfocused"
+                                          Command="{Binding UnfocusedOrigin}"/>
+                    </Entry.Behaviors>
+                    <Entry.Effects>
+                        <effects:EntryColorUnderline_Effect/>
+                    </Entry.Effects>
+                </Entry>
+
+            </StackLayout>
+
+            
+            <StackLayout Grid.Row="3" Orientation="Horizontal" Margin="0,10,0,10" HorizontalOptions="FillAndExpand" 
+                         BackgroundColor="{DynamicResource PageBackground}">
+                
+                <StackLayout Padding="7" Orientation="Horizontal" HorizontalOptions="CenterAndExpand" 
+                             Spacing="50" BackgroundColor="{DynamicResource Transparent}">
+                    
+                    <ImageButton Command="{Binding Walk_Btn}" Source="{DynamicResource walkHumanIcon}" 
+                                 BackgroundColor="{DynamicResource Transparent}"/>
+                    
+                    <ImageButton Command="{Binding BusTrain_Btn}" Source="{DynamicResource busIcon}"
+                                 BackgroundColor="{DynamicResource Transparent}"/>
+                    
+                    <ImageButton Command="{Binding Car_Btn}" Source="{DynamicResource carIcon}" 
+                                 BackgroundColor="{DynamicResource Transparent}"/>
+                    
+                </StackLayout>
+            </StackLayout>
+            
+            
+            <ScrollView Grid.Row="4" VerticalOptions="FillAndExpand">
+                
+            <ListView VerticalOptions="FillAndExpand"
+                        BackgroundColor="{DynamicResource PageBackground}"
+                        SelectedItem="{Binding PlaceSelected, Mode=TwoWay}"
+                        x:Name="list"
+                        ItemsSource="{Binding Places}"
+                        HasUnevenRows="true"
+                        SeparatorColor="{DynamicResource Gray}"
+                        ios:ListView.SeparatorStyle="FullWidth">
+
+                <ListView.Triggers>
+                    <DataTrigger TargetType="ListView"
+                                 Binding="{Binding ShowRecentPlaces}"
+                                 Value="True">
+                        <Setter Property="ItemsSource" Value="{Binding RecentPlaces}" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="ListView"
+                                 Binding="{Binding ShowRecentPlaces}"
+                                 Value="False">
+                        <Setter Property="ItemsSource" Value="{Binding Places}" />
+                    </DataTrigger>
+                </ListView.Triggers>
+
+                <ListView.ItemTemplate>
+                    
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid Padding="15"
+                                      RowSpacing="2"
+                                      ColumnSpacing="15">
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Image Source="{DynamicResource pinGray}"
+                                             HeightRequest="20"
+                                             WidthRequest="20"
+                                             VerticalOptions="Start"
+                                             Grid.Row="0"
+                                             Grid.Column="0"
+                                             Grid.RowSpan="2"/>
+
+                                <Label LineBreakMode="MiddleTruncation"
+                                               Text="{Binding StructuredFormatting.MainText}"
+                                               TextColor="{DynamicResource White}"
+                                               Grid.Row="0"
+                                               Grid.Column="1"/>
+
+                                <Label LineBreakMode="MiddleTruncation"
+                                                 Text="{Binding StructuredFormatting.SecondaryText}"
+                                                 TextColor="{DynamicResource Gray}"
+                                                 Grid.Row="1"
+                                                 Grid.Column="1"/>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                    
+                </ListView.ItemTemplate>
+            </ListView>
+                
+            </ScrollView>
+            
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

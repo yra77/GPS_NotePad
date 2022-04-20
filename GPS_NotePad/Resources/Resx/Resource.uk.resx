@@ -207,6 +207,9 @@
   <data name="Latitude" xml:space="preserve">
     <value>Широта</value>
   </data>
+  <data name="location" xml:space="preserve">
+    <value>Локація</value>
+  </data>
   <data name="Login" xml:space="preserve">
     <value>Увійти</value>
   </data>
@@ -250,10 +253,16 @@
     <value>Пароль</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Пошук</value>
+    <value>Пошук пінов</value>
+  </data>
+  <data name="SearchGooglePlaces" xml:space="preserve">
+    <value>Маршрут</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>налаштування</value>
+  </data>
+  <data name="StopRoute" xml:space="preserve">
+    <value>Скасувати маршрут</value>
   </data>
   <data name="String" xml:space="preserve">
     <value>Має містити першу велику літеру, і одну малу літеру та одну цифру</value>

@@ -10,6 +10,7 @@ using GPS_NotePad.Services.MediaService;
 using GPS_NotePad.Services.SettingsManager;
 using GPS_NotePad.Resources.Resx;
 using GPS_NotePad.Services.VerifyService;
+using GPS_NotePad.Services.GoogleGetPlacesService;
 
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Forms;
@@ -55,6 +56,7 @@ namespace GPS_NotePad
             containerRegistry.RegisterForNavigation<AddPin, AddPinViewModel>();
             containerRegistry.RegisterForNavigation<FotoGaleryView, FotoGaleryViewModel>();
             containerRegistry.RegisterForNavigation<SettingsView, SettingsViewModel>();
+            containerRegistry.RegisterForNavigation<SearchRoute, SearchRouteViewModel>();
 
             //Services
             containerRegistry.RegisterSingleton<IRepository, Repository>();
@@ -64,6 +66,7 @@ namespace GPS_NotePad
             containerRegistry.RegisterSingleton<IMediaService, MediaService>();
             containerRegistry.RegisterSingleton<ISettingsManager, SettingsManager>();
             containerRegistry.RegisterSingleton<IVerifyInputService, VerifyInputService>();
+            containerRegistry.RegisterSingleton<IGoogleGetPlacesService, GoogleGetPlacesService>();
 
         }
 

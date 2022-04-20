@@ -1,8 +1,8 @@
 ﻿
 
-using GPS_NotePad.Helpers;
 using GPS_NotePad.Services.AuthService;
 using GPS_NotePad.Services.SettingsManager;
+using GPS_NotePad.Services.VerifyService;
 
 using Acr.UserDialogs;
 
@@ -10,7 +10,7 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using System.ComponentModel;
-using GPS_NotePad.Services.VerifyService;
+
 
 namespace GPS_NotePad.ViewModels
 {

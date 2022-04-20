@@ -8,7 +8,7 @@ using Xamarin.Essentials;
 
 namespace GPS_NotePad.Droid.Services
 {
-    class ResizeImageService : WorkingToImagesService
+    class ResizeImageService : IWorkingToImagesService
     {
         public string ResizeImage(string imagePath, string nameImg, bool isGalery)
         {

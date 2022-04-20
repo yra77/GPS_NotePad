@@ -19,9 +19,15 @@
         <ImageSource x:Key="pinGray">pin_gray.png</ImageSource>
         <ImageSource x:Key="highImage">pic_enter_page2x.png</ImageSource>
         <ImageSource x:Key="krestik">clear.png</ImageSource>
+        <ImageSource x:Key="searchIcon">search.png</ImageSource>
+        <ImageSource x:Key="taxiIcon">taxi.png</ImageSource>
+        <ImageSource x:Key="busIcon">bus.png</ImageSource>
+        <ImageSource x:Key="walkHumanIcon">walkHuman.png</ImageSource>
+        <ImageSource x:Key="carIcon">carIcon.png</ImageSource>
 
 
         <!--Color-->
+        <Color x:Key="Search">#495CDD</Color>
         <Color x:Key="LightGray">LightGray</Color>
         <Color x:Key="AliceBlue">AliceBlue</Color>
         <Color x:Key="White">White</Color>
@@ -31,6 +37,7 @@
         <Color x:Key="CancelButtonColor">Gray</Color>
         <Color x:Key="Bacground_ImageButton">Transparent</Color>
         <Color x:Key="Transparent">Transparent</Color>
+        <Color x:Key="Red">Red</Color>
 
         <Color x:Key="PageBackground">#1E242B</Color>
         <Color x:Key="SearchBackground">#33374E</Color>

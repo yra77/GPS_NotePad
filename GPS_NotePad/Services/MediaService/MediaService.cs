@@ -9,9 +9,9 @@ namespace GPS_NotePad.Services.MediaService
     class MediaService : IMediaService
     {
 
-        private WorkingToImagesService _resizeImage;
+        private IWorkingToImagesService _resizeImage;
 
-        public MediaService(WorkingToImagesService resizeImage)
+        public MediaService(IWorkingToImagesService resizeImage)
         {
             _resizeImage = resizeImage;
         }

@@ -332,6 +332,15 @@ namespace GPS_NotePad.Resources.Resx {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Location.
+        /// </summary>
+        internal static string location {
+            get {
+                return ResourceManager.GetString("location", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Log  in.
         /// </summary>
         internal static string Login {
@@ -458,11 +467,20 @@ namespace GPS_NotePad.Resources.Resx {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Search.
+        ///   Ищет локализованную строку, похожую на Search of pins.
         /// </summary>
         internal static string Search {
             get {
                 return ResourceManager.GetString("Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Route.
+        /// </summary>
+        internal static string SearchGooglePlaces {
+            get {
+                return ResourceManager.GetString("SearchGooglePlaces", resourceCulture);
             }
         }
         
@@ -472,6 +490,15 @@ namespace GPS_NotePad.Resources.Resx {
         internal static string Settings {
             get {
                 return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Stop route.
+        /// </summary>
+        internal static string StopRoute {
+            get {
+                return ResourceManager.GetString("StopRoute", resourceCulture);
             }
         }
     }

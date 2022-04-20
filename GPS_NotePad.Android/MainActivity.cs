@@ -19,6 +19,7 @@ using Android.OS;
 using Android;
 
 
+//[assembly: Dependency(typeof(LocationConnectService))]
 [assembly: ResolutionGroupName("GPS_NotePad")]
 [assembly: ExportEffect(typeof(EntryUnderlineColor_Effect), "PlainEntryEffect")]
 
@@ -29,23 +30,27 @@ namespace GPS_NotePad.Droid
         ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize )]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
+
         const int RequestLocationId = 0;
+
 
         readonly string[] LocationPermissions =
         {
            Manifest.Permission.AccessCoarseLocation,
            Manifest.Permission.AccessFineLocation
          };
+
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             //TabLayoutResource = Resource.Layout.Tabbar;
             //ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(savedInstanceState);
-            
+
             global::Xamarin.Auth.Presenters.XamarinAndroid.AuthenticationConfiguration.Init(this, savedInstanceState);
-            Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+            Xamarin.Essentials.Platform.Init(this, savedInstanceState);
 
             LoadApplication(new App(new AndroidPlatformInitializer()));
 
@@ -53,16 +58,20 @@ namespace GPS_NotePad.Droid
             {
                 BitmapDescriptorFactory = new Icon_GoogleMap_Service()
             };
+
             global::Xamarin.FormsGoogleMaps.Init(this, savedInstanceState, platformConfig);
 
             UserDialogs.Init(this);
+
         }
+
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+
         protected override void OnStart()
         {
             base.OnStart();
@@ -79,6 +88,7 @@ namespace GPS_NotePad.Droid
                 }
             }
         }
+
     }
 
     public class AndroidPlatformInitializer : IPlatformInitializer
@@ -86,7 +96,8 @@ namespace GPS_NotePad.Droid
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.Register<ISQLiteAsyncConnectionProvider, SQLiteAsyncConnectionProvider>();
-            containerRegistry.Register<WorkingToImagesService, ResizeImageService>();
+            containerRegistry.Register<IWorkingToImagesService, ResizeImageService>();
+            containerRegistry.Register<ILocationConnectService, LocationConnectService>();
         }
 
     }

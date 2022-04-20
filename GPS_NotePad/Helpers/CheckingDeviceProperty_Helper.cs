@@ -17,7 +17,7 @@ namespace GPS_NotePad.Helpers
 
         public async Task CheckingDeviceProperty()
         {
-            if (!CheckNetwork() || !await CheckGeoLocation())
+            if (!CheckNetwork())// || !await CheckGeoLocation())
             {
                 await Task.Delay(5000);
                 System.Diagnostics.Process.GetCurrentProcess().Kill();

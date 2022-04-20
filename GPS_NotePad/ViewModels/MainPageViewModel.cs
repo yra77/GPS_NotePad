@@ -8,6 +8,7 @@ using Prism.Navigation;
 
 using System.Globalization;
 using System.Threading.Tasks;
+
 using Xamarin.CommunityToolkit.Helpers;
 
 
@@ -30,7 +31,7 @@ namespace GPS_NotePad.ViewModels
                                  ISettingsManager settingsManager)
         {
 
-            _checkingDeviceProperty = new CheckingDeviceProperty_Helper();
+           _checkingDeviceProperty = new CheckingDeviceProperty_Helper();
             IsNetworkGeoLocalAsync();
 
             _navigationService = navigationService;

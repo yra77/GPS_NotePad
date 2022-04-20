@@ -67,7 +67,7 @@ namespace GPS_NotePad.iOS
         void IPlatformInitializer.RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.Register<ISQLiteAsyncConnectionProvider, SQLiteAsyncConnectionProvider>();
-            containerRegistry.Register<WorkingToImagesService, ResizeImageService>();
+            containerRegistry.Register<IWorkingToImagesService, ResizeImageService>();
         }
     }
 

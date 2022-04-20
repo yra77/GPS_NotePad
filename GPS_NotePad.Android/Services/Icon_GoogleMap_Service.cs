@@ -18,6 +18,9 @@ namespace GPS_NotePad.Droid.Services
                 case "pin":
                     iconId = Resource.Drawable.pin;
                     break;
+                case "taxi":
+                    iconId = Resource.Drawable.taxi;
+                    break;
             }
             return AndroidBitmapDescriptorFactory.FromResource(iconId);
         }
