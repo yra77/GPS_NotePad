@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             ios:Page.UseSafeArea="True"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:resource="clr-namespace:GPS_NotePad.Resources.Resx"
+             xmlns:effects="clr-namespace:GPS_NotePad.Effects"
+             x:Class="GPS_NotePad.Views.PublicTransportSelect"
+             BackgroundColor="{DynamicResource PageBackground}"
+             Padding="0,0,0,56"
+             Title="Public transport Select">
+
+    <ContentPage.Content>
+        <Grid VerticalOptions="FillAndExpand"
+              BackgroundColor="{DynamicResource SearchBackground}"
+              RowSpacing="0"
+              ColumnSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+
+            <StackLayout Grid.Row="0" Padding="10" Orientation="Horizontal" VerticalOptions="Start" 
+                         HorizontalOptions="Fill" BackgroundColor="{DynamicResource BarColor}">
+
+                <ImageButton Command="{Binding BackBtn}" BackgroundColor="{DynamicResource Bacground_ImageButton}" 
+                             Source="{DynamicResource backStrelka}"/>
+
+            </StackLayout>
+
+            <ListView 
+                Grid.Row="1" 
+                IsGroupingEnabled="true"
+                Header=""
+                Footer=""
+                VerticalOptions="FillAndExpand"
+                BackgroundColor="{DynamicResource PageBackground}"
+                x:Name="list"
+                ItemsSource="{Binding DirectionList}"
+                HasUnevenRows="true"
+                SeparatorVisibility="None">
+
+                <ListView.GroupHeaderTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+
+                            <StackLayout BackgroundColor="{DynamicResource SearchBackground}" Margin="0,0,0,10" Padding="5,0,5,0"
+                                         HorizontalOptions="Fill">
+
+                                <Label Text="{Binding DirectionNum}" 
+                                       TextColor="{DynamicResource Search}" 
+                                       HorizontalOptions="Center"/>
+
+                                <Label Text="{Binding Title}" TextColor="{DynamicResource White}" 
+                                       HorizontalOptions="Center"/>
+
+                                <Label IsVisible="False" Text="{Binding Id}"/>
+
+                                <Label Text="{Binding SubTitle}" TextColor="{DynamicResource Search}"
+                                       HorizontalOptions="Center"/>
+
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding BindingContext.ClickToItem, 
+                                                    Source={x:Reference list}}" NumberOfTapsRequired="1" 
+                                                          CommandParameter="{Binding Id}"/>
+                                </StackLayout.GestureRecognizers>
+                            </StackLayout>
+
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.GroupHeaderTemplate>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+
+                                <Grid BackgroundColor="{DynamicResource Transparent}" Margin="10,0,10,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Image Grid.Column="0" Source="{Binding Icon}" BackgroundColor="{DynamicResource Transparent}" 
+                                           HorizontalOptions="Center" Scale="0.7" VerticalOptions="Center"/>
+
+                                    <Label Grid.Column="1" HorizontalOptions="CenterAndExpand" VerticalOptions="StartAndExpand"
+                                           Text="{Binding Text}" TextColor="{DynamicResource LightGray}" 
+                                           BackgroundColor="{DynamicResource Transparent}"/>
+
+                                </Grid>
+
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

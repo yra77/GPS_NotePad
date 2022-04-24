@@ -22,7 +22,7 @@ namespace GPS_NotePad.Services.GoogleGetPlacesService
 
         private HttpClient CreateClient()
         {
-            var httpClient = new HttpClient
+            HttpClient httpClient = new HttpClient
             {
                 BaseAddress = new Uri(ApiBaseAddress)
             };
@@ -54,10 +54,15 @@ namespace GPS_NotePad.Services.GoogleGetPlacesService
                         requestStr = $"api/directions/json?mode=walking&origin={originLatitude},{originLongitude}&destination={destinationLatitude}," +
                           $"{destinationLongitude}&key={Constant.GOOGLE_MAP_KEY}";
                         break;
+
                     case "busTrain":
-                        requestStr = $"api/directions/json?mode=transit&transit_mode=train|tram|subway|bus&alternatives=true&origin={originLatitude}," +
+
+                        string language = App.Language == "uk" ? "ru" : "en";
+
+                        requestStr = $"api/directions/json?language={language}&mode=transit&transit_mode=train|tram|subway|bus&alternatives=true&origin={originLatitude}," +
                             $"{originLongitude}&destination={destinationLatitude},{destinationLongitude}&key={Constant.GOOGLE_MAP_KEY}";
                         break;
+
                     case "car":
                         requestStr = $"api/directions/json?mode=driving&transit_routing_preference=less_driving&origin={originLatitude}," +
                            $"{originLongitude}&destination={destinationLatitude},{destinationLongitude}&key={Constant.GOOGLE_MAP_KEY}";
@@ -78,29 +83,6 @@ namespace GPS_NotePad.Services.GoogleGetPlacesService
                         googleDirection = await Task.Run(() =>
                            JsonConvert.DeserializeObject<GoogleDirection>(json)
                         ).ConfigureAwait(false);
-
-                        //foreach (Route a in googleDirection.Routes)
-                        //{
-                        //    foreach (Leg b in a.Legs)
-                        //    {
-                        //        Console.WriteLine(b.StartAddress + "\n" + b.EndAddress + "\n" + b.Duration.Text + "\n" + b.Distance.Text);
-                        //        foreach (Step c in b.Steps)
-                        //        {
-                        //            Console.WriteLine(c.TravelMode + " - " + c.Distance.Text + "\n" + c.HtmlInstructions
-                        //                      + "\n" + c.Duration.Text + " " + c.Distance.Text);
-                        //            if (c.TransitDetails != null)
-                        //            {
-                        //                Console.WriteLine(c.TransitDetails.DepartureTime.Text
-                        //                    + "\n" + c.TransitDetails.ArrivalTime.Text 
-                        //                    + "\n" + c.TransitDetails.Line.Name
-                        //                    + "\n" + c.TransitDetails.TripShortName 
-                        //                    + "\n" + c.TransitDetails.Line.Vehicle.Type);
-                        //            }
-                        //        }
-                        //        Console.WriteLine("--------------------------------------");
-                        //    }
-                        //}
-
                     }
                 }
             }
@@ -112,12 +94,16 @@ namespace GPS_NotePad.Services.GoogleGetPlacesService
         public async Task<GooglePlace> GetPlaceDetails(string placeId)
         {
             GooglePlace result = null;
-            using (var httpClient = CreateClient())
+
+            using (HttpClient httpClient = CreateClient())
             {
-                var response = await httpClient.GetAsync($"api/place/details/json?placeid={Uri.EscapeUriString(placeId)}&key={Constant.GOOGLE_MAP_KEY}").ConfigureAwait(false);
+                var response = await httpClient.GetAsync($"api/place/details/json?placeid={Uri.EscapeUriString(placeId)}" +
+                                                         $"&key={Constant.GOOGLE_MAP_KEY}").ConfigureAwait(false);
+                
                 if (response.IsSuccessStatusCode)
                 {
-                    var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    string json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
                     if (!string.IsNullOrWhiteSpace(json) && json != "ERROR")
                     {
                         result = new GooglePlace(JObject.Parse(json));
@@ -132,12 +118,14 @@ namespace GPS_NotePad.Services.GoogleGetPlacesService
         {
             GooglePlaceAutoCompleteResult results = null;
 
-            using (var httpClient = CreateClient())
+            using (HttpClient httpClient = CreateClient())
             {
-                var response = await httpClient.GetAsync($"api/place/autocomplete/json?input={Uri.EscapeUriString(text)}&key={Constant.GOOGLE_MAP_KEY}").ConfigureAwait(false);
+                var response = await httpClient.GetAsync($"api/place/autocomplete/json?input={Uri.EscapeUriString(text)}" +
+                                                         $"&key={Constant.GOOGLE_MAP_KEY}").ConfigureAwait(false);
                 if (response.IsSuccessStatusCode)
                 {
-                    var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    string json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
                     if (!string.IsNullOrWhiteSpace(json) && json != "ERROR")
                     {
                         results = await Task.Run(() =>

@@ -52,8 +52,12 @@
 
                 <Line Margin="1,0,0,0" Stroke="Gray" X2="380" HorizontalOptions="CenterAndExpand" StrokeThickness="2"/>
 
-                <ListView x:Name="listView" VerticalOptions="FillAndExpand" BackgroundColor="{DynamicResource Transparent}"
-                          HasUnevenRows="True" SeparatorColor="{DynamicResource SeparatorColor}" HorizontalOptions="Center"
+                <ListView x:Name="listView" 
+                          VerticalOptions="FillAndExpand" 
+                          BackgroundColor="{DynamicResource Transparent}"
+                          HasUnevenRows="True" 
+                          SeparatorColor="{DynamicResource SeparatorColor}" 
+                          HorizontalOptions="Center"
                           ItemsSource="{Binding ListMarkers}">
                     <ListView.ItemTemplate>
 

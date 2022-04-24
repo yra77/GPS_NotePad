@@ -57,6 +57,7 @@ namespace GPS_NotePad
             containerRegistry.RegisterForNavigation<FotoGaleryView, FotoGaleryViewModel>();
             containerRegistry.RegisterForNavigation<SettingsView, SettingsViewModel>();
             containerRegistry.RegisterForNavigation<SearchRoute, SearchRouteViewModel>();
+            containerRegistry.RegisterForNavigation<PublicTransportSelect, PublicTransportSelectViewModel>();
 
             //Services
             containerRegistry.RegisterSingleton<IRepository, Repository>();

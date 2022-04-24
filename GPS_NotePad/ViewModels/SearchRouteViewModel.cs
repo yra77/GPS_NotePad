@@ -36,7 +36,8 @@ namespace GPS_NotePad.ViewModels
         private Position _location;
 
 
-        public SearchRouteViewModel(INavigationService navigationService, IGoogleGetPlacesService googleGetPlacesService)
+        public SearchRouteViewModel(INavigationService navigationService, 
+                                    IGoogleGetPlacesService googleGetPlacesService)
         {
             _navigationService = navigationService;
             _googleGetPlacesService = googleGetPlacesService;
@@ -164,36 +165,40 @@ namespace GPS_NotePad.ViewModels
           
             if (googleDirection.Routes != null && googleDirection.Routes.Count > 0)
             {
-                if(_whatTheRoute == "busTrain")
+                if (_whatTheRoute == "busTrain")
                 {
-                    googleDirection = await CustomRoute_Selection(googleDirection);
-                }
-
-                await App.Current.MainPage.DisplayAlert(Resources.Resx.Resource.SearchGooglePlaces, 
-                                                        googleDirection.Routes[0].Legs[0].Distance.Text + " = "
-                                                        + googleDirection.Routes[0].Legs[0].Duration.Text, "Ok");
-
-                List<Position> positions = Enumerable.ToList(PolylineHelper.Decode(googleDirection.Routes.First().OverviewPolyline.Points));
-
-                NavigationParameters navParameters = new NavigationParameters
+                    NavigationParameters navParameter = new NavigationParameters
                                 {
-                                    { "routeList", positions }
+                                    { "Direction", googleDirection }
                                 };
-                _ = await _navigationService.GoBackAsync(parameters: navParameters, useModalNavigation: true, animated: true);
-
+                    _ = await _navigationService.NavigateAsync("PublicTransportSelect", parameters: navParameter, 
+                                                                useModalNavigation: true, animated: true);                   
+                }
+                else
+                {
+                    RouteToMap(googleDirection);
+                }
             }
             else
             {
-                await App.Current.MainPage.DisplayAlert(":(", "No route found", "Ok");
+                await App.Current.MainPage.DisplayAlert(":(", Resources.Resx.Resource.NoRouteFound, "Ok");
             }
 
         }
 
-        private async Task<GoogleDirection> CustomRoute_Selection(GoogleDirection googleDirection)
+        private async void RouteToMap(GoogleDirection googleDirection)
         {
+            await App.Current.MainPage.DisplayAlert(Resources.Resx.Resource.SearchGooglePlaces,
+                                                       googleDirection.Routes[0].Legs[0].Distance.Text + " = "
+                                                       + googleDirection.Routes[0].Legs[0].Duration.Text, "Ok");
 
+            List<Position> positions = Enumerable.ToList(PolylineHelper.Decode(googleDirection.Routes.First().OverviewPolyline.Points));
 
-            return googleDirection;
+            NavigationParameters navParameters = new NavigationParameters
+                                {
+                                    { "routeList", positions }
+                                };
+            _ = await _navigationService.GoBackAsync(parameters: navParameters, useModalNavigation: true, animated: true);
         }
 
 
@@ -202,6 +207,7 @@ namespace GPS_NotePad.ViewModels
             Places.Clear();
             var places = await _googleGetPlacesService.GetPlaces(placeText);
             var placeResult = places.AutoCompletePlaces;
+
             if (placeResult != null && placeResult.Count > 0)
             {
                 foreach (GooglePlaceAutoCompletePrediction item in placeResult)
@@ -238,7 +244,7 @@ namespace GPS_NotePad.ViewModels
 
                     if (_originLatitud == _destinationLatitud && _originLongitud == _destinationLongitud)
                     {
-                        await App.Current.MainPage.DisplayAlert("Error", "Origin route should be different than destination route", "Ok");
+                        await App.Current.MainPage.DisplayAlert("Error", Resources.Resx.Resource.ErrorRoute, "Ok");
                     }
                     else
                     {
@@ -262,16 +268,11 @@ namespace GPS_NotePad.ViewModels
         {
             try
             {
-                var placemarks = await Geocoding.GetPlacemarksAsync(position.Latitude, position.Longitude);
-                var placemark = placemarks?.FirstOrDefault();
-                if (placemark != null)
-                {
-                    PickupText = placemark.Locality;
-                }
-                else
-                {
-                    PickupText = string.Empty;
-                }
+                IEnumerable<Placemark> placemarks = await Geocoding.GetPlacemarksAsync(position.Latitude, position.Longitude);
+                Placemark placemark = placemarks?.FirstOrDefault();
+
+                PickupText = placemark != null ? placemark.Locality : string.Empty;
+
             }
             catch (Exception ex)
             {
@@ -294,11 +295,22 @@ namespace GPS_NotePad.ViewModels
 
         }
 
-        public void OnNavigatedTo(INavigationParameters parameters)
+        public async void OnNavigatedTo(INavigationParameters parameters)
         {
             if (parameters.ContainsKey("Location"))
             {
                 _location = parameters.GetValue<Position>("Location");              
+            }
+
+            if (parameters.ContainsKey("routeList"))
+            {
+               List<Position> positions = parameters.GetValue<List<Position>>("routeList");
+           
+            NavigationParameters navParameters = new NavigationParameters
+                                {
+                                    { "routeList", positions }
+                                };
+               _ = await _navigationService.GoBackAsync(parameters: navParameters, useModalNavigation: true, animated: true);
             }
         }
 

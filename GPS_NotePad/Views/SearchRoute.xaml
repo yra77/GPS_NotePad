@@ -51,7 +51,7 @@
                 <Image Source="{DynamicResource searchIcon}"
                                HeightRequest="16"
                                WidthRequest="16"/>
-                <Entry Placeholder="Enter Pickup"
+                <Entry Placeholder="{x:Static resource:Resource.EnterPickup}"
                        PlaceholderColor="{DynamicResource Gray}"
                        Keyboard="Text" 
                        TextColor="{DynamicResource AliceBlue}"
@@ -82,7 +82,7 @@
                 <Image Source="{DynamicResource searchIcon}"
                                HeightRequest="16"
                                WidthRequest="16"/>
-                <Entry Placeholder="Where to?"
+                <Entry Placeholder="{x:Static resource:Resource.WhereTo}"
                        PlaceholderColor="{DynamicResource Gray}" 
                        Keyboard="Text" 
                        TextColor="{DynamicResource AliceBlue}"

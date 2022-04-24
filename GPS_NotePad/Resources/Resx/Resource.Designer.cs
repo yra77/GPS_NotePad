@@ -188,6 +188,15 @@ namespace GPS_NotePad.Resources.Resx {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Arrival.
+        /// </summary>
+        internal static string arrival {
+            get {
+                return ResourceManager.GetString("arrival", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Camera.
         /// </summary>
         internal static string Button_Camera {
@@ -260,6 +269,15 @@ namespace GPS_NotePad.Resources.Resx {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Departure.
+        /// </summary>
+        internal static string departure {
+            get {
+                return ResourceManager.GetString("departure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Edit.
         /// </summary>
         internal static string EditItem {
@@ -274,6 +292,24 @@ namespace GPS_NotePad.Resources.Resx {
         internal static string Email {
             get {
                 return ResourceManager.GetString("Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Enter Pickup.
+        /// </summary>
+        internal static string EnterPickup {
+            get {
+                return ResourceManager.GetString("EnterPickup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Origin route should be different than destination route.
+        /// </summary>
+        internal static string ErrorRoute {
+            get {
+                return ResourceManager.GetString("ErrorRoute", resourceCulture);
             }
         }
         
@@ -395,6 +431,24 @@ namespace GPS_NotePad.Resources.Resx {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Please turn on GPS for the proper working of the application.
+        /// </summary>
+        internal static string NoGPSConnection {
+            get {
+                return ResourceManager.GetString("NoGPSConnection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на No route found.
+        /// </summary>
+        internal static string NoRouteFound {
+            get {
+                return ResourceManager.GetString("NoRouteFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Password.
         /// </summary>
         internal static string Password {
@@ -499,6 +553,15 @@ namespace GPS_NotePad.Resources.Resx {
         internal static string StopRoute {
             get {
                 return ResourceManager.GetString("StopRoute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Where to.
+        /// </summary>
+        internal static string WhereTo {
+            get {
+                return ResourceManager.GetString("WhereTo", resourceCulture);
             }
         }
     }

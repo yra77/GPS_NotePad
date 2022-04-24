@@ -194,7 +194,7 @@ namespace GPS_NotePad.ViewModels
             {
                 Device.BeginInvokeOnMainThread(async () =>
                 {
-                    await Application.Current.MainPage.DisplayAlert("No GPS Connection", "Please turn on GPS for the proper working of the application", "OK");
+                    await Application.Current.MainPage.DisplayAlert("No GPS Connection", Resources.Resx.Resource.NoGPSConnection, "OK");
                    
                   //  if (!_locationConnectService.IsGpsAvailable())
                    // {

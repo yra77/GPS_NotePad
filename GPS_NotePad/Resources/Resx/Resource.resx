@@ -160,6 +160,9 @@ Password must contain at least one capital letter, one lowercase letter and one 
   <data name="Alert_Search" xml:space="preserve">
     <value>A-Z, a-z symbols only</value>
   </data>
+  <data name="arrival" xml:space="preserve">
+    <value>Arrival</value>
+  </data>
   <data name="Button_Camera" xml:space="preserve">
     <value>Camera</value>
   </data>
@@ -184,11 +187,20 @@ Password must contain at least one capital letter, one lowercase letter and one 
   <data name="DeleteItem" xml:space="preserve">
     <value>Delete</value>
   </data>
+  <data name="departure" xml:space="preserve">
+    <value>Departure</value>
+  </data>
   <data name="EditItem" xml:space="preserve">
     <value>Edit</value>
   </data>
   <data name="Email" xml:space="preserve">
     <value>Email</value>
+  </data>
+  <data name="EnterPickup" xml:space="preserve">
+    <value>Enter Pickup</value>
+  </data>
+  <data name="ErrorRoute" xml:space="preserve">
+    <value>Origin route should be different than destination route</value>
   </data>
   <data name="ErrorText_Email" xml:space="preserve">
     <value>Email. Must have - aaa@aa.aa</value>
@@ -229,6 +241,12 @@ Password must contain at least one capital letter, one lowercase letter and one 
   <data name="Next" xml:space="preserve">
     <value>Next</value>
   </data>
+  <data name="NoGPSConnection" xml:space="preserve">
+    <value>Please turn on GPS for the proper working of the application</value>
+  </data>
+  <data name="NoRouteFound" xml:space="preserve">
+    <value>No route found</value>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>Password</value>
   </data>
@@ -264,5 +282,8 @@ Password must contain at least one capital letter, one lowercase letter and one 
   </data>
   <data name="StopRoute" xml:space="preserve">
     <value>Stop route</value>
+  </data>
+  <data name="WhereTo" xml:space="preserve">
+    <value>Where to</value>
   </data>
 </root>
