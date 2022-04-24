@@ -228,7 +228,8 @@ namespace GPS_NotePad.ViewModels
         private List<MarkerInfo> ToMyPins(List<MarkerInfo> arr)
         {
             List<MarkerInfo> temp = new List<MarkerInfo>(50);
-            foreach(var item in arr)
+            
+            foreach (MarkerInfo item in arr)
             {
                 temp.Add(new MarkerInfo
                 {
@@ -242,6 +243,8 @@ namespace GPS_NotePad.ViewModels
                     email = item.email
                 });
             }
+
+            temp = temp.OrderBy(o => o.Label).ToList();//sort of address
 
             return temp;
         }
