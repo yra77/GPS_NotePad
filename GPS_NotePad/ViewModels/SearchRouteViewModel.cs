@@ -160,9 +160,19 @@ namespace GPS_NotePad.ViewModels
             CleanFields();
             Places.Clear();
             ShowRecentPlaces = false;
-            GoogleDirection googleDirection = await _googleGetPlacesService.GetDirections(_whatTheRoute, _originLatitud, _originLongitud,
-                                                                     _destinationLatitud, _destinationLongitud);
-          
+            GoogleDirection googleDirection = null;
+
+            try
+            {
+                googleDirection = await _googleGetPlacesService.GetDirections(_whatTheRoute, _originLatitud, _originLongitud,
+                                                                         _destinationLatitud, _destinationLongitud);
+            }
+            catch(Exception)
+            {
+                await App.Current.MainPage.DisplayAlert("Error", Resources.Resx.Resource.Alert_All_Field, "Ok");
+                return;
+            }
+
             if (googleDirection.Routes != null && googleDirection.Routes.Count > 0)
             {
                 if (_whatTheRoute == "busTrain")
