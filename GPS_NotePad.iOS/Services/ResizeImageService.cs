@@ -15,8 +15,8 @@ namespace GPS_NotePad.iOS.Services
 
             UIImage originalImage = UIImage.FromFile(image);
 
-            float height = 400;
-            float width = 400;
+            float height = 1200;
+            float width = 1200;
             //nfloat newHeight = 0;
             //nfloat newWidth = 0;
 
