@@ -12,13 +12,13 @@ namespace GPS_NotePad.Droid.Services
     {
         public string ResizeImage(string imagePath, string nameImg, bool isGalery)
         {
-            float height = 400;
-            float width = 400;
+            float height = 1200;
+            float width = 1200;
            // float newHeight = 0;
           //  float newWidth = 0;
 
             BitmapFactory.Options options = new BitmapFactory.Options();
-            options.InSampleSize = 8;
+            options.InSampleSize = 1;
 
             Bitmap originalImage = BitmapFactory.DecodeFile(imagePath, options);
             if (isGalery)

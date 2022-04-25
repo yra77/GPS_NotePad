@@ -15,7 +15,7 @@ using Xamarin.Forms.GoogleMaps;
 using System;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
-
+using System.Linq;
 
 namespace GPS_NotePad.ViewModels
 {
@@ -30,6 +30,7 @@ namespace GPS_NotePad.ViewModels
         private MarkerInfo _markerInfo;
         private Position _position;
         private string _email;
+        private bool _isEdit;
 
 
         public AddPinViewModel(INavigationService navigationService,
@@ -59,7 +60,19 @@ namespace GPS_NotePad.ViewModels
 
 
         private ObservableCollection<MarkerInfo> _listImage;
-        public ObservableCollection<MarkerInfo> ListImage { get => _listImage; set => SetProperty(ref _listImage, value); }
+        public ObservableCollection<MarkerInfo> ListImage
+        {
+            get => _listImage;
+            set => SetProperty(ref _listImage, value);
+        }
+
+
+        private ObservableCollection<Pin> _listPin;
+        public ObservableCollection<Pin> ListPin
+        {
+            get => _listPin;
+            set => SetProperty(ref _listPin, value);
+        }
 
 
         private string _labelBorderColor;
@@ -159,6 +172,7 @@ namespace GPS_NotePad.ViewModels
         public DelegateCommand GaleryBtn => new DelegateCommand(GaleryClickAsync);
         public DelegateCommand CameraBtn => new DelegateCommand(CameraClickAsync);
         public DelegateCommand<object> DeleteImageBtn => new DelegateCommand<object>(Click_DeleteImage);
+
         #endregion
 
 
@@ -167,17 +181,17 @@ namespace GPS_NotePad.ViewModels
 
         private void Click_DeleteImage(object item)
         {
-            var str = (string)item;
+            string str = (string)item;
 
             for (int i = 0; i < ListImage.Count; i++)
             {
                 if (ListImage[i].ImagePath == str)
                 {
-                    ListImage.Remove(ListImage[i]);
+                    _ = ListImage.Remove(ListImage[i]);
                 }
             }
 
-            if(ListImage.Count == 0)
+            if (ListImage.Count == 0)
             {
                 IsVisibleFotoList = false;
             }
@@ -206,6 +220,7 @@ namespace GPS_NotePad.ViewModels
             if (_markerAddress.Length > 0)
             {
                 string temp = _markerAddress;
+
                 if (!_verifyInput.NameVerify(ref temp))//Verify Address
                 {
                     Address = temp;
@@ -215,91 +230,6 @@ namespace GPS_NotePad.ViewModels
                 {
                     AddressBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_GREEN;
                 }
-            }
-        }
-
-        private void MyLocation_Click()
-        {
-            MoveTo = new Tuple<Position, double>(new Position(0, 0), 50.0);
-        }
-
-        private void MapClicked()
-        {
-            _position = new Position(MapClicPosition.Latitude, MapClicPosition.Longitude);
-
-            Latitude = MapClicPosition.Latitude.ToString();
-            Longitude = MapClicPosition.Longitude.ToString();
-        }
-
-        private ObservableCollection<Pin> _listPin;
-        public ObservableCollection<Pin> ListPin
-        {
-            get => _listPin;
-            set => SetProperty(ref _listPin, value);
-        }
-
-        private async void CameraClickAsync()
-        {
-            string camera = await _mediaService.OpenCamera();
-
-            if (camera != null)
-            {
-                ListImage.Add(new MarkerInfo { ImagePath = camera });
-                IsVisibleFotoList = true;
-            }
-        }
-
-        private async void GaleryClickAsync()
-        {
-            string galery = await _mediaService.OpenGalery();
-
-            if (galery != null)
-            {
-                ListImage.Add(new MarkerInfo { ImagePath = galery });
-                IsVisibleFotoList = true;
-            }
-        }
-
-        private async void SaveAddClickAsync()
-        {
-            if (Label != null && Label.Length > 2 && Address != null
-                && Address.Length > 2 && Longitude?.Length > 0 && Latitude?.Length > 0)
-            {
-
-                if (ListImage.Count > 0)
-                {
-                    ImagePath = "";
-                    foreach (var item in ListImage)
-                    {
-                        ImagePath += item.ImagePath;
-                        ImagePath += " ";//записываем все пути фото через пробел
-                    }
-                }
-
-                _markerInfo = new MarkerInfo
-                {
-                    email = _email,
-                    ImagePath = ImagePath,
-                    Label = Label,
-                    Address = Address,
-                    Latitude = _position.Latitude,
-                    Longitude = _position.Longitude,
-                    LikeImage = Constants.Constant.Like_Image_Blue
-                };
-
-                if (await _markerService.InsertAsync(_markerInfo))
-                {
-                    IsVisibleFotoList = false;
-                    BackClickAsync();
-                }
-                else
-                {
-                    UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_SavePin, "Error", "Ok");
-                }
-            }
-            else
-            {
-                UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_All_Field, "Error", "Ok");
             }
         }
 
@@ -334,10 +264,116 @@ namespace GPS_NotePad.ViewModels
             }
         }
 
+        private void MyLocation_Click()
+        {
+            MoveTo = new Tuple<Position, double>(new Position(0, 0), 50.0);
+        }
+
+        private void MapClicked()
+        {
+            _position = new Position(MapClicPosition.Latitude, MapClicPosition.Longitude);
+
+            Latitude = MapClicPosition.Latitude.ToString();
+            Longitude = MapClicPosition.Longitude.ToString();
+        }
+
+        private async void CameraClickAsync()
+        {
+            string camera = await _mediaService.OpenCamera();
+
+            if (camera != null)
+            {
+                ListImage.Add(new MarkerInfo { ImagePath = camera });
+                IsVisibleFotoList = true;
+            }
+        }
+
+        private async void GaleryClickAsync()
+        {
+            string galery = await _mediaService.OpenGalery();
+
+            if (galery != null)
+            {
+                ListImage.Add(new MarkerInfo { ImagePath = galery });
+                IsVisibleFotoList = true;
+            }
+        }
+
+        private async void SaveAddClickAsync()
+        {
+            if (Label != null && Label.Length > 2 && Address != null
+                && Address.Length > 2 && Longitude?.Length > 0 && Latitude?.Length > 0)
+            {
+
+                if (ListImage.Count > 0)
+                {
+                    ImagePath = "";
+
+                    foreach (MarkerInfo item in ListImage)
+                    {
+                        ImagePath += item.ImagePath;
+                        ImagePath += " ";//записываем все пути фото через пробел
+                    }
+                }
+
+                _markerInfo = new MarkerInfo
+                {
+                    Id = _isEdit ? _markerInfo.Id : 0,
+                    email = _email,
+                    ImagePath = ImagePath,
+                    Label = Label,
+                    Address = Address,
+                    Latitude = _position.Latitude,
+                    Longitude = _position.Longitude,
+                    LikeImage = Constants.Constant.Like_Image_Blue
+                };
+                
+                bool result = _isEdit ? await _markerService.UpdateAsync(_markerInfo) : await _markerService.InsertAsync(_markerInfo);
+
+                if (result)
+                {
+                    IsVisibleFotoList = false;
+                    BackClickAsync();
+                }
+                else
+                {
+                    _ = UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_SavePin, "Error", "Ok");
+                }
+            }
+            else
+            {
+                _ = UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_All_Field, "Error", "Ok");
+            }
+        }
+
+        private void EditItem()
+        {
+
+            Latitude = _markerInfo.Latitude.ToString();
+            Longitude = _markerInfo.Longitude.ToString();
+            Address = _markerInfo.Address;
+            Label = _markerInfo.Label;
+
+            if (_markerInfo.ImagePath != null && _markerInfo.ImagePath.Length > 0)
+            {
+                ImagePath = _markerInfo.ImagePath.Trim();
+
+                string[] strList = ImagePath.Split(' ').ToArray();
+                IsVisibleFotoList = true;
+
+                for (int i = 0; i < strList.Length; i++)
+                {
+                    ListImage.Add(new MarkerInfo() { ImagePath = strList[i] });
+                }
+            }
+
+            MoveTo_Position();
+        }
+
         private void MoveTo_Position()
         {
-            Double.TryParse(Latitude, out double latitude);
-            Double.TryParse(Longitude, out double longitude);
+            _ = double.TryParse(Latitude, out double latitude);
+            _ = double.TryParse(Longitude, out double longitude);
 
             _position = new Position(latitude, longitude);
             ListPin.Clear();
@@ -356,13 +392,14 @@ namespace GPS_NotePad.ViewModels
 
         private async void BackClickAsync()
         {
-            await _navigationService.NavigateAsync("/TabbedPageMy?selectedTab=PinListView");
+            _ = await _navigationService.NavigateAsync("/TabbedPageMy?selectedTab=PinListView");
         }
 
         #endregion
 
 
         #region Interface InavigatedAword implementation
+
         public void OnNavigatedFrom(INavigationParameters parameters) { }
 
         public void OnNavigatedTo(INavigationParameters parameters)
@@ -371,8 +408,18 @@ namespace GPS_NotePad.ViewModels
             Label = "";
             Address = "";
 
-            MoveTo = new Tuple<Position, double>(new Position(0, 0), 1400.0);
+            if (parameters.ContainsKey("itemEdit"))
+            {
+                _markerInfo = parameters.GetValue<MarkerInfo>("itemEdit");
+                _isEdit = true;
+                EditItem();
+            }
+            else
+            {
+                MoveTo = new Tuple<Position, double>(new Position(0, 0), 1400.0);
+            }
         }
+
         #endregion
 
 

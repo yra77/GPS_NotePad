@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace GPS_NotePad.Services.Repository
 {
 
-    class Repository: IRepository
+    class Repository : IRepository
     {
         private readonly ISQLiteAsyncConnectionProvider _connectionProvider;
         private readonly SQLiteAsyncConnection _connection;
@@ -41,7 +41,7 @@ namespace GPS_NotePad.Services.Repository
 
         public async Task<bool> InsertAsync<T>(T profile) where T : class, new()
         {
-             var u =  await _connection.InsertAsync(profile);
+            int u = await _connection.InsertAsync(profile);
 
             return (u > 0) ? true : false;
         }
@@ -53,8 +53,14 @@ namespace GPS_NotePad.Services.Repository
 
         public void CreateTable<T>() where T : class, new()
         {
-                try { _connection.CreateTableAsync<T>(); }
-                catch { UserDialogs.Instance.Alert("Restart the application", "Error", "Ok"); }
+            try
+            {
+                _ = _connection.CreateTableAsync<T>();
+            }
+            catch
+            {
+                _ = UserDialogs.Instance.Alert("Restart the application", "Error", "Ok");
+            }
         }
     }
 }

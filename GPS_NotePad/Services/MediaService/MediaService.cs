@@ -16,11 +16,12 @@ namespace GPS_NotePad.Services.MediaService
             _resizeImage = resizeImage;
         }
 
-        #region ----------------- Interface ImediaService implamentation -----------------
+        #region Interface ImediaService implamentation
         public async Task<string> OpenCamera()
         {
-            var photo = await Xamarin.Essentials.MediaPicker.CapturePhotoAsync();
-            if (photo != null)// do not remove - will be error
+            Xamarin.Essentials.FileResult photo = await Xamarin.Essentials.MediaPicker.CapturePhotoAsync();
+
+            if (photo != null)
             {
                 string str = _resizeImage.ResizeImage(photo.FullPath, photo.FileName, false);
                 return str;
@@ -30,8 +31,9 @@ namespace GPS_NotePad.Services.MediaService
 
         public async Task<string> OpenGalery()
         {
-            var photo = await Xamarin.Essentials.MediaPicker.PickPhotoAsync();
-            if (photo != null)// do not remove - will be error
+            Xamarin.Essentials.FileResult photo = await Xamarin.Essentials.MediaPicker.PickPhotoAsync();
+
+            if (photo != null)
             {
                 string str = _resizeImage.ResizeImage(photo.FullPath, photo.FileName, false);
                 //Console.WriteLine("File Size in Bytes: " + new FileInfo(photo.FullPath).Length);
@@ -45,6 +47,7 @@ namespace GPS_NotePad.Services.MediaService
         {
            
         }
+
         #endregion
     }
 }

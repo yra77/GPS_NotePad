@@ -100,15 +100,9 @@ namespace GPS_NotePad.ViewModels
 
             List<string> imgs = MarkerImage.Split(' ').ToList();
 
-            if (imgs.Count == 1)
-            {
-                PositionFoto = 0;
-            }
-            else
-            {
-                PositionFoto = 1;
-            }
-            foreach (var img in imgs)
+            PositionFoto = imgs.Count == 1 ? 0 : 1;
+
+            foreach (string img in imgs)
             {
                 if (img != null)
                 {

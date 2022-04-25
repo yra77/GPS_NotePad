@@ -99,16 +99,16 @@ namespace GPS_NotePad.ViewModels
 
 
         private string _markerLabel;
-        public string Label 
-        { 
+        public string Label
+        {
             get => _markerLabel;
             set => SetProperty(ref _markerLabel, value); 
         }
         
 
         private string _markerAddress;
-        public string Address 
-        { 
+        public string Address
+        {
             get => _markerAddress; 
             set => SetProperty(ref _markerAddress, value); 
         }
@@ -153,9 +153,9 @@ namespace GPS_NotePad.ViewModels
         private async void LikeImage_ClickAsync(object itemId)
         {
 
-            var id = ((int)itemId);
+            int id = (int)itemId;
 
-            foreach (var item in _listMarkersClone)
+            foreach (MarkerInfo item in _listMarkersClone)
             {
                 if (item.Id == id)
                 {
@@ -168,7 +168,7 @@ namespace GPS_NotePad.ViewModels
                         item.LikeImage = Constants.Constant.Like_Image_Blue;
                     }
 
-                    await _markerService.UpdateAsync(item);
+                    _ = await _markerService.UpdateAsync(item);
                     break;
                 }
             }
@@ -177,23 +177,27 @@ namespace GPS_NotePad.ViewModels
 
         private async void DeleteItem_ClickAsync(MarkerInfo item)
         {
-            var res = await UserDialogs.Instance.ConfirmAsync(Resources.Resx.Resource.Message_Delete 
+            bool res = await UserDialogs.Instance.ConfirmAsync(Resources.Resx.Resource.Message_Delete 
                                              + " - " + item.Address + " ?", "Message", "Ok", "cancel");
             if (res)
             {
-                await _markerService.DeleteAsync<MarkerInfo>(item.Id);
+                _ = await _markerService.DeleteAsync<MarkerInfo>(item.Id);
                 ListPinAsync();
             }
         }
 
-        private void EditItem_Click(MarkerInfo item)
+        private async void EditItem_Click(MarkerInfo item)
         {
-            Console.WriteLine("Edit item " + item.Address);
+            NavigationParameters navParameters = new NavigationParameters
+            {
+              { "itemEdit", item }
+            };
+            _ = await _navigationService.NavigateAsync("/AddPin", navParameters, animated: true);
         }
 
         private async void AddNewMakerClickAsync()
         {
-            await _navigationService.NavigateAsync("/AddPin");
+            _ = await _navigationService.NavigateAsync("/AddPin", animated: true);
         }
 
         private async void ItemClickAsync(MarkerInfo item)
@@ -202,7 +206,7 @@ namespace GPS_NotePad.ViewModels
             {
               { "item", item }
             };
-           await _navigationService.NavigateAsync("/TabbedPageMy?selectedTab=MapView", navParameters);        
+            _ = await _navigationService.NavigateAsync("/TabbedPageMy?selectedTab=MapView", navParameters, animated: true);
         }
 
         private async void IsActiveTabAsync()
@@ -219,7 +223,7 @@ namespace GPS_NotePad.ViewModels
 
         private async void ListPinAsync()
         {
-            var arr = await _markerService.GetDataAsync<MarkerInfo>("MarkerInfo", _email);
+            List<MarkerInfo> arr = await _markerService.GetDataAsync<MarkerInfo>("MarkerInfo", _email);
             
             ListMarkers = new List<MarkerInfo>(ToMyPins(arr));
             _listMarkersClone = new List<MarkerInfo>(ListMarkers);
@@ -244,7 +248,7 @@ namespace GPS_NotePad.ViewModels
                 });
             }
 
-            temp = temp.OrderBy(o => o.Label).ToList();//sort of address
+            temp = temp.OrderBy(o => o.Label).ToList();//sort of Label
 
             return temp;
         }
@@ -252,7 +256,7 @@ namespace GPS_NotePad.ViewModels
         private async void LogOutAsync()
         {
             _settingsManager.Email = null;
-            await _navigationService.NavigateAsync("/MainPage");
+            _ = await _navigationService.NavigateAsync("/MainPage");
         }
 
         private async void Settings_ClickAsync()
@@ -264,7 +268,7 @@ namespace GPS_NotePad.ViewModels
                                 {
                                     { "addressPage", tuple },
                                 };
-            await _navigationService.NavigateAsync("/SettingsView", navParameters);
+            _ = await _navigationService.NavigateAsync("/SettingsView", navParameters);
         }
 
 
@@ -278,7 +282,9 @@ namespace GPS_NotePad.ViewModels
         private void OnTextChanged()
         {
             if (ListMarkers == null || Search == null || Search.Length == 0)
+            {
                 SearchList_Clear();
+            }
         }
 
         private async void SearchBtnPressed()
@@ -290,14 +296,14 @@ namespace GPS_NotePad.ViewModels
             }
         }
        
-        async void SearchList_Clear()
+        private async void SearchList_Clear()
         {
             await Task.Delay(100);//не убирать
             ListMarkers.Clear();
             RefreshPins();
         }
 
-        void Search_List()
+        private void Search_List()
         {
             if (Search == null || Search.Length == 0)
             {
@@ -306,10 +312,12 @@ namespace GPS_NotePad.ViewModels
             }
 
             if (ListMarkers.Count == 0)
-                    RefreshPins();
+            {
+                RefreshPins();
+            }
 
-            var res = ListMarkers.Where(item => (item.Label.ToLower().Contains(Search.ToLower()) 
-                               || item.Address.ToLower().Contains(Search.ToLower()))).ToList();
+            List<MarkerInfo> res = ListMarkers.Where(item => item.Label.ToLower().Contains(Search.ToLower()) 
+                               || item.Address.ToLower().Contains(Search.ToLower())).ToList();
 
             if (res.Count > 0)
             {
@@ -333,7 +341,7 @@ namespace GPS_NotePad.ViewModels
         {
             if (parameters.ContainsKey("email"))
             {
-                var e = parameters.GetValue<string>("email");
+                string e = parameters.GetValue<string>("email");
                 _email = e;
                 ListPinAsync();
             }

@@ -1,7 +1,7 @@
 ﻿
 using GPS_NotePad.Models;
 using GPS_NotePad.Services.Repository;
-
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -37,9 +37,11 @@ namespace GPS_NotePad.Services.MarkerService
             return await _repository.InsertAsync<MarkerInfo>(profile);
         }
 
-        public async Task<int> UpdateAsync(MarkerInfo profile)
+        public async Task<bool> UpdateAsync(MarkerInfo profile)
         {
-            return await _repository.UpdateAsync(profile);
+            int res = await _repository.UpdateAsync<MarkerInfo>(profile);
+            Console.WriteLine("YYYYYYYYYYyy" + res);
+            return res > 0;
         }
 
         #endregion
