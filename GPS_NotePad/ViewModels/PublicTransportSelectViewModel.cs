@@ -140,6 +140,7 @@ namespace GPS_NotePad.ViewModels
             if (parameters.ContainsKey("Direction"))
             {
                 _googleDirection = parameters.GetValue<GoogleDirection>("Direction");
+
                 if (_googleDirection != null)
                 {
                     ToDirectionsList();

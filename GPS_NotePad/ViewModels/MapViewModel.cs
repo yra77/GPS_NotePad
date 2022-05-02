@@ -41,10 +41,10 @@ namespace GPS_NotePad.ViewModels
         private readonly IVerifyInputService _verifyInput;
 
         private List<MarkerInfo> _listMarkersClone;
+        private ConcurrentQueue<Position> _positionsQueue;
         private Position _locatePositions;
         private bool _isRoute;
         private object _lock;
-        private ConcurrentQueue<Position> _positionsQueue;
 
 
         public MapViewModel(INavigationService navigationService,
@@ -177,7 +177,7 @@ namespace GPS_NotePad.ViewModels
 
         #region Private helpers
 
-        private async void LocatePosition()
+        private async void LocatePositionAsync()
         {
             try
             {
@@ -204,7 +204,7 @@ namespace GPS_NotePad.ViewModels
                     {
                         if (_locationConnectService.IsGpsAvailable())
                         {
-                            LocatePosition();
+                            LocatePositionAsync();
                             break;
                         }
                         await Task.Delay(1000);
@@ -385,7 +385,7 @@ namespace GPS_NotePad.ViewModels
             }
         }
 
-        private async void LoadRoute(List<Position> positions)
+        private async void LoadRouteAsync(List<Position> positions)
         {
 
             //check distance from gps point to line route
@@ -435,7 +435,7 @@ namespace GPS_NotePad.ViewModels
         //Search
         private void SearchUnfocus()
         {
-            SearchList_Clear();
+            SearchList_ClearAsync();
             Search = "";
         }
 
@@ -446,14 +446,14 @@ namespace GPS_NotePad.ViewModels
                 SearchListItem_Click(ListMarkers[0]);
             }
 
-            SearchList_Clear();
+            SearchList_ClearAsync();
         }
 
         private void OnTextChanged()
         {
             if (Search == null || Search.Length == 0)
             {
-                SearchList_Clear();
+                SearchList_ClearAsync();
             }
         }
 
@@ -461,10 +461,10 @@ namespace GPS_NotePad.ViewModels
         {
             MarkerClicked(new Position(val.Latitude, val.Longitude), val.ImagePath, val.Label, val.Address);
             MoveTo = new Tuple<Position, double>(new Position(val.Latitude, val.Longitude), 50.0);
-            SearchList_Clear();
+            SearchList_ClearAsync();
         }
 
-        private async void SearchList_Clear()
+        private async void SearchList_ClearAsync()
         {
             await Task.Delay(100);
             ListMarkers = new List<MarkerInfo>();
@@ -512,7 +512,7 @@ namespace GPS_NotePad.ViewModels
         public void OnNavigatedTo(INavigationParameters parameters)
         {
 
-            Thread workerThread = new Thread(new ThreadStart(LocatePosition));
+            Thread workerThread = new Thread(new ThreadStart(LocatePositionAsync));
             workerThread.Start();
 
             if (parameters.ContainsKey("item"))
@@ -530,7 +530,7 @@ namespace GPS_NotePad.ViewModels
             else if (parameters.ContainsKey("routeList"))
             {
                 List<Position> posList = parameters.GetValue<List<Position>>("routeList");
-                LoadRoute(posList);
+                LoadRouteAsync(posList);
             }
             else
             {

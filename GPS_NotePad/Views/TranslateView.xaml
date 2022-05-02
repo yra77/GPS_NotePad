@@ -98,13 +98,16 @@
                             BackgroundColor="{DynamicResource Transparent}" Keyboard="Text" TextColor="{DynamicResource LightGray}"
                             VerticalOptions="StartAndExpand" Text="{Binding TextToTranslate}" AutoSize="TextChanges"
                             IsVisible="{Binding IsTextTranslate}">
+                            
                             <controls:Editor_KeyDoneRenderer.Effects>
                                 <effects:EditorUnderlineColor/>
                             </controls:Editor_KeyDoneRenderer.Effects>
+                            
                             <controls:Editor_KeyDoneRenderer.Behaviors>
                                 <prism1:EventToCommandBehavior EventName="Unfocused"
                                           Command="{Binding CompletedCommand}"/>
                             </controls:Editor_KeyDoneRenderer.Behaviors>
+                            
                         </controls:Editor_KeyDoneRenderer>
 
                         <Label Text="{Binding Result}" TextColor="{DynamicResource White}"

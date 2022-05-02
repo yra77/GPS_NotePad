@@ -117,8 +117,8 @@ namespace GPS_NotePad.ViewModels
         public DelegateCommand UnfocusedCommand => new DelegateCommand(SearchUnfocus);
         public DelegateCommand<MarkerInfo> ClickToItem => new DelegateCommand<MarkerInfo>(ItemClickAsync);
         public DelegateCommand AddNewMarker => new DelegateCommand(AddNewMakerClickAsync);
-        public DelegateCommand SearchBtn_Pressed => new DelegateCommand(SearchBtnPressed);
-        public DelegateCommand<MarkerInfo> EditItem => new DelegateCommand<MarkerInfo>(EditItem_Click);
+        public DelegateCommand SearchBtn_Pressed => new DelegateCommand(SearchBtnPressedAsync);
+        public DelegateCommand<MarkerInfo> EditItem => new DelegateCommand<MarkerInfo>(EditItem_ClickAsync);
         public DelegateCommand<MarkerInfo> DeleteItem => new DelegateCommand<MarkerInfo>(DeleteItem_ClickAsync);
         public DelegateCommand<object> LikeImageBtn => new DelegateCommand<object>(LikeImage_ClickAsync);
         public DelegateCommand ExitBtn => new DelegateCommand(LogOutAsync);
@@ -186,7 +186,7 @@ namespace GPS_NotePad.ViewModels
             }
         }
 
-        private async void EditItem_Click(MarkerInfo item)
+        private async void EditItem_ClickAsync(MarkerInfo item)
         {
             NavigationParameters navParameters = new NavigationParameters
             {
@@ -275,7 +275,7 @@ namespace GPS_NotePad.ViewModels
         // Search 
         private void SearchUnfocus()
         {
-            SearchList_Clear();
+            SearchList_ClearAsync();
             Search = "";
         }
 
@@ -283,11 +283,11 @@ namespace GPS_NotePad.ViewModels
         {
             if (ListMarkers == null || Search == null || Search.Length == 0)
             {
-                SearchList_Clear();
+                SearchList_ClearAsync();
             }
         }
 
-        private async void SearchBtnPressed()
+        private async void SearchBtnPressedAsync()
         {
             if (ListMarkers != null && ListMarkers.Count > 0)
             {
@@ -296,7 +296,7 @@ namespace GPS_NotePad.ViewModels
             }
         }
        
-        private async void SearchList_Clear()
+        private async void SearchList_ClearAsync()
         {
             await Task.Delay(100);//не убирать
             ListMarkers.Clear();
@@ -307,7 +307,7 @@ namespace GPS_NotePad.ViewModels
         {
             if (Search == null || Search.Length == 0)
             {
-                SearchList_Clear();
+                SearchList_ClearAsync();
                 return;
             }
 
