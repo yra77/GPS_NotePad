@@ -87,21 +87,21 @@ namespace GPS_NotePad.Droid
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
-            switch (requestCode)
-            {
-                case RECORD_AUDIO:
-                    {
-                        if (grantResults[0] == Permission.Granted)
-                        {
-                            micService.OnRequestPermissionResult(true);
-                        }
-                        else
-                        {
-                            micService.OnRequestPermissionResult(false);
-                        }
-                    }
-                    break;
-            }
+            //switch (requestCode)
+            //{
+            //    case RECORD_AUDIO:
+            //        {
+            //            if (grantResults[0] == Permission.Granted)
+            //            {
+            //                micService.OnRequestPermissionResult(true);
+            //            }
+            //            else
+            //            {
+            //                micService.OnRequestPermissionResult(false);
+            //            }
+            //        }
+            //        break;
+            //}
         }
 
         protected override void OnStart()
