@@ -85,7 +85,7 @@ namespace GPS_NotePad.ViewModels
 
 
         public DelegateCommand BackBtn => new DelegateCommand(BackClickAsync);
-        public DelegateCommand MyLocation => new DelegateCommand(MyLocation_Click);
+        public DelegateCommand MyLocation => new DelegateCommand(MyLocation_ClickAsync);
         public DelegateCommand Walk_Btn => new DelegateCommand(WalkClickAsync);
         public DelegateCommand BusTrain_Btn => new DelegateCommand(BusTrainClickAsync);
         public DelegateCommand Car_Btn => new DelegateCommand(CarClickAsync);
@@ -123,33 +123,33 @@ namespace GPS_NotePad.ViewModels
 
 
 
-        private async void MyLocation_Click()
+        private async void MyLocation_ClickAsync()
         {
             _originLatitud = _location.Latitude.ToString();
             _originLongitud = _location.Longitude.ToString();
 
-            await GetLocationName(_location);
+            await GetLocationNameAsync(_location);
         }
 
         private async void WalkClickAsync()
         {
             _whatTheRoute = "walk";
-            await LoadRoute();
+            await LoadRouteAsync();
         }
 
         private async void BusTrainClickAsync()
         {
             _whatTheRoute = "busTrain";
-            await LoadRoute();
+            await LoadRouteAsync();
         }
 
         private async void CarClickAsync()
         {
             _whatTheRoute = "car";
-            await LoadRoute();
+            await LoadRouteAsync();
         }
 
-        private async Task LoadRoute()
+        private async Task LoadRouteAsync()
         {
             if(!_isFullFields)
             {
@@ -186,7 +186,7 @@ namespace GPS_NotePad.ViewModels
                 }
                 else
                 {
-                    RouteToMap(googleDirection);
+                    RouteToMapAsync(googleDirection);
                 }
             }
             else
@@ -196,7 +196,7 @@ namespace GPS_NotePad.ViewModels
 
         }
 
-        private async void RouteToMap(GoogleDirection googleDirection)
+        private async void RouteToMapAsync(GoogleDirection googleDirection)
         {
             await App.Current.MainPage.DisplayAlert(Resources.Resx.Resource.SearchGooglePlaces,
                                                        googleDirection.Routes[0].Legs[0].Distance.Text + " = "
@@ -212,7 +212,7 @@ namespace GPS_NotePad.ViewModels
         }
 
 
-        public async Task GetPlacesByName(string placeText)
+        public async Task GetPlacesByNameAsync(string placeText)
         {
             Places.Clear();
             var places = await _googleGetPlacesService.GetPlaces(placeText);
@@ -229,7 +229,7 @@ namespace GPS_NotePad.ViewModels
             ShowRecentPlaces = placeResult == null || placeResult.Count == 0;
         }
 
-        public async Task GetPlacesDetail(GooglePlaceAutoCompletePrediction placeA)
+        public async Task GetPlacesDetailAsync(GooglePlaceAutoCompletePrediction placeA)
         {
 
             var place = await _googleGetPlacesService.GetPlaceDetails(placeA.PlaceId);
@@ -274,7 +274,7 @@ namespace GPS_NotePad.ViewModels
 
         
         //Get place 
-        private async Task GetLocationName(Position position)
+        private async Task GetLocationNameAsync(Position position)
         {
             try
             {
@@ -337,21 +337,21 @@ namespace GPS_NotePad.ViewModels
             {
                 case "PlaceSelected":
                     if (_placeSelected != null)
-                        await GetPlacesDetail(PlaceSelected);
+                        await GetPlacesDetailAsync(PlaceSelected);
                     break;
 
                 case "PickupText":
                     if (!string.IsNullOrEmpty(_pickupText))
                     {
                         _isPickupFocused = true;
-                        await GetPlacesByName(PickupText);
+                        await GetPlacesByNameAsync(PickupText);
                     }
                     break;
                 case "OriginText":
                     if (!string.IsNullOrEmpty(_originText))
                     {
                         _isPickupFocused = false;
-                        await GetPlacesByName(OriginText);
+                        await GetPlacesByNameAsync(OriginText);
                     }
                     break;
                 default:

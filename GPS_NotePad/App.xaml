@@ -16,6 +16,7 @@
         <ImageSource x:Key="google">google.png</ImageSource>
         <ImageSource x:Key="locationIcon">location.png</ImageSource>
         <ImageSource x:Key="mapIcon">mapIcon.png</ImageSource>
+        <ImageSource x:Key="translateIcon">translateIcon.png</ImageSource>
         <ImageSource x:Key="pinGray">pin_gray.png</ImageSource>
         <ImageSource x:Key="highImage">pic_enter_page2x.png</ImageSource>
         <ImageSource x:Key="krestik">clear.png</ImageSource>
@@ -24,6 +25,9 @@
         <ImageSource x:Key="busIcon">bus.png</ImageSource>
         <ImageSource x:Key="walkHumanIcon">walkHuman.png</ImageSource>
         <ImageSource x:Key="carIcon">carIcon.png</ImageSource>
+        <ImageSource x:Key="micIconBlue">micIconBlue.png</ImageSource>
+        <ImageSource x:Key="oppositesIcon">iconOpposites.png</ImageSource>
+        <ImageSource x:Key="txtIconBlue">txtIconBlue.png</ImageSource>
 
 
         <!--Color-->

@@ -21,6 +21,7 @@
     <TabbedPage.Children>
         <local:MapView/>
         <local:PinListView/>
+        <local:TranslateView/>
     </TabbedPage.Children>
   
 </TabbedPage>

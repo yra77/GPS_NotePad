@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:resource="clr-namespace:GPS_NotePad.Resources.Resx" 
+             xmlns:controls="clr-namespace:GPS_NotePad.Controls" 
+             xmlns:effects="clr-namespace:GPS_NotePad.Effects" 
+             xmlns:prism1="http://prismlibrary.com"
+             ios:Page.UseSafeArea="True"
+             x:Class="GPS_NotePad.Views.TranslateView"
+             BackgroundColor="{DynamicResource PageBackground}"
+             IconImageSource="{DynamicResource translateIcon}"
+             Title="{x:Static resource:Resource.Translator}">
+
+    <ContentPage.Content>
+
+        <Grid>
+
+            <Grid Grid.Row="0" VerticalOptions="Start" BackgroundColor="{DynamicResource Transparent}" Margin="20,5,20,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="6*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <ImageButton Grid.Row="0" Grid.Column="0" HorizontalOptions="Start" Command="{Binding SettingsBtn}"
+                                 VerticalOptions="Center" BackgroundColor="{DynamicResource Transparent}" Source="{DynamicResource settings}"/>
+
+                <!--ios HeightRequest="40" -->
+                <Frame Grid.Row="0" Grid.Column="1" HeightRequest="40" VerticalOptions="Center" BorderColor="{DynamicResource Transparent}"
+                           CornerRadius="5" Padding="0" BackgroundColor="{DynamicResource Transparent}" HasShadow="False">
+
+                </Frame>
+
+                <ImageButton Grid.Row="0" Grid.Column="2" HorizontalOptions="EndAndExpand" Command="{Binding ExitBtn}"
+                                 VerticalOptions="Center" BackgroundColor="{DynamicResource Transparent}" Source="{DynamicResource exit}"/>
+
+            </Grid>
+
+
+            <StackLayout Margin="0,60,0,0" HorizontalOptions="Start" BackgroundColor="{DynamicResource Transparent}">
+
+                <Line Margin="1,0,0,0" Stroke="Gray" X2="380" HorizontalOptions="CenterAndExpand" StrokeThickness="2"/>
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+
+
+                    <StackLayout Grid.Row="0" Orientation="Horizontal" HorizontalOptions="Center" Spacing="20" Margin="0,20,0,20">
+
+                        <controls:BorderlessPicker Title="{x:Static resource:Resource.Language}"
+                                BackgroundColor="{DynamicResource Transparent}"
+                                TitleColor="{DynamicResource Gray}"  
+                                TextColor="{DynamicResource LightGray}" 
+                                SelectedItem="{Binding LanguageFrom}"
+                                FontSize="14"
+                                HorizontalTextAlignment="Center"
+                                ItemsSource="{Binding LanguagesList}">
+                        </controls:BorderlessPicker>
+
+                        <ImageButton Source="{DynamicResource oppositesIcon}" BackgroundColor="{DynamicResource Transparent}" 
+                                     Command="{Binding OppositesClick}" VerticalOptions="Center" HorizontalOptions="Center"/>
+
+                        <controls:BorderlessPicker Title="{x:Static resource:Resource.Language}"
+                                BackgroundColor="{DynamicResource Transparent}" 
+                                TitleColor="{DynamicResource Gray}" 
+                                TextColor="{DynamicResource LightGray}" 
+                                SelectedItem="{Binding LanguageTo}"
+                                FontSize="14"
+                                HorizontalTextAlignment="Center"
+                                ItemsSource="{Binding LanguagesList}">
+                        </controls:BorderlessPicker>
+
+                    </StackLayout>
+
+
+                    <StackLayout Orientation="Horizontal" Grid.Row="1" Margin="0,0,0,0" HorizontalOptions="Center"
+                                 Spacing="40" BackgroundColor="{DynamicResource Transparent}">
+
+                        <ImageButton Source="{Binding MicIcon}" Command="{Binding TranscribeClicked}" 
+                                     BackgroundColor="{DynamicResource Transparent}"/>
+
+                        <ImageButton Source="{Binding TxtIcon}" Command="{Binding TextTranslateClicked}" 
+                                     BackgroundColor="{DynamicResource Transparent}"/>
+
+                    </StackLayout>
+
+
+                    <StackLayout Grid.Row="2" Margin="10,20,10,0" Orientation="Vertical">
+
+                        <controls:Editor_KeyDoneRenderer Placeholder="{x:Static resource:Resource.InputText}" PlaceholderColor="{DynamicResource Gray}"
+                            BackgroundColor="{DynamicResource Transparent}" Keyboard="Text" TextColor="{DynamicResource LightGray}"
+                            VerticalOptions="StartAndExpand" Text="{Binding TextToTranslate}" AutoSize="TextChanges"
+                            IsVisible="{Binding IsTextTranslate}">
+                            <controls:Editor_KeyDoneRenderer.Effects>
+                                <effects:EditorUnderlineColor/>
+                            </controls:Editor_KeyDoneRenderer.Effects>
+                            <controls:Editor_KeyDoneRenderer.Behaviors>
+                                <prism1:EventToCommandBehavior EventName="Unfocused"
+                                          Command="{Binding CompletedCommand}"/>
+                            </controls:Editor_KeyDoneRenderer.Behaviors>
+                        </controls:Editor_KeyDoneRenderer>
+
+                        <Label Text="{Binding Result}" TextColor="{DynamicResource White}"
+                           Margin="0,10,0,0" HorizontalOptions="Center" VerticalOptions="End"/>
+                        
+                    </StackLayout>
+                    
+                </Grid>
+
+            </StackLayout>
+
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

@@ -16,15 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="BlueStyleMap.json" />
     <None Remove="Resources\DarkStyleMap.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="BlueStyleMap.json" />
-    <EmbeddedResource Include="DarkStyleMap.json">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
@@ -98,6 +90,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\SettingsView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\TranslateView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

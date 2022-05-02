@@ -11,6 +11,7 @@ using GPS_NotePad.Services.SettingsManager;
 using GPS_NotePad.Resources.Resx;
 using GPS_NotePad.Services.VerifyService;
 using GPS_NotePad.Services.GoogleGetPlacesService;
+using GPS_NotePad.Services.TranslatorInterfaces.TextTranslation_Service;
 
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Forms;
@@ -56,6 +57,7 @@ namespace GPS_NotePad
             containerRegistry.RegisterForNavigation<AddPin, AddPinViewModel>();
             containerRegistry.RegisterForNavigation<FotoGaleryView, FotoGaleryViewModel>();
             containerRegistry.RegisterForNavigation<SettingsView, SettingsViewModel>();
+            containerRegistry.RegisterForNavigation<TranslateView, TranslateViewModel>();
             containerRegistry.RegisterForNavigation<SearchRoute, SearchRouteViewModel>();
             containerRegistry.RegisterForNavigation<PublicTransportSelect, PublicTransportSelectViewModel>();
 
@@ -68,6 +70,7 @@ namespace GPS_NotePad
             containerRegistry.RegisterSingleton<ISettingsManager, SettingsManager>();
             containerRegistry.RegisterSingleton<IVerifyInputService, VerifyInputService>();
             containerRegistry.RegisterSingleton<IGoogleGetPlacesService, GoogleGetPlacesService>();
+            containerRegistry.RegisterSingleton<ITextTranslationsService, TextTranslationsService>();
 
         }
 

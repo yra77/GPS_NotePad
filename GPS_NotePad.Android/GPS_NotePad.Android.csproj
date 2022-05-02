@@ -87,13 +87,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomUrlSchemeInterceptorActivity.cs" />
+    <Compile Include="Effects\EditorUnderlineColorEffect.cs" />
     <Compile Include="Effects\EntryUnderlineColor_Effect.cs" />
     <Compile Include="MainActivity.cs" />
+    <Compile Include="Renderers\BorderlessPickerRenderer.cs" />
+    <Compile Include="Renderers\EditorKeyDoneRenderer.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Icon_GoogleMap_Service.cs" />
     <Compile Include="Services\LocationConnectService.cs" />
+    <Compile Include="Services\MicrophoneService.cs" />
     <Compile Include="Services\ResizeImageService.cs" />
+    <Compile Include="Services\SpeechToText_Service.cs" />
     <Compile Include="Services\SQLiteAsyncConnectionProvider.cs" />
     <Compile Include="SplashActivity.cs" />
   </ItemGroup>
@@ -249,6 +254,23 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\carIcon.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\translateIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\micIconBlue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\micIconRed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\iconOpposites.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\txtIconBlue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\txtIconRed.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

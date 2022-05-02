@@ -61,6 +61,15 @@ namespace GPS_NotePad.Resources.Resx {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Please give access to microphone.
+        /// </summary>
+        internal static string AccessToMicrophone {
+            get {
+                return ResourceManager.GetString("AccessToMicrophone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Add Pin.
         /// </summary>
         internal static string AddPin {
@@ -350,6 +359,15 @@ namespace GPS_NotePad.Resources.Resx {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Input the text.
+        /// </summary>
+        internal static string InputText {
+            get {
+                return ResourceManager.GetString("InputText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Choose a language.
         /// </summary>
         internal static string Language {
@@ -553,6 +571,15 @@ namespace GPS_NotePad.Resources.Resx {
         internal static string StopRoute {
             get {
                 return ResourceManager.GetString("StopRoute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Translator.
+        /// </summary>
+        internal static string Translator {
+            get {
+                return ResourceManager.GetString("Translator", resourceCulture);
             }
         }
         

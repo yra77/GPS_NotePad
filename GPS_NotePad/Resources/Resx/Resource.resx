@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AccessToMicrophone" xml:space="preserve">
+    <value>Please give access to microphone</value>
+  </data>
   <data name="AddPin" xml:space="preserve">
     <value>Add Pin</value>
   </data>
@@ -214,6 +217,9 @@ Password must contain at least one capital letter, one lowercase letter and one 
   <data name="Foto" xml:space="preserve">
     <value>Foto</value>
   </data>
+  <data name="InputText" xml:space="preserve">
+    <value>Input the text</value>
+  </data>
   <data name="Language" xml:space="preserve">
     <value>Choose a language</value>
   </data>
@@ -282,6 +288,9 @@ Password must contain at least one capital letter, one lowercase letter and one 
   </data>
   <data name="StopRoute" xml:space="preserve">
     <value>Stop route</value>
+  </data>
+  <data name="Translator" xml:space="preserve">
+    <value>Translator</value>
   </data>
   <data name="WhereTo" xml:space="preserve">
     <value>Where to</value>

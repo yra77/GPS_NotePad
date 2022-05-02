@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AccessToMicrophone" xml:space="preserve">
+    <value>Будь ласка, надайте доступ до мікрофона</value>
+  </data>
   <data name="AddPin" xml:space="preserve">
     <value>Додати пін</value>
   </data>
@@ -213,6 +216,9 @@
   <data name="Foto" xml:space="preserve">
     <value>Фото</value>
   </data>
+  <data name="InputText" xml:space="preserve">
+    <value>Введіть техт</value>
+  </data>
   <data name="Language" xml:space="preserve">
     <value>Виберіть мову</value>
   </data>
@@ -229,7 +235,7 @@
     <value>Довгота</value>
   </data>
   <data name="Map" xml:space="preserve">
-    <value>Карта</value>
+    <value>Мапа</value>
   </data>
   <data name="Message_Delete" xml:space="preserve">
     <value>Видалити </value>
@@ -284,6 +290,9 @@
   </data>
   <data name="String" xml:space="preserve">
     <value>Має містити першу велику літеру, і одну малу літеру та одну цифру</value>
+  </data>
+  <data name="Translator" xml:space="preserve">
+    <value>Перекладач</value>
   </data>
   <data name="WhereTo" xml:space="preserve">
     <value>Куди</value>

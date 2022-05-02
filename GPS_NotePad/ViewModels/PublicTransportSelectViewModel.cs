@@ -41,7 +41,7 @@ namespace GPS_NotePad.ViewModels
         }
 
 
-        public DelegateCommand<object> ClickToItem => new DelegateCommand<object>(Item_Click);
+        public DelegateCommand<object> ClickToItem => new DelegateCommand<object>(Item_ClickAsync);
         public DelegateCommand BackBtn => new DelegateCommand(BackClickAsync);
 
         #endregion
@@ -49,7 +49,7 @@ namespace GPS_NotePad.ViewModels
 
         #region Private helper
 
-        private async void Item_Click(object item)
+        private async void Item_ClickAsync(object item)
         {
             int itemNum = (int)item;
 

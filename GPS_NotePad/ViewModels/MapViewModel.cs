@@ -34,7 +34,7 @@ namespace GPS_NotePad.ViewModels
     class MapViewModel : BindableBase, INavigatedAware, IActiveAware
     {
 
-        private ILocationConnectService _locationConnectService;
+        private readonly ILocationConnectService _locationConnectService;
         private readonly IMarkerService _markerService;
         private readonly INavigationService _navigationService;
         private readonly ISettingsManager _settingsManager;
