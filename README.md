@@ -10,7 +10,7 @@
   
   
   В приложении исльзовались:
-   1. Google Map
+   1. Google map
    2. Google auth
    3. Google place
    4. Microsoft AZURE
