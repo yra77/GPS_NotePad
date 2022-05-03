@@ -12,4 +12,5 @@
   В приложении исльзовались:
    1. Google Map
    2. Google auth
-   3. Microsoft AZURE
+   3. Google place
+   4. Microsoft AZURE
