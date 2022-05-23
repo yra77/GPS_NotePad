@@ -1,5 +1,7 @@
 ﻿
 
+using Acr.UserDialogs;
+using GPS_NotePad.Helpers;
 using GPS_NotePad.Models;
 using GPS_NotePad.Services.VerifyService;
 
@@ -159,8 +161,15 @@ namespace GPS_NotePad.ViewModels
 
         private async void GoogleClickAsync()
         {
-            NavigationParameters navParameters = new NavigationParameters { { "google", "google" } };
-            await _navigationService.NavigateAsync("/RegistrView2", navParameters, animated: true);
+            if (CheckingDeviceProperty_Helper.CheckNetwork())
+            {
+                NavigationParameters navParameters = new NavigationParameters { { "google", "google" } };
+                await _navigationService.NavigateAsync("/RegistrView2", navParameters, animated: true);
+            }
+            else
+            {
+                UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Device_Internet, "Error Internet", "Ok");
+            }
         }
 
         private void Input_ErrorColor()

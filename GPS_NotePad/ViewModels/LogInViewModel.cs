@@ -10,7 +10,7 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using System.ComponentModel;
-
+using GPS_NotePad.Helpers;
 
 namespace GPS_NotePad.ViewModels
 {
@@ -45,6 +45,7 @@ namespace GPS_NotePad.ViewModels
 
             EmailBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_White;
             PassBorderColor = Constants.Constant_Auth.ENTRY_BORDER_COLOR_White;
+
         }
 
 
@@ -245,8 +246,16 @@ namespace GPS_NotePad.ViewModels
 
         private async void GoogleClickAsync()
         {
-            NavigationParameters navParameters = new NavigationParameters { { "google", "google" } };
-            await _navigationService.NavigateAsync("/RegistrView2", navParameters, animated: true);
+
+            if (CheckingDeviceProperty_Helper.CheckNetwork())
+            {
+                NavigationParameters navParameters = new NavigationParameters { { "google", "google" } };
+                await _navigationService.NavigateAsync("/RegistrView2", navParameters, animated: true);
+            }
+            else
+            {
+                UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Device_Internet, "Error Internet", "Ok");
+            }
         }
 
         private async void BackClickAsync()

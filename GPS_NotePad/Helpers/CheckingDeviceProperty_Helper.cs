@@ -1,52 +1,52 @@
 ﻿
-using Acr.UserDialogs;
+
 using System;
-using System.Threading.Tasks;
+using System.Net;
 using Xamarin.Essentials;
+
 
 namespace GPS_NotePad.Helpers
 {
 
-    public interface ICheckingDeviceProperty_Helper
-    {
-        Task CheckingDeviceProperty();
-    }
-
-    class CheckingDeviceProperty_Helper : ICheckingDeviceProperty_Helper
+    public class CheckingDeviceProperty_Helper
     {
 
-        public async Task CheckingDeviceProperty()
+        public static bool CheckNetwork()//check internet connection
         {
-            if (!CheckNetwork())// || !await CheckGeoLocation())
-            {
-                await Task.Delay(5000);
-                System.Diagnostics.Process.GetCurrentProcess().Kill();
-            }
-        }
 
-        private bool CheckNetwork()//check internet connection
-        {
-            var current = Connectivity.NetworkAccess;
+            NetworkAccess current = Connectivity.NetworkAccess;
+
             if (current != NetworkAccess.Internet)
             {
-                UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Device_Internet, "Error", "Ok");
-                return false;            
-            }
-            return true;
-        }
-        private async Task<bool> CheckGeoLocation()
-        {
-            try
-            {
-                var request = new GeolocationRequest(GeolocationAccuracy.Medium);
-            var userLocation = await Geolocation.GetLocationAsync(request);
-            }
-            catch (Exception)
-            {
-                UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Device_GeoLocacia, "Error", "Ok");
                 return false;
             }
-            return true;
+            else
+            {
+                try
+                {
+                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://g.cn/generate_204");
+                    request.UserAgent = "Android";
+                    request.KeepAlive = false;
+                    request.Timeout = 1500;
+
+                    using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                    {
+                        if (response.ContentLength == 0 && response.StatusCode == HttpStatusCode.NoContent)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
         }
+
     }
 }

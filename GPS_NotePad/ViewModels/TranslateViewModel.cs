@@ -15,7 +15,8 @@ using Xamarin.Forms;
 using System;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
-
+using Acr.UserDialogs;
+using GPS_NotePad.Helpers;
 
 namespace GPS_NotePad.ViewModels
 {
@@ -150,6 +151,10 @@ namespace GPS_NotePad.ViewModels
         private void IsActiveTab()
         {
             // await Task.Delay(150);
+            if (!CheckingDeviceProperty_Helper.CheckNetwork())
+            {
+                UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Device_Internet, "Error Internet", "Ok");
+            }
             _email = _settingsManager.Email;
         }
 
@@ -174,61 +179,76 @@ namespace GPS_NotePad.ViewModels
 
         private async void TextTranslate_ClickedAsync()
         {
-            if (LanguageFrom == null || LanguageTo == null)
+            if (CheckingDeviceProperty_Helper.CheckNetwork())
             {
-                await Application.Current.MainPage.DisplayAlert("Error", Resources.Resx.Resource.Language, "OK");
-                return;
-            }
 
-            if (IsTextTranslate)
-            {
-                IsTextTranslate = false;
-                TxtIcon = "txtIconBlue.png";
+                if (LanguageFrom == null || LanguageTo == null)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", Resources.Resx.Resource.Language, "OK");
+                    return;
+                }
+
+                if (IsTextTranslate)
+                {
+                    IsTextTranslate = false;
+                    TxtIcon = "txtIconBlue.png";
+                }
+                else
+                {
+                    IsTextTranslate = true;
+                    TextToTranslate = "";
+                    Result = "";
+                    TxtIcon = "txtIconRed.png";
+                }
+
             }
             else
             {
-                IsTextTranslate = true;
-                TextToTranslate = "";
-                Result = "";
-                TxtIcon = "txtIconRed.png";
+                UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Device_Internet, "Error Internet", "Ok");
             }
         }
 
         private async void Transcribe_ClickedAsync()
         {
-
-            bool micAccessGranted = await _microphoneService.GetPermissionAsync();
-
-            if (!micAccessGranted)
+            if (CheckingDeviceProperty_Helper.CheckNetwork())
             {
-                await Application.Current.MainPage.DisplayAlert("Error access", Resources.Resx.Resource.AccessToMicrophone, "OK");
-                return;
-            }
+                bool micAccessGranted = await _microphoneService.GetPermissionAsync();
 
-            if (LanguageFrom == null || LanguageTo == null)
-            {
-                await Application.Current.MainPage.DisplayAlert("Error", Resources.Resx.Resource.Language, "OK");
-                return;
-            }
+                if (!micAccessGranted)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error access", Resources.Resx.Resource.AccessToMicrophone, "OK");
+                    return;
+                }
 
-            if (_isTranscribing)
-            {
-                _speechToText_Service.StopListening();
-                _isTranscribing = false;
+                if (LanguageFrom == null || LanguageTo == null)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", Resources.Resx.Resource.Language, "OK");
+                    return;
+                }
+
+                if (_isTranscribing)
+                {
+                    _speechToText_Service.StopListening();
+                    _isTranscribing = false;
+                }
+                else
+                {
+                    _speechToText_Service.SpeechToText();
+                    Result = "";
+                    _isTranscribing = true;
+                }
+
+                MessagingCenter.Subscribe<IMessageSender, string>(this, "STT", (sender, args) =>
+                {
+                    Mic_Traslate_Async(args);
+                });
+
+                Update_Mic_Button();
             }
             else
             {
-                _speechToText_Service.SpeechToText();
-                Result = "";
-                _isTranscribing = true;
+                UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Device_Internet, "Error Internet", "Ok");
             }
-
-            MessagingCenter.Subscribe<IMessageSender, string>(this, "STT", (sender, args) =>
-            {
-                Mic_Traslate_Async(args);
-            });
-
-            Update_Mic_Button();
         }
 
         private async void Mic_Traslate_Async(string message)

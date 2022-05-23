@@ -238,7 +238,15 @@ namespace GPS_NotePad.ViewModels
         private async void IsActiveTabAsync()
         {
             await Task.Delay(150);
-            LoadListMarkersAsync();
+
+            if (CheckingDeviceProperty_Helper.CheckNetwork())
+            {
+                LoadListMarkersAsync();
+            }
+            else
+            {
+               UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Device_Internet, "Error Internet", "Ok");
+            }
         }
 
         private void MyLocation_Click()
@@ -256,15 +264,22 @@ namespace GPS_NotePad.ViewModels
 
         private void SearchRouteClick()
         {
-            _isRoute = true;
-            IsSearchRouteBtn_Visible = false;
-            IsStopRouteBtn_Visible = true;
+            if (CheckingDeviceProperty_Helper.CheckNetwork())
+            {
+                _isRoute = true;
+                IsSearchRouteBtn_Visible = false;
+                IsStopRouteBtn_Visible = true;
 
-            NavigationParameters navParameters = new NavigationParameters
+                NavigationParameters navParameters = new NavigationParameters
                                 {
                                     { "Location", _locatePositions }
                                 };
-            _ = _navigationService.NavigateAsync("SearchRoute", navParameters, useModalNavigation: true, animated: true);
+                _ = _navigationService.NavigateAsync("SearchRoute", navParameters, useModalNavigation: true, animated: true);
+            }
+            else
+            {
+                UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Device_Internet, "Error Internet", "Ok");
+            }
         }
 
         private async void LogOutAsync()

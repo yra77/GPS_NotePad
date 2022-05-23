@@ -14,7 +14,7 @@ using Prism.Navigation;
 
 using System;
 using System.ComponentModel;
-
+using GPS_NotePad.Helpers;
 
 namespace GPS_NotePad.ViewModels
 {
@@ -323,10 +323,17 @@ namespace GPS_NotePad.ViewModels
 
         private void GoogleClick()
         {
-            GoogleAuthCallBack googleAuthCallBack;
-            googleAuthCallBack = Google_HandlerAsync;
+            if (CheckingDeviceProperty_Helper.CheckNetwork())
+            {
+                GoogleAuthCallBack googleAuthCallBack;
+                googleAuthCallBack = Google_HandlerAsync;
 
-            _authService.GoogleAuth(googleAuthCallBack);
+                _authService.GoogleAuth(googleAuthCallBack);
+            }
+            else
+            {
+                UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Device_Internet, "Error Internet", "Ok");
+            }
         }
 
         private async void BackClickAsync()

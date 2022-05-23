@@ -1,4 +1,5 @@
 ﻿
+using Acr.UserDialogs;
 using GPS_NotePad.Helpers;
 using GPS_NotePad.Services.SettingsManager;
 
@@ -24,22 +25,17 @@ namespace GPS_NotePad.ViewModels
  
         private readonly INavigationService _navigationService;
         private readonly ISettingsManager _settingsManager;
-        private readonly ICheckingDeviceProperty_Helper _checkingDeviceProperty;
 
 
         public MainPageViewModel(INavigationService navigationService, 
                                  ISettingsManager settingsManager)
         {
 
-           _checkingDeviceProperty = new CheckingDeviceProperty_Helper();
-            IsNetworkGeoLocalAsync();
-
             _navigationService = navigationService;
             _settingsManager = settingsManager;
 
             LogInBtn = new DelegateCommand(LogininClick);
-            RegistrBtn = new DelegateCommand(RegistrClick);
-           
+            RegistrBtn = new DelegateCommand(RegistrClick);           
         }
 
 
@@ -53,19 +49,20 @@ namespace GPS_NotePad.ViewModels
 
         #region Private helpers
 
-        private async void IsNetworkGeoLocalAsync() //check network and geo location
-        {
-            await _checkingDeviceProperty.CheckingDeviceProperty();
-        }
-
         private async void RegistrClick()
         {
-            await _navigationService.NavigateAsync("/RegistrView", animated: true);
+            if (CheckInternetConect())
+            {
+                await _navigationService.NavigateAsync("/RegistrView", animated: true);
+            }
         }
 
         private async void LogininClick()
         {
-            await _navigationService.NavigateAsync("/LogInView", animated: true);
+            if (CheckInternetConect())
+            {
+                await _navigationService.NavigateAsync("/LogInView", animated: true);
+            }
         }
 
         private async void GoToMapAsync(string email)
@@ -74,11 +71,25 @@ namespace GPS_NotePad.ViewModels
             LocalizationResourceManager.Current.CurrentCulture = new CultureInfo(App.Language);
 
             await Task.Delay(100);
-            NavigationParameters navParameters = new NavigationParameters
+
+            if (CheckInternetConect())
+            {
+                NavigationParameters navParameters = new NavigationParameters
                                 {
                                     { "email", email }
                                 };
-            await _navigationService.NavigateAsync("/TabbedPageMy", navParameters, animated: true);
+                await _navigationService.NavigateAsync("/TabbedPageMy", navParameters, animated: true);
+            }
+        }
+
+        private bool CheckInternetConect()
+        {
+            if (!CheckingDeviceProperty_Helper.CheckNetwork())
+            {
+                UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Device_Internet, "Error Internet", "Ok");
+                return false;
+            }
+            return true;
         }
 
         #endregion
