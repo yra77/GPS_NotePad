@@ -310,8 +310,10 @@ namespace GPS_NotePad.ViewModels
                     return;
                 }
                 else
+                {
                     UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Ok_Reg + " Your password is "
                                                + Constants.Constant_Auth.GOOGLE_PASSWORD_USER, "Message", "Ok");
+                }
             }
 
             _settingsManager.Email = _email;
@@ -375,10 +377,6 @@ namespace GPS_NotePad.ViewModels
                 var e = parameters.GetValue<Loginin>("email");
                 _email = e.email;
                 _name = e.name;
-            }
-            if (parameters.ContainsKey("google"))
-            {
-                GoogleClick();
             }
         }
 

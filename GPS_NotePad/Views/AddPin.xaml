@@ -60,7 +60,7 @@
                 <Frame Padding="{OnPlatform Android='10,4,10,4', iOS='10,12,10,12'}" HasShadow="False" BackgroundColor="Transparent"
                        BorderColor="{Binding LabelBorderColor}">
 
-                    <Entry Text="{Binding Label}" FontSize="14" FontFamily="Montserrat_Font"
+                    <Entry Text="{Binding Label}" FontSize="14" FontFamily="Montserrat_Font" Keyboard="Text"
                            Placeholder="{x:Static resource:Resource.PlaceholderEntryAddPin1}" PlaceholderColor="Gray">
                         <Entry.Effects>
                             <effects:EntryColorUnderline_Effect/>
@@ -73,7 +73,7 @@
                 <Frame Padding="{OnPlatform Android='10,4,10,4', iOS='10,12,10,12'}" HasShadow="False" BackgroundColor="Transparent"
                          BorderColor="{Binding AddressBorderColor}">
 
-                    <Entry Text="{Binding Address}" FontSize="14" FontFamily="Montserrat_Font"
+                    <Entry Text="{Binding Address}" FontSize="14" FontFamily="Montserrat_Font" Keyboard="Text"
                            Placeholder="{x:Static resource:Resource.PlaceholderEntryAddPin2}" PlaceholderColor="Gray">
                         <Entry.Effects>
                             <effects:EntryColorUnderline_Effect/>

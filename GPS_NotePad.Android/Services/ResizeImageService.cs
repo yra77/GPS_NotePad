@@ -58,7 +58,7 @@ namespace GPS_NotePad.Droid.Services
             }
         }
 
-        string SaveToFile(byte[] bitmapImg, string name)
+        private string SaveToFile(byte[] bitmapImg, string name)
         {
             // var path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
             var path = System.IO.Path.Combine(FileSystem.AppDataDirectory, name);
@@ -69,7 +69,8 @@ namespace GPS_NotePad.Droid.Services
 
             return path;
         }
-        Bitmap Rotate(Bitmap bitmap)
+
+        private Bitmap Rotate(Bitmap bitmap)
         {
             Matrix matrix = new Matrix();
             if (bitmap.Width > bitmap.Height)

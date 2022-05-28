@@ -11,6 +11,8 @@ using Prism.Mvvm;
 using Prism.Navigation;
 using System.ComponentModel;
 using GPS_NotePad.Helpers;
+using GPS_NotePad.Models;
+using System.Threading.Tasks;
 
 namespace GPS_NotePad.ViewModels
 {
@@ -50,6 +52,7 @@ namespace GPS_NotePad.ViewModels
 
 
         #region Public Property
+
 
         private string _errorEmailText;
         public string ErrorEmailText
@@ -244,13 +247,34 @@ namespace GPS_NotePad.ViewModels
             IsLogInEnable();
         }
 
+        private async void Google_HandlerAsync(string email, bool isReg)
+        {
+            
+            if (isReg)
+            {
+                _email = email;
+
+                _settingsManager.Email = _email;
+                NavigationParameters navParameters = new NavigationParameters { { "email", _email } };
+
+                await _navigationService.NavigateAsync("/TabbedPageMy", navParameters, animated: true);
+            }
+            else
+            {
+                UserDialogs.Instance.Alert(Resources.Resx.Resource.Alert_Email2 + "Ok");
+                BackClickAsync();
+            }
+        }
+
         private async void GoogleClickAsync()
         {
 
             if (CheckingDeviceProperty_Helper.CheckNetwork())
             {
-                NavigationParameters navParameters = new NavigationParameters { { "google", "google" } };
-                await _navigationService.NavigateAsync("/RegistrView2", navParameters, animated: true);
+                GoogleAuthCallBack googleAuthCallBack;
+                googleAuthCallBack = Google_HandlerAsync;
+
+                _authService.GoogleAuth(googleAuthCallBack);
             }
             else
             {

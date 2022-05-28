@@ -23,7 +23,6 @@ namespace GPS_NotePad.Services.AuthService
     class AuthService : IAuthService
     {
 
-
         private GoogleAuthCallBack googleAuthCallBack;
 
         private readonly IRepository _repository;

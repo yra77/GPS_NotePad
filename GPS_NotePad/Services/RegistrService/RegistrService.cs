@@ -32,7 +32,9 @@ namespace GPS_NotePad.Services.RegistrService
                 return await _repository.InsertAsync<Loginin>(profile);
             }
             else
+            {
                 return false;
+            }
         }
 
         public async Task<(bool, string)> RegistrAsync(Loginin profile, string passConfirm)
@@ -76,7 +78,9 @@ namespace GPS_NotePad.Services.RegistrService
                 return await _repository.InsertAsync<Loginin>(profile);
             }
             else
+            {
                 return false;
+            }
         }
 
     }

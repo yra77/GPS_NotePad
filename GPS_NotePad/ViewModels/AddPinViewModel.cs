@@ -17,6 +17,7 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Linq;
 
+
 namespace GPS_NotePad.ViewModels
 {
     class AddPinViewModel : BindableBase, INavigatedAware

@@ -11,16 +11,16 @@ namespace GPS_NotePad.Helpers
     public class CheckingDeviceProperty_Helper
     {
 
-        public static bool CheckNetwork()//check internet connection
+        public static bool CheckNetwork()
         {
 
             NetworkAccess current = Connectivity.NetworkAccess;
 
-            if (current != NetworkAccess.Internet)
+            if (current != NetworkAccess.Internet)//is access to network
             {
                 return false;
             }
-            else
+            else//check internet connection
             {
                 try
                 {
