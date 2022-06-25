@@ -97,6 +97,7 @@
     <Compile Include="Services\Icon_GoogleMap_Service.cs" />
     <Compile Include="Services\LocationConnectService.cs" />
     <Compile Include="Services\MicrophoneService.cs" />
+    <Compile Include="Services\MultiMediaPickerService.cs" />
     <Compile Include="Services\ResizeImageService.cs" />
     <Compile Include="Services\SpeechToText_Service.cs" />
     <Compile Include="Services\SQLiteAsyncConnectionProvider.cs" />

@@ -4,8 +4,8 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 
-using System;
 using System.Collections.ObjectModel;
+
 
 namespace GPS_NotePad.ViewModels
 {
@@ -18,6 +18,7 @@ namespace GPS_NotePad.ViewModels
         public FotoGaleryViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
+            Scaled = true;
         }
 
 
@@ -35,14 +36,18 @@ namespace GPS_NotePad.ViewModels
         public string NumOfImg { get => _numOfImg; set => SetProperty(ref _numOfImg, value); }
 
 
+        private bool _scaled;
+        public bool Scaled { get => _scaled; set => SetProperty(ref _scaled, value); }
+
         public DelegateCommand BackBtn => new DelegateCommand(BackClickAsync);
         public DelegateCommand PositionChangedCommand => new DelegateCommand(PositionChanged);
 
         #endregion
 
 
-        #region --- Private Helper---
 
+        #region --- Private Helper---
+  
         private void PositionChanged()
         {
             NumOfImg = (PositionFoto + 1).ToString() + " - " + ImagesCarousel.Count.ToString();
@@ -57,6 +62,7 @@ namespace GPS_NotePad.ViewModels
 
 
         #region Interface InavigatedAword implementation
+
         public void OnNavigatedFrom(INavigationParameters parameters) { }
 
         public void OnNavigatedTo(INavigationParameters parameters)
@@ -66,6 +72,7 @@ namespace GPS_NotePad.ViewModels
             PositionFoto = 0;
             NumOfImg = "1 - " + ImagesCarousel.Count.ToString();
         }
+
         #endregion
     }
 }

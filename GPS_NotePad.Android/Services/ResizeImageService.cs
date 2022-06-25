@@ -4,7 +4,7 @@ using GPS_NotePad.Services.Interfaces;
 using Android.Graphics;
 using System.IO;
 using Xamarin.Essentials;
-
+using Android.Media;
 
 namespace GPS_NotePad.Droid.Services
 {
@@ -12,47 +12,34 @@ namespace GPS_NotePad.Droid.Services
     {
         public string ResizeImage(string imagePath, string nameImg, bool isGalery)
         {
-            float height = 1200;
-            float width = 1200;
-           // float newHeight = 0;
-          //  float newWidth = 0;
 
             BitmapFactory.Options options = new BitmapFactory.Options();
-            options.InSampleSize = 1;
 
-            Bitmap originalImage = BitmapFactory.DecodeFile(imagePath, options);
-            if (isGalery)
-                originalImage = Rotate(originalImage);
-
-            //var originalHeight = originalImage.Height;
-            //var originalWidth = originalImage.Width;
-
-            //if (originalHeight > originalWidth)
-            //{
-            //    newHeight = height;
-            //    float ratio = originalHeight / height;
-            //    newWidth = originalWidth / ratio;
-            //}
-            //else
-            //{
-            //    newWidth = width;
-            //    float ratio = originalWidth / width;
-            //    newHeight = originalHeight / ratio;
-            //}
-
-            Bitmap resizedImg = Bitmap.CreateScaledBitmap(originalImage, (int)width, (int)height, false);//(int)newWidth, (int)newHeight, false);//
+            Bitmap originalImage = BitmapFactory.DecodeFile(imagePath);
 
             //if (isGalery)
-            //    resizedImg = Rotate(resizedImg);
+            //{
+            //    originalImage = Rotate(originalImage);
+            //}
 
+            if (originalImage.Height > 1400)
+            {
+                int height = originalImage.Height / 3;
+                int width = originalImage.Width / 3;
 
-            originalImage.Recycle();
+                originalImage = Bitmap.CreateScaledBitmap(originalImage, width, height, true);
+
+                if (isGalery)
+                {
+                    originalImage = Rotate(originalImage, imagePath);
+                }
+            }
 
             using (MemoryStream ms = new MemoryStream())
             {
-                resizedImg.Compress(Bitmap.CompressFormat.Png, 100, ms);
+                originalImage.Compress(Bitmap.CompressFormat.Png, 100, ms);
 
-                resizedImg.Recycle();
+                originalImage.Recycle();
 
                 return SaveToFile(ms.ToArray(), nameImg);
             }
@@ -69,16 +56,40 @@ namespace GPS_NotePad.Droid.Services
 
             return path;
         }
-
-        private Bitmap Rotate(Bitmap bitmap)
+        
+        private Bitmap Rotate(Bitmap bitmap, string imagePath)
         {
             Matrix matrix = new Matrix();
+
             if (bitmap.Width > bitmap.Height)
             {
-                matrix.SetRotate(90);
+                matrix.SetRotate(GetRotation(imagePath));
             }
 
             return Bitmap.CreateBitmap(bitmap, 0, 0, bitmap.Width, bitmap.Height, matrix, true);
         }
+
+        private int GetRotation(string filePath)
+        {
+            using (ExifInterface ei = new ExifInterface(filePath))
+            {
+                Orientation orientation = (Android.Media.Orientation)ei.GetAttributeInt(ExifInterface.TagOrientation, 
+                                    (int)Android.Media.Orientation.Normal);
+
+                switch (orientation)
+                {
+                    case Android.Media.Orientation.Rotate90:
+                        return 90;
+                    case Android.Media.Orientation.Rotate180:
+                        return 180;
+                    case Android.Media.Orientation.Rotate270:
+                        return 270;
+                    default:
+                        return 0;
+                }
+            }
+        }
+
+
     }
 }

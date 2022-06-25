@@ -18,6 +18,8 @@ using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
 using Android;
+using GPS_NotePad.Services.MediaService;
+using Android.Content;
 
 
 //[assembly: Dependency(typeof(LocationConnectService))]
@@ -54,7 +56,6 @@ namespace GPS_NotePad.Droid
             Instance = this;
             base.OnCreate(savedInstanceState);
 
-
             Xamarin.Auth.Presenters.XamarinAndroid.AuthenticationConfiguration.Init(this, savedInstanceState);
             Xamarin.Forms.Forms.Init(this, savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
@@ -77,6 +78,13 @@ namespace GPS_NotePad.Droid
 
             UserDialogs.Init(this);
 
+        }
+
+        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+
+            MultiMediaPickerService.SharedInstance.OnActivityResult(requestCode, resultCode, data);
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, 
@@ -131,6 +139,7 @@ namespace GPS_NotePad.Droid
             _ = containerRegistry.Register<ILocationConnectService, LocationConnectService>();
             _ = containerRegistry.Register<IMicrophoneService, MicrophoneService>();
             _ = containerRegistry.Register<ISpeechToText_Service, SpeechToText_Service>();
+            _ = containerRegistry.Register <IMultiMediaPicker, MultiMediaPickerService>();
         }
 
     }

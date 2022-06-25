@@ -5,6 +5,7 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              xmlns:resource="clr-namespace:GPS_NotePad.Resources.Resx"
+             xmlns:local="clr-namespace:GPS_NotePad.Controls;assembly=GPS_NotePad"
              ios:Page.UseSafeArea="True"
              x:Class="GPS_NotePad.Views.FotoGaleryView"
              BackgroundColor="{DynamicResource PageBackground}"
@@ -31,15 +32,26 @@
             </StackLayout>
 
 
-            <StackLayout Grid.Row="1" VerticalOptions="Center" HeightRequest="400" WidthRequest="200">
+            <StackLayout Grid.Row="1" VerticalOptions="Center" HeightRequest="400">
 
-                <CarouselView ItemsSource="{Binding ImagesCarousel}" VerticalOptions="FillAndExpand"
+                <CarouselView x:Name="carousel"
+                              ItemsSource="{Binding ImagesCarousel}"
+                              VerticalOptions="FillAndExpand"
                               PositionChangedCommand="{Binding PositionChangedCommand}"
-                              Position="{Binding PositionFoto, Mode=TwoWay}" IsScrollAnimated="False" Loop="True" PeekAreaInsets="1">
+                              Position="{Binding PositionFoto, Mode=TwoWay}" 
+                              IsScrollAnimated="False" 
+                              Loop="False"
+                              IsSwipeEnabled="{Binding Scaled}"
+                              PeekAreaInsets="0">
                     <CarouselView.ItemTemplate>
 
                         <DataTemplate>
-                            <Image Source="{Binding ImagePath}" Aspect="Fill"/>
+                            <local:PinchZoom_Control IsScaled="{Binding BindingContext.Scaled, 
+                                                                Source={x:Reference carousel},Mode=TwoWay}">
+                                <local:PinchZoom_Control.Content>
+                                    <Image Source="{Binding ImagePath}" Aspect="AspectFill"/>
+                                </local:PinchZoom_Control.Content>
+                            </local:PinchZoom_Control>
                         </DataTemplate>
 
                     </CarouselView.ItemTemplate>

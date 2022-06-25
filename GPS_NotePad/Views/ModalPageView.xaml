@@ -25,20 +25,28 @@
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Start" HeightRequest="115"
                                 Spacing="4" BackgroundColor="{DynamicResource Modal_MarkerInfo_Background}">
 
-                    <CarouselView x:Name="carousel" ItemsSource="{Binding ImagesCarousel}" 
-                                  Position="{Binding PositionFoto, Mode=TwoWay}" IsScrollAnimated="False" Loop="False" PeekAreaInsets="120">
+                    <CarouselView x:Name="carousel" 
+                                  ItemsSource="{Binding ImagesCarousel}"
+                                  Position="{Binding PositionFoto, Mode=TwoWay}" 
+                                  IsScrollAnimated="False" 
+                                  Loop="False" 
+                                  PeekAreaInsets="120">
                         <CarouselView.ItemTemplate>
 
                             <DataTemplate>
 
-                                <Image Source="{Binding ImagePath}" WidthRequest="115" HeightRequest="115">
+                                <Frame Padding="2" BackgroundColor="{StaticResource Transparent}">
+                                    
+                                <Image Source="{Binding ImagePath}" Aspect="Fill">
                                     <Image.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding BindingContext.FotoClick, 
                                                                         Source={x:Reference carousel}}" 
                                                               CommandParameter="{Binding ImagePath}"/>
                                     </Image.GestureRecognizers>
                                 </Image>
-
+                                    
+                                </Frame>
+                                
                             </DataTemplate>
 
                         </CarouselView.ItemTemplate>

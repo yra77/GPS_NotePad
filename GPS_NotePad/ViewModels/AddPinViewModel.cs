@@ -16,7 +16,7 @@ using System;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Linq;
-
+using System.Collections.Generic;
 
 namespace GPS_NotePad.ViewModels
 {
@@ -291,11 +291,15 @@ namespace GPS_NotePad.ViewModels
 
         private async void GaleryClickAsync()
         {
-            string galery = await _mediaService.OpenGalery();
+            IList<string> galery = await _mediaService.OpenGalery();
 
-            if (galery != null)
+            if (galery != null && galery.Count > 0)
             {
-                ListImage.Add(new MarkerInfo { ImagePath = galery });
+                foreach (string item in galery)
+                {
+                    ListImage.Add(new MarkerInfo { ImagePath = item });
+                }
+                
                 IsVisibleFotoList = true;
             }
         }
