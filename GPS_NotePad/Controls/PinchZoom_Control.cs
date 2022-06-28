@@ -9,24 +9,28 @@ namespace GPS_NotePad.Controls
     public class PinchZoom_Control : ContentView
     {
 
-        private readonly PinchGestureRecognizer _pinchGesture;
+        private const double MINSCALE = 1;
+        private const double MAXSCALE = 10;
         private double _startScale;
         private double _currentScale;
         private double _xOffset;
         private double _yOffset;
-
+        private double _startX;
+        private double _startY;
 
         public PinchZoom_Control()
         {
-            _pinchGesture = new PinchGestureRecognizer();
-            _pinchGesture.PinchUpdated += OnPinchUpdated;
-            GestureRecognizers.Add(_pinchGesture);
+            TapGestureRecognizer tap = new TapGestureRecognizer { NumberOfTapsRequired = 2 };
+            tap.Tapped += OnTapped;
+            GestureRecognizers.Add(tap);
 
-            IsScaled = true;
-            _startScale = 0.0;
-            _currentScale = 0.0;
-            _xOffset = 0.0;
-            _yOffset = 0.0;
+            PinchGestureRecognizer pinchGesture = new PinchGestureRecognizer();
+            pinchGesture.PinchUpdated += OnPinchUpdated;
+            GestureRecognizers.Add(pinchGesture);
+
+            PanGestureRecognizer pan = new PanGestureRecognizer();
+            pan.PanUpdated += OnPanUpdated;
+            GestureRecognizers.Add(pan);
         }
 
 
@@ -41,66 +45,141 @@ namespace GPS_NotePad.Controls
 
         public bool IsScaled
         {
-            get { return (bool)GetValue(IsScaledProperty); }
-            set { SetValue(IsScaledProperty, value); }
+            get => (bool)GetValue(IsScaledProperty);
+            set => SetValue(IsScaledProperty, value);
         }
 
         #endregion
 
 
-        private void OnPinchUpdated(object sender, PinchGestureUpdatedEventArgs e)
+        protected override void OnSizeAllocated(double width, double height)
         {
+            RestoreScaleValues();
+            Content.AnchorX = 0.5;
+            Content.AnchorY = 0.5;
 
-            if (e.Status == GestureStatus.Started)
+            base.OnSizeAllocated(width, height);
+        }
+
+        private void RestoreScaleValues()
+        {
+            Content.ScaleTo(MINSCALE, 250, Easing.CubicInOut);
+            Content.TranslateTo(0, 0, 250, Easing.CubicInOut);
+
+            _currentScale = MINSCALE;
+            _xOffset = Content.TranslationX = 0;
+            _yOffset = Content.TranslationY = 0;
+        }
+
+        private void OnTapped(object sender, EventArgs e)
+        {
+            if (Content.Scale > MINSCALE)
             {
-                // Store the current scale factor applied to the wrapped user interface element,
-                // and zero the components for the center point of the translate transform.
-                _startScale = Content.Scale;
-                Content.AnchorX = 0;
-                Content.AnchorY = 0;
-                IsScaled = false;
+                RestoreScaleValues();
             }
-
-            if (e.Status == GestureStatus.Running)
+            else
             {
-                // Calculate the scale factor to be applied.
-                _currentScale += (e.Scale - 1) * _startScale;
-                _currentScale = Math.Max(1, _currentScale);
-
-                // The ScaleOrigin is in relative coordinates to the wrapped user interface element,
-                // so get the X pixel coordinate.
-                double renderedX = Content.X + _xOffset;
-                double deltaX = renderedX / Width;
-                double deltaWidth = Width / (Content.Width * _startScale);
-                double originX = (e.ScaleOrigin.X - deltaX) * deltaWidth;
-
-                // The ScaleOrigin is in relative coordinates to the wrapped user interface element,
-                // so get the Y pixel coordinate.
-                double renderedY = Content.Y + _yOffset;
-                double deltaY = renderedY / Height;
-                double deltaHeight = Height / (Content.Height * _startScale);
-                double originY = (e.ScaleOrigin.Y - deltaY) * deltaHeight;
-
-                // Calculate the transformed element pixel coordinates.
-                double targetX = _xOffset - (originX * Content.Width) * (_currentScale - _startScale);
-                double targetY = _yOffset - (originY * Content.Height) * (_currentScale - _startScale);
-
-                // Apply translation based on the change in origin.
-                Content.TranslationX = targetX.Clamp(-Content.Width * (_currentScale - 1), 0);
-                Content.TranslationY = targetY.Clamp(-Content.Height * (_currentScale - 1), 0);
-
-                // Apply scale factor.
-                Content.Scale = _currentScale;
-            }
-
-            if (e.Status == GestureStatus.Completed)
-            {
-                // Store the translation delta's of the wrapped user interface element.
-                _xOffset = Content.TranslationX;
-                _yOffset = Content.TranslationY;
-                IsScaled = true;
+                //todo: Add tap position somehow
+                StartScaling();
+                ExecuteScaling(MAXSCALE, .5, .5);
+                EndGesture();
             }
         }
-    
+
+        private void OnPinchUpdated(object sender, PinchGestureUpdatedEventArgs e)
+        {
+            switch (e.Status)
+            {
+                case GestureStatus.Started:
+                    {
+                        StartScaling();
+                    }
+                    break;
+
+                case GestureStatus.Running:
+                    {
+                        ExecuteScaling(e.Scale, e.ScaleOrigin.X, e.ScaleOrigin.Y);
+                    }
+                    break;
+
+                case GestureStatus.Completed:
+                    {
+                        EndGesture();
+                    }
+                    break;
+            }
+        }
+
+        private void OnPanUpdated(object sender, PanUpdatedEventArgs e)
+        {
+            switch (e.StatusType)
+            {
+                case GestureStatus.Started:
+                    {
+                        _startX = e.TotalX;
+                        _startY = e.TotalY;
+
+                        Content.AnchorX = 0;
+                        Content.AnchorY = 0;
+                    }
+                    break;
+
+                case GestureStatus.Running:
+                    {
+                        double maxTranslationX = Content.Scale * Content.Width - Content.Width;
+                        Content.TranslationX = Math.Min(0, Math.Max(-maxTranslationX, _xOffset + e.TotalX - _startX));
+
+                        double maxTranslationY = Content.Scale * Content.Height - Content.Height;
+                        Content.TranslationY = Math.Min(0, Math.Max(-maxTranslationY, _yOffset + e.TotalY - _startY));
+                    }
+                    break;
+
+                case GestureStatus.Completed:
+                    {
+                        EndGesture();
+                    }
+                    break;
+            }
+        }
+
+        private void StartScaling()
+        {
+            _startScale = Content.Scale;
+
+            Content.AnchorX = 0;
+            Content.AnchorY = 0;
+            IsScaled = false;
+        }
+
+        private void ExecuteScaling(double scale, double x, double y)
+        {
+            _currentScale += (scale - 1) * _startScale;
+            _currentScale = Math.Max(MINSCALE, _currentScale);
+            _currentScale = Math.Min(MAXSCALE, _currentScale);
+
+            double deltaX = (Content.X + _xOffset) / Width;
+            double deltaWidth = Width / (Content.Width * _startScale);
+            double originX = (x - deltaX) * deltaWidth;
+
+            double deltaY = (Content.Y + _yOffset) / Height;
+            double deltaHeight = Height / (Content.Height * _startScale);
+            double originY = (y - deltaY) * deltaHeight;
+
+            double targetX = _xOffset - (originX * Content.Width) * (_currentScale - _startScale);
+            double targetY = _yOffset - (originY * Content.Height) * (_currentScale - _startScale);
+
+            Content.TranslationX = targetX.Clamp(-Content.Width * (_currentScale - 1), 0);
+            Content.TranslationY = targetY.Clamp(-Content.Height * (_currentScale - 1), 0);
+
+            Content.Scale = _currentScale;
+        }
+
+        private void EndGesture()
+        {
+            _xOffset = Content.TranslationX;
+            _yOffset = Content.TranslationY;
+            IsScaled = true;
+        }
+
     }
 }

@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Linq;
 
+
 namespace GPS_NotePad.ViewModels
 {
     class PinListViewViewModel : BindableBase, INavigatedAware, IActiveAware
